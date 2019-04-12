@@ -7,3 +7,4 @@ bin/server/
 bin/JavaClient/
 *.class
 *.class
+bin/JavaClient/ClientController.class
