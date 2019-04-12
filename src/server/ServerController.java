@@ -14,6 +14,11 @@ public class ServerController {
 	public void writeToLog(String msg) {
 		viewer.addText(msg);
 	}
+//	public char sendToES(String str) {
+//		switch(str) {
+//		}
+//	}
+	
 	
 	public static void main(String[] args) {
 		ServerController controller = new ServerController();

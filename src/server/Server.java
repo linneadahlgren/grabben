@@ -5,10 +5,21 @@ import java.net.*;
 
 public class Server {
 	private ServerController controller;
+	private ClientHandler computerHandler;
+	private ClientHandler esHandler;
 
 	public Server(ServerController controller, int port) {
 		this.controller = controller;
 		new Connection(port).start();
+	}
+	
+	public void sendToEs(char instruction) {
+		try {
+			System.out.println(instruction);
+			esHandler.getOutputStream().writeChar(instruction);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private class Connection extends Thread {
@@ -17,6 +28,7 @@ public class Server {
 		public Connection(int port) {
 			this.port = port;
 		}
+		
 
 		public void run() {
 			try (ServerSocket serverSocket = new ServerSocket(port)) {
@@ -34,30 +46,57 @@ public class Server {
 				System.out.println("Server down");
 			}
 		}
+		
 
 	}
 
 	private class ClientHandler extends Thread {
 		private Socket socket;
+		private DataInputStream dis;
+		private DataOutputStream dos;
 
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			start();
 		}
+		public DataOutputStream getOutputStream() {
+			return dos;
+		}
 
 		public void run() {
 			System.out.println("ClientHandler thread");
-			try (DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-					DataInputStream dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()))) {
+			try{
+				dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+				dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+				char name = dis.readChar();
+				System.out.println(name);
+				if(name == 'C') {
+					computerHandler = this;
+				}else if(name == 'E') {
+					esHandler = this;
+				}
+				
 				while (!socket.isClosed()) {
-					String temp = dis.readUTF();
-					System.out.println(temp);
-					controller.writeToLog(temp);
-					dos.writeUTF(temp);
+					char temp = dis.readChar();
+					
+					if (this.equals(computerHandler)) {
+						sendToEs(temp);
+						
+					}else if(this.equals(esHandler)) {
+						
+					}
+							
+//					System.out.println("" + temp);
+//					controller.writeToLog("" + temp);
+//					dos.writeUTF("" + temp);
 					dos.flush();
 				}
 			} catch (IOException e) {
-				System.out.println(e);
+				try {
+					socket.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
