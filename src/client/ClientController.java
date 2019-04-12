@@ -53,7 +53,7 @@ public class ClientController {
 			}
 		}
 	}
-		public void send(String instruction) {
+		public void send(char instruction) {
 			if(client==null) {
 				try {
 					wait();
@@ -64,7 +64,7 @@ public class ClientController {
 				}
 			}
 			try {
-				client.getOutputStream().writeUTF(instruction);
+				client.getOutputStream().writeChar(instruction);
 				client.getOutputStream().flush();
 				
 			}catch(IOException e) {
@@ -81,7 +81,7 @@ public class ClientController {
 		}
 		public void run() {
 			//String stringToSend=JOptionPane.showInputDialog("Input string to send");
-			//send(stringToSend);
+			send('C');
 			while(!socket.isClosed()) {
 				try {
 					
