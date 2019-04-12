@@ -13,6 +13,7 @@ public class ClientController {
 	private Socket socket;
 	private Client client;
 	private ClientThread thread;
+	private Socket newsocket;
 	
 	public ClientController() {
 		viewer=new UIClient(this);
