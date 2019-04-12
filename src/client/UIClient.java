@@ -68,26 +68,26 @@ public class UIClient extends JFrame implements ClientViewer{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(uppBtn == e.getSource()) {
-				client.send("90");
+				client.send('U');
 				
 			}
 			else if(downBtn == e.getSource()) {
-				client.send("270");
+				client.send('D');
 				
 			}
 			
 			else if(leftBtn == e.getSource()) {
-				client.send("0");
+				client.send('L');
 				
 			}
 			
 			else if(rightBtn == e.getSource()) {
-				client.send("180");
+				client.send('R');
 				
 			}
 			
 			else if(grabBtn == e.getSource()) {
-				client.send("grab");
+				client.send('G');
 				
 			}
 			
