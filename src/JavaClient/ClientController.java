@@ -15,6 +15,7 @@ public class ClientController {
 	private ClientThread thread;
 	
 	public ClientController() {
+		viewer=new UIClient(this);
 		
 	}
 	public void connect(String ip, int port) {
@@ -77,13 +78,13 @@ public class ClientController {
 			client=new Client(socket);
 		}
 		public void run() {
-			String stringToSend=JOptionPane.showInputDialog("Input string to send");
-			send(stringToSend);
+			//String stringToSend=JOptionPane.showInputDialog("Input string to send");
+			//send(stringToSend);
 		}
 	}
 	
 	public static void main(String [] args) {
 		ClientController controller=new ClientController();
-		controller.connect();
+		controller.connect("10.2.25.152", 5000);
 	}
 }

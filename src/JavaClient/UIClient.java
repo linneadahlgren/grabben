@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  */
 public class UIClient extends JFrame implements ClientViewer{
-	//private ClientController client;
+	private ClientController client;
 	
 	/**
 	 * 
@@ -30,7 +30,8 @@ public class UIClient extends JFrame implements ClientViewer{
 	 * konstruktor som visar alla komponenter
 	 * l�gger �ven till actionlisteners p� alla knappar
 	 * */
-	public UIClient() {
+	public UIClient(ClientController client) {
+		this.client=client;
 		setLayout(new BorderLayout(200,200));
 		buttons.setPreferredSize(new Dimension(200,150));
 		uppBtn.setPreferredSize(new Dimension(70,30));
@@ -66,22 +67,26 @@ public class UIClient extends JFrame implements ClientViewer{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(uppBtn == e.getSource()) {
+				client.send("90");
 				System.out.println("90");
 			}
 			else if(downBtn == e.getSource()) {
-				System.out.println("260");
+				client.send("270");
+				System.out.println("270");
 			}
 			
 			else if(leftBtn == e.getSource()) {
+				client.send("0");
 				System.out.println("0");
 			}
 			
 			else if(rightBtn == e.getSource()) {
+				client.send("180");
 				System.out.println("180");
 			}
 			
 			else if(grabBtn == e.getSource()) {
-				
+				client.send("grab");
 				System.out.println("grab");
 			}
 			
@@ -90,7 +95,5 @@ public class UIClient extends JFrame implements ClientViewer{
 		
 		
 	} 
-	public static void main(String[] args) {
-		UIClient ui = new UIClient();
-	}
+	
 }
