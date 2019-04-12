@@ -1,10 +1,10 @@
-package JavaClient;
+package client;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import javax.swing.JOptionPane;
+
 
 public class ClientController {
 	private ClientViewer viewer;
@@ -27,7 +27,7 @@ public class ClientController {
 		
 		try {
 			socket=new Socket(ip,port);
-			System.out.println("Connecting to server...fgfh");
+			System.out.println("Connecting to server...");
 			if(thread==null) {
 				thread=new ClientThread();
 				thread.start();
@@ -90,3 +90,6 @@ public class ClientController {
 		controller.connect("10.2.25.152", 5000);
 	}
 }
+
+
+

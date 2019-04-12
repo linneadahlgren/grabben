@@ -1,4 +1,4 @@
-package JavaClient;
+package client;
 
 public interface ClientViewer {
 
