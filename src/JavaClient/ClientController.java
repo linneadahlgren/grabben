@@ -20,12 +20,15 @@ public class ClientController {
 	public void connect(String ip, int port) {
 		this.ip=ip;
 		this.port=port;
+
 		
 		try {
 			socket=new Socket(ip,port);
+			System.out.println("Connecting to server...");
 			if(thread==null) {
 				thread=new ClientThread();
 				thread.start();
+				System.out.println("connected to server");
 			}
 		
 	}catch (UnknownHostException e) {

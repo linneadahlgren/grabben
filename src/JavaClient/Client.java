@@ -16,14 +16,17 @@ public class Client {
 	}
 	
 	public DataOutputStream getOutputStream() {
+		
 		if(output==null) {
 			try {
 				output=new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			}catch(IOException e) {
-				e.printStackTrace();
-				System.out.print("Cannot set up outputstream");
+				e.printStackTrace();	
 			}
-		}return output;
+			
+		}
+		
+		return output;
 	}
 	
 
