@@ -53,6 +53,7 @@ public class UIClient extends JFrame implements ClientViewer{
 
 		downBtn.addActionListener(new BtnListener());
 		leftBtn.addActionListener(new BtnListener());
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
 	}
