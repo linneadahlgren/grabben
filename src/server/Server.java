@@ -53,6 +53,7 @@ public class Server {
 					String temp = dis.readUTF();
 					System.out.println(temp);
 					controller.writeToLog(temp);
+					dos.writeUTF(temp);
 				}
 			} catch (IOException e) {
 				System.out.println(e);
