@@ -27,7 +27,7 @@ public class ClientController {
 		
 		try {
 			socket=new Socket(ip,port);
-			System.out.println("Connecting to server...");
+			System.out.println("Connecting to server...fgfh");
 			if(thread==null) {
 				thread=new ClientThread();
 				thread.start();
