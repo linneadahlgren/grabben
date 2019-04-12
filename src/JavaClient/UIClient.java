@@ -1,4 +1,4 @@
-package grabben;
+package JavaClient;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +12,7 @@ import javax.swing.*;
  * @author linnea
  *
  */
-public class UIClient extends JFrame{
+public class UIClient extends JFrame implements ClientViewer{
 	//private ClientController client;
 	
 	/**
@@ -28,7 +28,7 @@ public class UIClient extends JFrame{
 	
 	/*
 	 * konstruktor som visar alla komponenter
-	 * lägger även till actionlisteners på alla knappar
+	 * lï¿½gger ï¿½ven till actionlisteners pï¿½ alla knappar
 	 * */
 	public UIClient() {
 		setLayout(new BorderLayout(200,200));
