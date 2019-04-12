@@ -21,6 +21,7 @@ public class Server {
 				while(true) {
 					try{
 						Socket socket = serverSocket.accept();
+						System.out.println("Client connected");
 						new ClientHandler(socket);
 					}catch(IOException e) {
 						System.out.println("No connection with Client");
@@ -37,11 +38,13 @@ public class Server {
 		private Socket socket;
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
+			start();
 		}
 		public void run() {
+			System.out.println("ClientHandler thread");
 			try(DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 					DataInputStream dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()))){
-				while(!socket.isClosed()) {
+				while(true) {
 					String temp = dis.readUTF();
 					System.out.println(temp);
 					controller.writeToLog(temp);
