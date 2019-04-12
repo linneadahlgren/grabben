@@ -54,6 +54,7 @@ public class Server {
 					System.out.println(temp);
 					controller.writeToLog(temp);
 					dos.writeUTF(temp);
+					dos.flush();
 				}
 			} catch (IOException e) {
 				System.out.println(e);

@@ -68,26 +68,26 @@ public class UIClient extends JFrame implements ClientViewer{
 		public void actionPerformed(ActionEvent e) {
 			if(uppBtn == e.getSource()) {
 				client.send("90");
-				System.out.println("90");
+				
 			}
 			else if(downBtn == e.getSource()) {
 				client.send("270");
-				System.out.println("270");
+				
 			}
 			
 			else if(leftBtn == e.getSource()) {
 				client.send("0");
-				System.out.println("0");
+				
 			}
 			
 			else if(rightBtn == e.getSource()) {
 				client.send("180");
-				System.out.println("180");
+				
 			}
 			
 			else if(grabBtn == e.getSource()) {
 				client.send("grab");
-				System.out.println("grab");
+				
 			}
 			
 		}

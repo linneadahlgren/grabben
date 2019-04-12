@@ -82,12 +82,22 @@ public class ClientController {
 		public void run() {
 			//String stringToSend=JOptionPane.showInputDialog("Input string to send");
 			//send(stringToSend);
+			while(!socket.isClosed()) {
+				try {
+					
+					String incoming=client.getInputStream().readUTF();
+					System.out.println(incoming);
+				}catch (IOException e) {
+					e.printStackTrace();
+					
+				}
+			}
 		}
 	}
 	
 	public static void main(String [] args) {
 		ClientController controller=new ClientController();
-		controller.connect("10.2.25.152", 5000);
+		controller.connect("127.0.0.1", 5000);
 	}
 }
 
