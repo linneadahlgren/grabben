@@ -23,7 +23,7 @@ public class Server {
 				while (true) {
 					try {
 						Socket socket = serverSocket.accept();
-						System.out.println("Client connected");
+						System.out.println("Client connected11");
 						new ClientHandler(socket);
 					} catch (IOException e) {
 						System.out.println("No connection with Client");
