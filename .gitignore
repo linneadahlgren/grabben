@@ -1,10 +1,7 @@
 
 
 
-bin/
 /bin/
-bin/server/
-bin/JavaClient/
-*.class
-*.class
-bin/JavaClient/ClientController.class
+/server/
+/JavaClient/
+/grabben/
