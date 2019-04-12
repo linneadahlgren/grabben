@@ -6,3 +6,4 @@ bin/
 bin/server/
 bin/JavaClient/
 *.class
+*.class
