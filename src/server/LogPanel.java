@@ -1,12 +1,9 @@
 package server;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
+import java.net.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 /**
  * 
  * @author Pontus Folke, John Lindahl och Oscar Jonsson
@@ -22,6 +19,13 @@ public class LogPanel extends JPanel{
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(480, 450));
 		setOpaque(true);
+		
+		try {
+			addText(InetAddress.getLocalHost().getHostAddress() + "\n");
+		} catch (UnknownHostException e) {
+			System.out.println(e);
+		}		
+		
 		
 		textArea.setEditable(false);
 		scroller.setOpaque(true);
