@@ -15,6 +15,7 @@ public class ClientController {
 	private ClientThread thread;
 	
 	
+	
 	public ClientController() {
 		viewer=new UIClient(this);
 		
@@ -26,7 +27,7 @@ public class ClientController {
 		
 		try {
 			socket=new Socket(ip,port);
-			System.out.println("Connecting to server...");
+			System.out.println("Connecting to server...111");
 			if(thread==null) {
 				thread=new ClientThread();
 				thread.start();
