@@ -57,8 +57,23 @@ public class UIClient extends JFrame implements ClientViewer{
 		pack();
 		setVisible(true);
 	}
+		
+		public void up() {
+			client.send('U');
+		}
+		public void down() {
+			client.send('D');
+		}
+		public void left() {
+			client.send('L');
+		}
+		public void right() {
+			client.send('R');
+		}
 	
-	
+		public void grab() {
+			client.send('G');
+		}
 	/*
 	 * btnlistener 
 	 * hanterar alla knapptryck
@@ -68,26 +83,26 @@ public class UIClient extends JFrame implements ClientViewer{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(uppBtn == e.getSource()) {
-				client.send('U');
+				up();
 				
 			}
 			else if(downBtn == e.getSource()) {
-				client.send('D');
+				down();
 				
 			}
 			
 			else if(leftBtn == e.getSource()) {
-				client.send('L');
+				left();
 				
 			}
 			
 			else if(rightBtn == e.getSource()) {
-				client.send('R');
+				right();
 				
 			}
 			
 			else if(grabBtn == e.getSource()) {
-				client.send('G');
+				grab();
 				
 			}
 			
