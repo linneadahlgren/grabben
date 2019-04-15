@@ -27,7 +27,7 @@ public class ClientController {
 		
 		try {
 			socket=new Socket(ip,port);
-			System.out.println("Connecting to server...kfldflisf");
+			System.out.println("Connecting to server...");
 			if(thread==null) {
 				thread=new ClientThread();
 				thread.start();
@@ -80,17 +80,18 @@ public class ClientController {
 			client=new Client(socket);
 		}
 		public void run() {
-			//String stringToSend=JOptionPane.showInputDialog("Input string to send");
+		
 			send('C');
+			
 			while(!socket.isClosed()) {
+				
 				try {
-					
-					String incoming=client.getInputStream().readUTF();
+					char incoming = client.getInputStream().readChar();
 					System.out.println(incoming);
-				}catch (IOException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
-					
 				}
+				
 			}
 		}
 	}

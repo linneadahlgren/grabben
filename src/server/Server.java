@@ -15,16 +15,20 @@ public class Server {
 	
 	public void sendToEs(char instruction) {
 		try {
-			System.out.println(instruction);
+			controller.writeToLog("Computer sent: " + instruction);
+			
 			esHandler.getOutputStream().writeChar(instruction);
+			esHandler.getOutputStream().flush();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	public void sendToComp(char instruction) {
 		try {
-			System.out.println(instruction);
+			controller.writeToLog("Embedded System sent: " + instruction);
 			computerHandler.getOutputStream().writeChar(instruction);
+			computerHandler.getOutputStream().flush();
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
