@@ -21,6 +21,14 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	public void sendToComp(char instruction) {
+		try {
+			System.out.println(instruction);
+			computerHandler.getOutputStream().writeChar(instruction);
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private class Connection extends Thread {
 		private int port;
@@ -83,7 +91,7 @@ public class Server {
 						sendToEs(temp);
 						
 					}else if(this.equals(esHandler)) {
-						
+						sendToComp(temp);
 					}
 							
 //					System.out.println("" + temp);
