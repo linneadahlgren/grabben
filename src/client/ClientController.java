@@ -19,20 +19,23 @@ public class ClientController {
 	public ClientController() {
 		viewer=new UIClient(this);
 		
+		System.out.println("Connecting to server...");
+		if(thread==null) {
+			thread=new ClientThread();
+			thread.start();
+			System.out.println("connected to server");
+		}
+	
+		
 	}
 	public void connect(String ip, int port) {
 		this.ip=ip;
 		this.port=port;
-
 		
 		try {
 			socket=new Socket(ip,port);
 			System.out.println("Connecting to server...");
-			if(thread==null) {
-				thread=new ClientThread();
-				thread.start();
-				System.out.println("connected to server");
-			}
+			
 		
 	}catch (UnknownHostException e) {
 		e.printStackTrace();
@@ -77,11 +80,14 @@ public class ClientController {
 	private class ClientThread extends Thread{
 		
 		public ClientThread() {
-			client=new Client(socket);
+			Client client;
 		}
 		public void run() {
+			
+			connect("127.0.0.1", 5000);
+			client=new Client(socket);
 		
-			send('C');
+			send('E');
 			
 			while(!socket.isClosed()) {
 				
@@ -98,7 +104,7 @@ public class ClientController {
 	
 	public static void main(String [] args) {
 		ClientController controller=new ClientController();
-		controller.connect("127.0.0.1", 5000);
+		
 	}
 }
 
