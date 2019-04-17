@@ -1,5 +1,7 @@
 package com.example.linne.da339a;
 
+import android.os.AsyncTask;
+import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import java.io.IOException;
 import java.net.*;
@@ -11,90 +13,78 @@ public class ClientController {
 	private int port;
 	private Socket socket;
 	private Client client;
-	private ClientThread thread;
+	private ClientThread clientThread;
 	private MainActivity viewer;
-	
-	
-	
+
 
 	public ClientController() {
-		Log.i("myinfo", "-----------------NEW TEST---------------");
+		Log.e("myinfo", "-----------------NEW TEST---------------");
 
-
-        /*try {
-            Socket socket = new Socket("127.0.0.1", 5000);
-
-
-            Log.i("myinfo","Connecting to server...kfldflisf");*/
-            if (thread == null) {
-                thread = new ClientThread();
-                thread.start();
-                //	Log.i("myinfo","connected to server");
-            }
-
+		if (clientThread == null) {
+			clientThread = new ClientThread();
+			clientThread.start();
+		}
 
 	}
+	public void connect() {
+		this.ip = "10.2.1.123";
+		this.port = 5000;
 
-	public void connect(){
-		this.ip= "127.0.0.1";
-		this.port= 5000;
-
-		try{
-			Log.i("myinfo", "trying to connect...");
-			socket = new Socket(ip,port);
-		}catch(UnknownHostException e){
-			Log.i("myinfo", "cannot find server");
-		}catch(IOException e){
-			Log.i("myinfo", "ioexception when trying to connect to server");
+		try {
+			Log.e("myinfo", "trying to connect...");
+			socket = new Socket(ip, port);
+		} catch (UnknownHostException e) {
+			Log.e("myinfo", "cannot find server");
+		} catch (IOException e) {
+			Log.e("myinfo", "ioexception when trying to connect to server");
 		}
 	}
-	public void disconnect(){
-		if(socket!=null) {
+
+	public void disconnect() {
+		if (socket != null) {
 			try {
 				socket.close();
-			}catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
-				Log.i("myinfo","IO Exception when trying to close the connection");
+				Log.e("myinfo", "IO Exception when trying to close the connection");
 			}
 		}
 	}
+
 	public void send(char instruction) {
-		if(socket!= null) {
+		if (socket != null) {
 			if (client == null) {
 				try {
 					wait();
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					Log.i("myinfo", "Inetrruption occured");
+					Log.e("myinfo", "Inetrruption occured");
 				}
 			}
 			try {
 				client.getOutputStream().writeChar(instruction);
+				Log.e("myinfo", "sent " + instruction);
 				client.getOutputStream().flush();
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Log.i("myinfo", "Exception occured when trying to send instruction");
+				Log.e("myinfo", "Exception occured when trying to send instruction");
+			} catch (NetworkOnMainThreadException e) {
+				Log.e("myinfo", "network on main thread ");
 			}
 		}
 	}
 
-
-	
 	private class ClientThread extends Thread {
 
-		public ClientThread() {
-			Client client;
-		}
-
+		@Override
 		public void run() {
-			Log.i("myinfo", "tthread");
+			Log.e("myinfo", "thread");
 			connect();
 			client = new Client(socket);
 
 
-			//String stringToSend=JOptionPane.showInputDialog("Input string to send");
 
 			send('C');
 
@@ -104,20 +94,20 @@ public class ClientController {
 						String incomingString = "";
 						char incoming = client.getInputStream().readChar();
 						incomingString += incoming;
-						Log.i("myinfo", incomingString);
+						Log.e("myinfo", incomingString);
 					} catch (IOException e) {
 						e.printStackTrace();
 
 					}
 				}
 			}
+
 		}
 	}
 
-
-
-
 }
+
+
 
 
 

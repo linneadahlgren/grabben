@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         registerListeners();
         client = new ClientController();
 
+
     }
 
     private void registerListeners(){
@@ -48,27 +49,39 @@ public class MainActivity extends AppCompatActivity {
     private class ButtonListener implements View.OnClickListener{
         public void onClick(View v ){
            if(v.getId() == R.id.btnTop){
-                client.send('U');
+
+                new Sender('U').start();
                 firstText.setText("Top");
-                Log.i("myinfo", "top pressed");
+                Log.e("myinfo", "top pressed");
            }else if(v.getId() == R.id.btnBottom){
-                client.send('D');
+               new Sender('D').start();
                firstText.setText("Bottom");
-               Log.i("myinfo", "bottom pressed");
+               Log.e("myinfo", "bottom pressed");
            }else if(v.getId() == R.id.btnLeft){
                firstText.setText("Left");
-               client.send('L');
+               new Sender('L').start();
                Log.i("myinfo", "left pressed");
             }else if(v.getId() == R.id.btnRight){
                firstText.setText("Right");
-               client.send('R');
-               Log.i("myinfo", "right pressed");
+               new Sender('R').start();
+               Log.e("myinfo", "right pressed");
            }else if(v.getId() == R.id.btnDown){
                firstText.setText("Down");
-               client.send('G');
-               Log.i("myinfo", "down pressed");
+               new Sender('G').start();
+               Log.e("myinfo", "down pressed");
            }
 
         }
+    }
+    private class Sender extends Thread{
+        public char charToSend;
+
+        public Sender(char charToBeSent){
+            charToSend=charToBeSent;
+        }
+        public void run(){
+            client.send(charToSend);
+        }
+
     }
 }
