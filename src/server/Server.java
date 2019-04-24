@@ -13,21 +13,22 @@ public class Server {
 		new Connection(port).start();
 	}
 	
-	public void sendToEs(char instruction) {
+	public void sendToEs(String instruction) {
 		try {
+			System.out.println(instruction);
 			controller.writeToLog("Computer sent: " + instruction);
 			
-			esHandler.getOutputStream().writeChar(instruction);
+			esHandler.getOutputStream().writeUTF(instruction);
 			esHandler.getOutputStream().flush();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	public void sendToComp(char instruction) {
+	public void sendToComp(String instruction) {
 		try {
 			controller.writeToLog("Embedded System sent: " + instruction);
-			computerHandler.getOutputStream().writeChar(instruction);
+			computerHandler.getOutputStream().writeUTF(instruction);
 			computerHandler.getOutputStream().flush();
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -80,16 +81,16 @@ public class Server {
 			try{
 				dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 				dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-				char name = dis.readChar();
+				String name = dis.readUTF();
 				System.out.println(name);
-				if(name == 'C') {
+				if(name.equals("C")) {
 					computerHandler = this;
-				}else if(name == 'E') {
+				}else if(name.equals("E")) {
 					esHandler = this;
 				}
 				
 				while (!socket.isClosed()) {
-					char temp = dis.readChar();
+					String temp = dis.readUTF();
 					
 					if (this.equals(computerHandler)) {
 						sendToEs(temp);
