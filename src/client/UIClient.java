@@ -59,20 +59,20 @@ public class UIClient extends JFrame implements ClientViewer{
 	}
 		
 		public void up() {
-			client.send('U');
+			client.send("Up");
 		}
 		public void down() {
-			client.send('D');
+			client.send("Down");
 		}
 		public void left() {
-			client.send('L');
+			client.send("Left");
 		}
 		public void right() {
-			client.send('R');
+			client.send("Right");
 		}
 	
 		public void grab() {
-			client.send('G');
+			client.send("Grab");
 		}
 	/*
 	 * btnlistener 
