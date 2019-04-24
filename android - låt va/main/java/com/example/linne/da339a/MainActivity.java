@@ -50,37 +50,37 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v ){
            if(v.getId() == R.id.btnTop){
 
-                new Sender('U').start();
+                new Sender("UP").start();
                 firstText.setText("Top");
                 Log.e("myinfo", "top pressed");
            }else if(v.getId() == R.id.btnBottom){
-               new Sender('D').start();
+               new Sender("DOWN").start();
                firstText.setText("Bottom");
                Log.e("myinfo", "bottom pressed");
            }else if(v.getId() == R.id.btnLeft){
+               new Sender("LEFT").start();
                firstText.setText("Left");
-               new Sender('L').start();
                Log.i("myinfo", "left pressed");
             }else if(v.getId() == R.id.btnRight){
+               new Sender("RIGHT").start();
                firstText.setText("Right");
-               new Sender('R').start();
                Log.e("myinfo", "right pressed");
            }else if(v.getId() == R.id.btnDown){
+               new Sender("GRAB").start();
                firstText.setText("Down");
-               new Sender('G').start();
                Log.e("myinfo", "down pressed");
            }
 
         }
     }
     private class Sender extends Thread{
-        public char charToSend;
+        public String stringToSend;
 
-        public Sender(char charToBeSent){
-            charToSend=charToBeSent;
+        public Sender(String stringToBeSent){
+            stringToSend=stringToBeSent;
         }
         public void run(){
-            client.send(charToSend);
+            client.send(stringToSend);
         }
 
     }

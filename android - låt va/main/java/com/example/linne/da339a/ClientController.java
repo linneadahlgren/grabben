@@ -27,7 +27,7 @@ public class ClientController {
 
 	}
 	public void connect() {
-		this.ip = "10.2.1.123";
+		this.ip = "10.2.7.110";
 		this.port = 5000;
 
 		try {
@@ -51,7 +51,7 @@ public class ClientController {
 		}
 	}
 
-	public void send(char instruction) {
+	public void send(String instruction) {
 		if (socket != null) {
 			if (client == null) {
 				try {
@@ -63,7 +63,7 @@ public class ClientController {
 				}
 			}
 			try {
-				client.getOutputStream().writeChar(instruction);
+				client.getOutputStream().writeUTF(instruction);
 				Log.e("myinfo", "sent " + instruction);
 				client.getOutputStream().flush();
 
@@ -86,7 +86,7 @@ public class ClientController {
 
 
 
-			send('C');
+			send("C");
 
 			if (socket != null) {
 				while (!socket.isClosed()) {
