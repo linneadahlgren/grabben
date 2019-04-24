@@ -18,7 +18,7 @@ public class Server {
 			System.out.println(instruction);
 			controller.writeToLog("Computer sent: " + instruction);
 			
-			esHandler.getOutputStream().writeUTF(instruction);
+			esHandler.getOutputStream().write(instruction);
 			esHandler.getOutputStream().flush();
 			
 		} catch (IOException e) {
@@ -28,7 +28,7 @@ public class Server {
 	public void sendToComp(String instruction) {
 		try {
 			controller.writeToLog("Embedded System sent: " + instruction);
-			computerHandler.getOutputStream().writeUTF(instruction);
+			computerHandler.getOutputStream().write(instruction);
 			computerHandler.getOutputStream().flush();
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -65,23 +65,23 @@ public class Server {
 
 	private class ClientHandler extends Thread {
 		private Socket socket;
-		private DataInputStream dis;
-		private DataOutputStream dos;
+		private BufferedReader input;
+		private BufferedWriter output;
 
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			start();
 		}
-		public DataOutputStream getOutputStream() {
-			return dos;
+		public BufferedWriter getOutputStream() {
+			return output;
 		}
 
 		public void run() {
 			System.out.println("ClientHandler thread");
 			try{
-				dos = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-				dis = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-				String name = dis.readUTF();
+				output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				String name = input.readLine();
 				System.out.println(name);
 				if(name.equals("C")) {
 					computerHandler = this;
@@ -90,7 +90,7 @@ public class Server {
 				}
 				
 				while (!socket.isClosed()) {
-					String temp = dis.readUTF();
+					String temp = input.readLine();
 					
 					if (this.equals(computerHandler)) {
 						sendToEs(temp);
@@ -102,7 +102,7 @@ public class Server {
 //					System.out.println("" + temp);
 //					controller.writeToLog("" + temp);
 //					dos.writeUTF("" + temp);
-					dos.flush();
+					output.flush();
 				}
 			} catch (IOException e) {
 				try {

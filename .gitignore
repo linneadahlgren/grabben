@@ -6,3 +6,4 @@
 /JavaClient/
 /grabben/
 bin/server/Server$ClientHandler.class
+*.class
