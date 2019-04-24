@@ -92,7 +92,7 @@ public class ClientController {
 				while (!socket.isClosed()) {
 					try {
 						String incomingString = "";
-						char incoming = client.getInputStream().readChar();
+						String incoming = client.getInputStream().readUTF();
 						incomingString += incoming;
 						Log.e("myinfo", incomingString);
 					} catch (IOException e) {
