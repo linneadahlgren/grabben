@@ -57,6 +57,7 @@ public class ClientController {
 		}
 	}
 		public void send(String instruction) {
+			instruction+="\n";
 			if(client==null) {
 				try {
 					wait();
@@ -67,7 +68,9 @@ public class ClientController {
 				}
 			}
 			try {
-				client.getOutputStream().write(instruction);;
+				
+				client.getOutputStream().write(instruction);
+				
 				client.getOutputStream().flush();
 				
 			}catch(IOException e) {
@@ -85,14 +88,10 @@ public class ClientController {
 		public void run() {
 			
 			connect("127.0.0.1", 5000);
-			System.out.println("Connectmetoden i klienten klar");
-
-			
-			client=new Client(socket);
-			System.out.println("Socket skapad för klient");
-			
 		
-			send("C");
+			client=new Client(socket);
+		
+			send("COMPUTER");
 			
 			while(!socket.isClosed()) {
 				

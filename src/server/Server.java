@@ -83,7 +83,7 @@ public class Server {
 				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String name = input.readLine();
 				System.out.println(name);
-				if(name.equals("C")) {
+				if(name.equals("COMPUTER")) {
 					computerHandler = this;
 				}else if(name.equals("E")) {
 					esHandler = this;
