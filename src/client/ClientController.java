@@ -56,7 +56,7 @@ public class ClientController {
 			}
 		}
 	}
-		public void send(char instruction) {
+		public void send(String instruction) {
 			if(client==null) {
 				try {
 					wait();
@@ -67,7 +67,7 @@ public class ClientController {
 				}
 			}
 			try {
-				client.getOutputStream().writeChar(instruction);
+				client.getOutputStream().writeUTF(instruction);
 				client.getOutputStream().flush();
 				
 			}catch(IOException e) {
@@ -87,12 +87,12 @@ public class ClientController {
 			connect("127.0.0.1", 5000);
 			client=new Client(socket);
 		
-			send('E');
+			send("E");
 			
 			while(!socket.isClosed()) {
 				
 				try {
-					char incoming = client.getInputStream().readChar();
+					String incoming = client.getInputStream().readUTF();
 					System.out.println(incoming);
 				} catch (IOException e) {
 					e.printStackTrace();
