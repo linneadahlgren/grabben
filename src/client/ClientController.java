@@ -19,11 +19,11 @@ public class ClientController {
 	public ClientController() {
 		viewer=new UIClient(this);
 		
-		System.out.println("Connecting to server...");
+		
 		if(thread==null) {
 			thread=new ClientThread();
 			thread.start();
-			System.out.println("connected to server");
+			
 		}
 	
 		
@@ -31,10 +31,10 @@ public class ClientController {
 	public void connect(String ip, int port) {
 		this.ip=ip;
 		this.port=port;
-		
+		System.out.println("Connecting to server...");
 		try {
 			socket=new Socket(ip,port);
-			System.out.println("Connecting to server...");
+			System.out.println("Connected to server");
 			
 		
 	}catch (UnknownHostException e) {
@@ -85,7 +85,12 @@ public class ClientController {
 		public void run() {
 			
 			connect("127.0.0.1", 5000);
+			System.out.println("Connectmetoden i klienten klar");
+
+			
 			client=new Client(socket);
+			System.out.println("Socket skapad för klient");
+			
 		
 			send("C");
 			
