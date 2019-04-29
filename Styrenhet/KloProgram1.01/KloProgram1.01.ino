@@ -34,7 +34,7 @@ void setup() {
   digitalWrite (LED2, LOW);
   digitalWrite (LED3, LOW);
   digitalWrite (LED4, LOW);
-  Serial.println("connecting...");
+  Serial.println("connecting... heheheheheheeheh");
   delay(500);
   
 // if you get a connection, report back via serial:
