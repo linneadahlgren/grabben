@@ -87,11 +87,11 @@ public class ClientController {
 		}
 		public void run() {
 			
-			connect("127.0.0.1", 5000);
+			connect("10.2.12.179", 5000);
 		
 			client=new Client(socket);
 		
-			send("COMPUTER");
+			send("E");
 			
 			while(!socket.isClosed()) {
 				

@@ -81,6 +81,7 @@ public class Server {
 			try{
 				output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				//System.out.println(input.readLine());
 				String name = input.readLine();
 				System.out.println(name);
 				if(name.equals("COMPUTER")) {

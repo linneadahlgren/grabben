@@ -50,23 +50,23 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v ){
            if(v.getId() == R.id.btnTop){
 
-                new Sender("UP").start();
+                new Sender("UP\n").start();
                 firstText.setText("Top");
                 Log.e("myinfo", "top pressed");
            }else if(v.getId() == R.id.btnBottom){
-               new Sender("DOWN").start();
+               new Sender("DOWN\n").start();
                firstText.setText("Bottom");
                Log.e("myinfo", "bottom pressed");
            }else if(v.getId() == R.id.btnLeft){
-               new Sender("LEFT").start();
+               new Sender("LEFT\n").start();
                firstText.setText("Left");
                Log.i("myinfo", "left pressed");
             }else if(v.getId() == R.id.btnRight){
-               new Sender("RIGHT").start();
+               new Sender("RIGHT\n").start();
                firstText.setText("Right");
                Log.e("myinfo", "right pressed");
            }else if(v.getId() == R.id.btnDown){
-               new Sender("GRAB").start();
+               new Sender("GRAB\n").start();
                firstText.setText("Down");
                Log.e("myinfo", "down pressed");
            }
