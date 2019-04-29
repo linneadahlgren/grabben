@@ -1,9 +1,12 @@
 #include <SPI.h>
 #include <Ethernet.h>
-int LED1 = A0;
-int LED2 = A1;
-int LED3 = A2; 
-int LED4 = A3;
+int pwmXY=D5;
+int pwmZ=D6;
+int enableMotors=A0;
+int xMotor1=A1;
+int xMotor2=A2;
+
+
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 byte serverIp[] = {192,168,20,195};
 int port = 5000;
@@ -14,10 +17,11 @@ EthernetClient client;
 
 void setup() {
   delay(500);
-  pinMode (LED1, OUTPUT);
-  pinMode (LED2, OUTPUT);
-  pinMode (LED3, OUTPUT);
-  pinMode (LED4, OUTPUT);
+  pinMode (pwmXY, OUTPUT);
+  pinMode (enableMotors, OUTPUT);
+  pinMode (xMotor1, OUTPUT);
+  pinMode (xMotor2, OUTPUT);
+  analogWrite(pwmXy,255);
 
   Ethernet.begin(mac);
   Serial.begin(9600);
@@ -25,17 +29,9 @@ void setup() {
   
   Serial.println(Ethernet.localIP());
 
-  digitalWrite (LED1, HIGH);
-  digitalWrite (LED2, HIGH);
-  digitalWrite (LED3, HIGH);
-  digitalWrite (LED4, HIGH);
-  delay(1000);
-  digitalWrite (LED1, LOW);
-  digitalWrite (LED2, LOW);
-  digitalWrite (LED3, LOW);
-  digitalWrite (LED4, LOW);
+ 
   Serial.println("connecting...");
-  delay(500);
+
   
 // if you get a connection, report back via serial:
   int temp = client.connect(serverIp, port);
@@ -62,10 +58,11 @@ void sendMsg(String msg) {
     String command = client.readString();
     if (command == "UP") {
     Serial.print(command);
+    
       digitalWrite(LED1, HIGH);
-      delay (1000);
-      digitalWrite(LED1, LOW);
-      delay(1000);
+      //delay (1000);
+     // digitalWrite(LED1, LOW);
+     // delay(1000);
     }
     if (command == "DOWN") {
       digitalWrite(LED2, HIGH);
