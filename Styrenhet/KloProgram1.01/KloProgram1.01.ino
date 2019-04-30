@@ -86,10 +86,10 @@ void loop() {
 
   forward();
   delay(3000);
- // digitalWrite(xMotor2,HIGH);
+
   backward();
   delay(3000);
- // digitalWrite(xMotor2,HIGH);
+
   
 
  if (client.connected() == true) {
