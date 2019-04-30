@@ -3,8 +3,8 @@
 int pwmXY=5;
 int pwmZ=6;
 int enableMotors=A0;
-int xMotor1=9;
-int xMotor2=12;
+int xMotor1=7;
+int xMotor2=8;
 
 
 
@@ -65,13 +65,15 @@ void sendMsg(String msg) {
  }
 
  void forward (){
-  analogWrite(pwmXY, intermediate);
+  analogWrite(pwmXY, 200);
   digitalWrite(xMotor1,HIGH);
   digitalWrite(xMotor2,LOW);
   
  }
  void backward (){
-  
+  analogWrite(pwmXY, 200);
+  digitalWrite(xMotor1,LOW);
+  digitalWrite(xMotor2,HIGH);
  }
 
  void right (){
@@ -83,8 +85,12 @@ void left (){
 void loop() {
 
   forward();
-  delay(1000);
-  digitalWrite(xMotor2,HIGH);
+  delay(3000);
+ // digitalWrite(xMotor2,HIGH);
+  backward();
+  delay(3000);
+ // digitalWrite(xMotor2,HIGH);
+  
 
  if (client.connected() == true) {
     String command = client.readString();
