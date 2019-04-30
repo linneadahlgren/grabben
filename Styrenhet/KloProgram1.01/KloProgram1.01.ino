@@ -1,12 +1,12 @@
 #include <SPI.h>
 #include <Ethernet.h>
-int pwmXY=D5;
-int pwmZ=D6;
+int pwmXY=5;
+int pwmZ=6;
 int enableMotors=A0;
 int xMotor1=A1;
 int xMotor2=A2;
 
-const int halt=0;
+//const int halt=0;
 const int fast=200;
 const int intermediate=150;
 
@@ -14,7 +14,7 @@ byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 byte serverIp[] = {192,168,20,195};
 int port = 5000;
 int x = 0;
-String forward = "Forward";
+
 String identification = "E";
 EthernetClient client;
 
@@ -24,7 +24,7 @@ void setup() {
   pinMode (enableMotors, OUTPUT);
   pinMode (xMotor1, OUTPUT);
   pinMode (xMotor2, OUTPUT);
-  analogWrite(pwmXy,255);
+  analogWrite(pwmXY,255);
 
   Ethernet.begin(mac);
   Serial.begin(9600);
@@ -57,21 +57,22 @@ void sendMsg(String msg) {
     }
    }
 
- void halt(){
+ void halt (){
   
-  
- }
- void up(){
-  analogWrite(pwmXY, fast);
-  digitalWrite(xMotor1,HIGH);
-  digitalWrite(xMotor,LOW);
   
  }
 
- void forward(){
+ void forward (){
+  analogWrite(pwmXY, fast);
+  digitalWrite(xMotor1,HIGH);
+  digitalWrite(xMotor2,LOW);
   
  }
- void right(){
+ void backward (){
+  
+ }
+
+ void right (){
   
 }
 void left (){
@@ -80,34 +81,21 @@ void left (){
 void loop() {
  if (client.connected() == true) {
     String command = client.readString();
+    
     if (command == "UP") {
     Serial.print(command);
+    forward();
       
-     
+    
     }
     if (command == "DOWN") {
-     // digitalWrite(LED2, HIGH);
-     // delay (1000);
-     // digitalWrite(LED2, LOW);
-     // delay(1000);
+    backward();
     }
       if (command == "LEFT") {
-      //digitalWrite(LED3, HIGH);
-      //delay (1000);
-      //digitalWrite(LED3, LOW);
-  //    delay(100);
-  //    digitalWrite(LED1, HIGH);
-  //    delay (200);
-  //    digitalWrite(LED1, LOW);
-     // delay(1000);
+   left();
     }
       if (command == "RIGHT") {
-      //digitalWrite(LED4, HIGH);
-  //    digitalWrite(LED1, HIGH);
-     // delay (1000);
-     // digitalWrite(LED4, LOW);
-  //    digitalWrite(LED1, LOW);
-     // delay(1000);
+    right();
     }
         Serial.println(command);
  }
