@@ -5,7 +5,7 @@ int LED2 = A1;
 int LED3 = A2; 
 int LED4 = A3;
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,20,195};
+byte serverIp[] = {192, 168, 20, 195};
 int port = 5000;
 int x = 0;
 String forward = "Forward";
@@ -18,7 +18,7 @@ void setup() {
   pinMode (LED2, OUTPUT);
   pinMode (LED3, OUTPUT);
   pinMode (LED4, OUTPUT);
-
+  
   Ethernet.begin(mac);
   Serial.begin(9600);
   delay(1000);
@@ -90,6 +90,18 @@ void sendMsg(String msg) {
       digitalWrite(LED4, LOW);
   //    digitalWrite(LED1, LOW);
       delay(1000);
+    }
+
+    if(command == "RELEASED") {
+      digitalWrite(LED1, HIGH);
+      digitalWrite(LED2, HIGH);
+      digitalWrite(LED3, HIGH);
+      digitalWrite(LED4, HIGH);
+      delay(1000);
+      digitalWrite(LED1, LOW);
+      digitalWrite(LED2, LOW);
+      digitalWrite(LED3, LOW);
+      digitalWrite(LED4, LOW);
     }
         Serial.println(command);
  }

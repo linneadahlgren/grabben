@@ -27,7 +27,7 @@ public class ClientController {
 
 	}
 	public void connect() {
-		this.ip = "10.2.12.179";
+		this.ip = "192.168.20.195";
 		this.port = 5000;
 
 		try {
