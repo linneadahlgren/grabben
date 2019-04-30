@@ -3,8 +3,10 @@
 int pwmXY=5;
 int pwmZ=6;
 int enableMotors=A0;
-int xMotor1=A1;
-int xMotor2=A2;
+int xMotor1=9;
+int xMotor2=12;
+
+
 
 //const int halt=0;
 const int fast=200;
@@ -24,7 +26,7 @@ void setup() {
   pinMode (enableMotors, OUTPUT);
   pinMode (xMotor1, OUTPUT);
   pinMode (xMotor2, OUTPUT);
-  analogWrite(pwmXY,255);
+  analogWrite(pwmXY,150);
 
   Ethernet.begin(mac);
   Serial.begin(9600);
@@ -63,7 +65,7 @@ void sendMsg(String msg) {
  }
 
  void forward (){
-  analogWrite(pwmXY, fast);
+  analogWrite(pwmXY, intermediate);
   digitalWrite(xMotor1,HIGH);
   digitalWrite(xMotor2,LOW);
   
@@ -79,6 +81,11 @@ void left (){
   
 }
 void loop() {
+
+  forward();
+  delay(1000);
+  digitalWrite(xMotor2,HIGH);
+
  if (client.connected() == true) {
     String command = client.readString();
     
