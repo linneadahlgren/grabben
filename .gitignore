@@ -1,5 +1,11 @@
 
 
+/da339a/.gradle/
+/da339a/.idea/
+.png
+.flat
+.lock
+.bin
 
 /bin/
 /server/
