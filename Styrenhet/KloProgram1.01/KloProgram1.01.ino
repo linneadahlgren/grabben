@@ -34,8 +34,10 @@ void setup() {
   
   Serial.println(Ethernet.localIP());
 
+
  
   Serial.println("connecting...");
+
 
   
 // if you get a connection, report back via serial:
