@@ -1,65 +1,50 @@
-#include <SPI.h>
-#include <Ethernet.h>
+
 int pwmXY=5;
 int pwmZ=6;
 int enableMotors=A0;
 int xMotor1=7;
 int xMotor2=8;
+int yMotor1=9;
+int yMotor2=10;
+int readSensorPin0 = A0;
+int readSensorPin1 = A1;
+int readSensorPin2 = A2;
+int readSensorPin3 = A3;
 
+float voltageX = 0;
+float voltageY = 0;
+int directionX = 0;
+int directionY = 0;
 
 
 //const int halt=0;
 const int fast=200;
 const int intermediate=150;
 
-byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,20,195};
-int port = 5000;
-int x = 0;
 
-String identification = "E";
-EthernetClient client;
 
 void setup() {
-  delay(500);
+
   pinMode (pwmXY, OUTPUT);
   pinMode (enableMotors, OUTPUT);
   pinMode (xMotor1, OUTPUT);
   pinMode (xMotor2, OUTPUT);
+  pinMode (yMotor1, OUTPUT);
+  pinMode (yMotor2, OUTPUT);
   analogWrite(pwmXY,150);
 
-  Ethernet.begin(mac);
-  Serial.begin(9600);
-  delay(1000);
-  
-  Serial.println(Ethernet.localIP());
-
-
+  pinMode(readSensorPin0, INPUT);
+  pinMode(readSensorPin1, INPUT);
  
-  Serial.println("connecting...");
+  Serial.begin(9600);
 
 
-  
-// if you get a connection, report back via serial:
-  int temp = client.connect(serverIp, port);
-  Serial.println(temp);
-  
-  if (temp == 1) {
-    delay(1000);
-    Serial.println("connected");
-    sendMsg(identification);
-  } else {
-   Serial.println(port);
-   Serial.println("connection failed");
-  }
+
+  backward();
+  right();
 }
 
-void sendMsg(String msg) {
-   if (client) {
-     client.println(msg);
-     client.flush();
-    }
-   }
+
 
  void halt (){
   
@@ -71,55 +56,81 @@ void sendMsg(String msg) {
   digitalWrite(xMotor1,HIGH);
   digitalWrite(xMotor2,LOW);
   
+  directionX = 1;
  }
  void backward (){
   analogWrite(pwmXY, 200);
   digitalWrite(xMotor1,LOW);
   digitalWrite(xMotor2,HIGH);
+
+  directionX = 0;
  }
 
  void right (){
+  analogWrite(pwmXY, 200);
+  digitalWrite(yMotor1,HIGH);
+  digitalWrite(yMotor2,LOW);
+
+  directionY = 1;
   
 }
 void left (){
+  analogWrite(pwmXY, 200);
+  digitalWrite(xMotor1,LOW);
+  digitalWrite(xMotor2,HIGH);
+
+  directionX = 0;
   
 }
 void loop() {
 
-  forward();
-  delay(3000);
-
-  backward();
-  delay(3000);
+  switch(directionX){
+    case 0:
+      int sensorVal = analogRead(readSensorPin0);
+      voltageX = sensorVal * (5.0 / 1023.0);
+      Serial.println(voltageX);
+    break;
+    case 1:
+      sensorVal = analogRead(readSensorPin1);
+      voltageX = sensorVal * (5.0 / 1023.0);
+      Serial.println(voltageX);
+    break;
+  }
+  switch(directionY){
+    case 0:
+      int sensorVal = analogRead(readSensorPin2);
+      voltageY = sensorVal * (5.0 / 1023.0);
+      Serial.println(voltageY);
+      break;
+    case 1:
+      sensorVal = analogRead(readSensorPin3);
+      voltageY = sensorVal * (5.0 / 1023.0);
+      Serial.println(voltageY);
+     break;
+  }
 
   
-
- if (client.connected() == true) {
-    String command = client.readString();
-    
-    if (command == "UP") {
-    Serial.print(command);
-    forward();
-      
-    
+  if(voltageX > 1.0){
+    if(directionX == 0){
+      forward();
+      //delay(200);
     }
-    if (command == "DOWN") {
-    backward();
-    }
-      if (command == "LEFT") {
-   left();
-    }
-      if (command == "RIGHT") {
-    right();
-    }
-        Serial.println(command);
- }
-  if (!client.connected()) {
-    Serial.println();
-    Serial.println("disconnecting.");
-    client.stop();
-    while (true) {
-      delay(1);
+    else if(directionX == 1){
+      backward();
+      //delay(200);
     }
   }
+
+    if(voltageY > 1.0){
+    if(directionY == 0){
+      forward();
+      //delay(200);
+    }
+    else if(directionY == 1){
+      backward();
+      //delay(200);
+    }
+  }
+
+  
 }
