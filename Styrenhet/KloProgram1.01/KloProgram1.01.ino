@@ -5,9 +5,11 @@ int pwmZ=6;
 int enableMotors=A0;
 int xMotor1=7;
 int xMotor2=8;
+
 int yMotor1=9;
 int yMotor2=10;
 //const byte interruptPinX=2;
+
 
 
 
@@ -30,8 +32,10 @@ void setup() {
   pinMode (xMotor1, OUTPUT);
   pinMode (xMotor2, OUTPUT);
   analogWrite(pwmXY,150);
+
  // pinMode(interruptPinX,INPUT_PULLUP);
   //attachInterrupt(digitalPinToInetrrupt(interruptPin); 
+
 
   Ethernet.begin(mac);
   Serial.begin(9600);
@@ -67,12 +71,14 @@ void sendMsg(String msg) {
    }
 
  void halt (){
+
    analogWrite(pwmXY,200);
    
    digitalWrite(xMotor1,LOW);
    digitalWrite(xMotor2,LOW);
    digitalWrite(yMotor1,LOW);
    digitalWrite(yMotor2,LOW);
+
   
   
  }
@@ -90,6 +96,7 @@ void sendMsg(String msg) {
  }
 
  void right (){
+
   analogWrite(pwmXY,200);
   digitalWrite(yMotor1,HIGH);
    digitalWrite(yMotor2,LOW);
@@ -102,6 +109,21 @@ void left (){
 }
 void loop() {
 
+
+  
+}
+void left (){
+  
+}
+void loop() {
+
+  forward();
+  delay(3000);
+
+  backward();
+  delay(3000);
+
+
   
 
  if (client.connected() == true) {
@@ -110,9 +132,16 @@ void loop() {
     if (command == "UP") {
     Serial.print(command);
     forward();
+
     }
     if (command == "DOWN") {
       Serial.println("DOWN");
+
+      
+    
+    }
+    if (command == "DOWN") {
+
     backward();
     }
       if (command == "LEFT") {
@@ -120,9 +149,11 @@ void loop() {
     }
       if (command == "RIGHT") {
     right();
+
     }
     if(command=="RELEASE"){
       halt();
+
     }
         Serial.println(command);
  }
