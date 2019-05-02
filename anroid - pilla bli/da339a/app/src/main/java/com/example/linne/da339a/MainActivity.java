@@ -150,7 +150,9 @@ public class MainActivity extends AppCompatActivity {
     private class Sender extends Thread{
         public String stringToSend;
 
+
         public Sender(String stringToBeSent){
+            firstText.setText(stringToBeSent);
             stringToSend=stringToBeSent;
         }
         public void run(){
