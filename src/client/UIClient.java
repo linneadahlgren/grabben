@@ -72,7 +72,7 @@ public class UIClient extends JFrame implements ClientViewer{
 		}
 	
 		public void grab() {
-			client.send("GRAB");
+			client.send("RELEASE");
 		}
 	/*
 	 * btnlistener 
