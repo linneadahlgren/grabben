@@ -112,6 +112,7 @@ void loop() {
     forward();
     }
     if (command == "DOWN") {
+      Serial.println("DOWN");
     backward();
     }
       if (command == "LEFT") {
