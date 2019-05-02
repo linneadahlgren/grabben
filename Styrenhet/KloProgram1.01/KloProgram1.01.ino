@@ -1,41 +1,49 @@
 #include <SPI.h>
 #include <Ethernet.h>
-int LED1 = A0;
-int LED2 = A1;
-int LED3 = A2; 
-int LED4 = A3;
+int pwmXY=5;
+int pwmZ=6;
+int enableMotors=A0;
+int xMotor1=7;
+int xMotor2=8;
+int yMotor1=9;
+int yMotor2=10;
+//const byte interruptPinX=2;
+
+
+
+//const int halt=0;
+const int fast=200;
+const int intermediate=150;
+
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192, 168, 20, 195};
+byte serverIp[] = {192,168,20,195};
 int port = 5000;
 int x = 0;
-String forward = "Forward";
+
 String identification = "E";
 EthernetClient client;
 
 void setup() {
   delay(500);
-  pinMode (LED1, OUTPUT);
-  pinMode (LED2, OUTPUT);
-  pinMode (LED3, OUTPUT);
-  pinMode (LED4, OUTPUT);
-  
+  pinMode (pwmXY, OUTPUT);
+  pinMode (enableMotors, OUTPUT);
+  pinMode (xMotor1, OUTPUT);
+  pinMode (xMotor2, OUTPUT);
+  analogWrite(pwmXY,150);
+ // pinMode(interruptPinX,INPUT_PULLUP);
+  //attachInterrupt(digitalPinToInetrrupt(interruptPin); 
+
   Ethernet.begin(mac);
   Serial.begin(9600);
   delay(1000);
   
   Serial.println(Ethernet.localIP());
 
-  digitalWrite (LED1, HIGH);
-  digitalWrite (LED2, HIGH);
-  digitalWrite (LED3, HIGH);
-  digitalWrite (LED4, HIGH);
-  delay(1000);
-  digitalWrite (LED1, LOW);
-  digitalWrite (LED2, LOW);
-  digitalWrite (LED3, LOW);
-  digitalWrite (LED4, LOW);
+
+ 
   Serial.println("connecting...");
-  delay(500);
+
+
   
 // if you get a connection, report back via serial:
   int temp = client.connect(serverIp, port);
@@ -57,51 +65,74 @@ void sendMsg(String msg) {
      client.flush();
     }
    }
- void loop() {
+
+ void halt (){
+   analogWrite(pwmXY,200);
+   
+   digitalWrite(xMotor1,LOW);
+   digitalWrite(xMotor2,LOW);
+   digitalWrite(yMotor1,LOW);
+   digitalWrite(yMotor2,LOW);
+  
+  
+ }
+
+ void forward (){
+  analogWrite(pwmXY, 200);
+  digitalWrite(xMotor1,HIGH);
+  digitalWrite(xMotor2,LOW);
+  
+ }
+ void backward (){
+  analogWrite(pwmXY, 200);
+  digitalWrite(xMotor1,LOW);
+  digitalWrite(xMotor2,HIGH);
+ }
+
+ void right (){
+  analogWrite(pwmXY,200);
+  digitalWrite(yMotor1,HIGH);
+   digitalWrite(yMotor2,LOW);
+  
+}
+void left (){
+   analogWrite(pwmXY,200);
+  digitalWrite(yMotor1,LOW);
+   digitalWrite(yMotor2,HIGH);
+}
+void loop() {
+
+     forward();
+  delay(3000);
+  halt();
+
+  backward();
+    delay(3000);
+    halt();
+   left();
+   delay(3000);
+   right();
+   delay(3000);
+  
+
  if (client.connected() == true) {
     String command = client.readString();
+    
     if (command == "UP") {
     Serial.print(command);
-      digitalWrite(LED1, HIGH);
-      delay (1000);
-      digitalWrite(LED1, LOW);
-      delay(1000);
+    forward();
     }
     if (command == "DOWN") {
-      digitalWrite(LED2, HIGH);
-      delay (1000);
-      digitalWrite(LED2, LOW);
-      delay(1000);
+    backward();
     }
       if (command == "LEFT") {
-      digitalWrite(LED3, HIGH);
-      delay (1000);
-      digitalWrite(LED3, LOW);
-  //    delay(100);
-  //    digitalWrite(LED1, HIGH);
-  //    delay (200);
-  //    digitalWrite(LED1, LOW);
-      delay(1000);
+   left();
     }
       if (command == "RIGHT") {
-      digitalWrite(LED4, HIGH);
-  //    digitalWrite(LED1, HIGH);
-      delay (1000);
-      digitalWrite(LED4, LOW);
-  //    digitalWrite(LED1, LOW);
-      delay(1000);
+    right();
     }
-
-    if(command == "RELEASED") {
-      digitalWrite(LED1, HIGH);
-      digitalWrite(LED2, HIGH);
-      digitalWrite(LED3, HIGH);
-      digitalWrite(LED4, HIGH);
-      delay(1000);
-      digitalWrite(LED1, LOW);
-      digitalWrite(LED2, LOW);
-      digitalWrite(LED3, LOW);
-      digitalWrite(LED4, LOW);
+    if(command=="RELEASE"){
+      halt();
     }
         Serial.println(command);
  }

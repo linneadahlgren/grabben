@@ -23,6 +23,7 @@ public class ServerController {
 	 * @param user, String of the "user" to add to the queue
 	 */
 	public void addToQueue(String user) {
+		writeToLog("New user in line to play: " + user);
 		userQueue.add(user);
 	}
 	
