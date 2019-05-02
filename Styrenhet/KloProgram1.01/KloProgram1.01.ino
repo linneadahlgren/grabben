@@ -102,17 +102,6 @@ void left (){
 }
 void loop() {
 
-     forward();
-  delay(3000);
-  halt();
-
-  backward();
-    delay(3000);
-    halt();
-   left();
-   delay(3000);
-   right();
-   delay(3000);
   
 
  if (client.connected() == true) {
