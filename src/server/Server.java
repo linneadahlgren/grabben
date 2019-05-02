@@ -7,7 +7,8 @@ public class Server {
 	private ServerController controller;
 	private ClientHandler computerHandler;
 	private ClientHandler esHandler;
-
+	
+	
 	public Server(ServerController controller, int port) {
 		this.controller = controller;
 		new Connection(port).start();
@@ -81,28 +82,33 @@ public class Server {
 			try{
 				output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				//System.out.println(input.readLine());
+
 				String name = input.readLine();
 				System.out.println(name);
+				
 				if(name.equals("COMPUTER")) {
 					computerHandler = this;
 				}else if(name.equals("E")) {
 					esHandler = this;
 				}
 				
+				
+				
 				while (!socket.isClosed()) {
 					String temp = input.readLine();
 					
 					if (this.equals(computerHandler)) {
-						sendToEs(temp);
-						
+						if(temp.equals("GETNEXTUSER")) {
+							String sendUser = "USER:" + controller.getNextUser();
+							sendToComp(sendUser);
+						}else {
+							sendToEs(temp);
+						}
 					}else if(this.equals(esHandler)) {
 						sendToComp(temp);
 					}
 							
-//					System.out.println("" + temp);
-//					controller.writeToLog("" + temp);
-//					dos.writeUTF("" + temp);
+
 					output.flush();
 				}
 			} catch (IOException e) {

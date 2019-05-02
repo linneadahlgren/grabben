@@ -8,11 +8,7 @@ import javax.swing.*;
 import javax.swing.plaf.synth.*;
 
 public class ServerUserUI extends JFrame {
-	public static void main(String[] args) {
-		ServerController con = new ServerController();
-		ServerUserUI ui = new ServerUserUI(con);
-	}
-	
+		
 	/**
 	 * 
 	 */
@@ -49,7 +45,8 @@ public class ServerUserUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(addUserBtn == e.getSource()) {
-				System.out.println("lägg till användare");
+				
+				controller.addToQueue(userInput.getText());
 			}
 		}}
 			

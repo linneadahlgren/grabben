@@ -9,6 +9,7 @@ import android.widget.*;
 
 public class MainActivity extends AppCompatActivity {
     private TextView firstText;
+    private TextView userNameText;
     private Button btnTop;
     private Button btnBottom;
     private Button btnRight;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initializeComponents(){
         firstText = (TextView)findViewById(R.id.textTest);
+        userNameText = (TextView)findViewById(R.id.textTest);
         btnTop = (Button) findViewById(R.id.btnTop);
         btnBottom = (Button) findViewById(R.id.btnBottom);
         btnDown = (Button) findViewById(R.id.btnDown);
@@ -46,10 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.e("myinfo", "top pressed");
                     new Sender("UP\n").start();
+                    btnBottom.setEnabled(false);
+                    btnDown.setEnabled(false);
+                    btnLeft.setEnabled(false);
+                    btnRight.setEnabled(false);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "top released");
-                    new Sender("RELEASED\n").start();
+                    sendReleased();
                 }
                 return true;
             }
@@ -61,10 +67,14 @@ public class MainActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.e("myinfo", "down pressed");
                     new Sender("DOWN\n").start();
+                    btnRight.setEnabled(false);
+                    btnTop.setEnabled(false);
+                    btnDown.setEnabled(false);
+                    btnLeft.setEnabled(false);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "Down released");
-                    new Sender("RELEASED\n").start();
+                    sendReleased();
                 }
                 return true;
             }
@@ -75,10 +85,14 @@ public class MainActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.e("myinfo", "left pressed");
                     new Sender("LEFT\n").start();
+                    btnDown.setEnabled(false);
+                    btnBottom.setEnabled(false);
+                    btnTop.setEnabled(false);
+                    btnRight.setEnabled(false);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "left released");
-                    new Sender("RELEASED\n").start();
+                    sendReleased();
                 }
                 return true;
             }
@@ -89,10 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.e("myinfo", "right pressed");
                     new Sender("RIGHT\n").start();
+                    btnTop.setEnabled(false);
+                    btnBottom.setEnabled(false);
+                    btnDown.setEnabled(false);
+                    btnLeft.setEnabled(false);
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "right released");
-                    new Sender("RELEASED\n").start();
+                    sendReleased();
                 }
                 return true;
             }
@@ -102,44 +120,33 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.e("myinfo", "grab pressed");
+                    btnRight.setEnabled(false);
+                    btnLeft.setEnabled(false);
+                    btnBottom.setEnabled(false);
+                    btnTop.setEnabled(false);
                     new Sender("GRAB\n").start();
 
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "grab released");
-                    new Sender("RELEASED\n").start();
+                    sendReleased();
                 }
                 return true;
             }
         });
     }
+    public void sendReleased(){
 
-/*
-    private class ButtonListener implements View.OnClickListener{
-        public void onClick(View v ){
-           if(v.getId() == R.id.btnTop){
+        btnDown.setEnabled(true);
+        btnRight.setEnabled(true);
+        btnLeft.setEnabled(true);
+        btnBottom.setEnabled(true);
+        btnTop.setEnabled(true);
+        new Sender("RELEASED\n").start();
+    }
 
-                firstText.setText("Top");
-                Log.e("myinfo", "top pressed");
-           }else if(v.getId() == R.id.btnBottom){
-               new Sender("DOWN\n").start();
-               firstText.setText("Bottom");
-               Log.e("myinfo", "bottom pressed");
-           }else if(v.getId() == R.id.btnLeft){
-               new Sender("LEFT\n").start();
-               firstText.setText("Left");
-               Log.i("myinfo", "left pressed");
-            }else if(v.getId() == R.id.btnRight){
-               new Sender("RIGHT\n").start();
-               firstText.setText("Right");
-               Log.e("myinfo", "right pressed");
-           }else if(v.getId() == R.id.btnDown){
-               new Sender("GRAB\n").start();
-               firstText.setText("Down");
-               Log.e("myinfo", "down pressed");
-           }
-
-        }
-    }*/
+    public void setUser(String user){
+        userNameText.setText(user);
+    }
     private class Sender extends Thread{
         public String stringToSend;
 
