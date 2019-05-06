@@ -45,8 +45,10 @@ public class ServerUserUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if(addUserBtn == e.getSource()) {
+				String newUser=userInput.getText();
+				controller.addToQueue(newUser);
 				
-				controller.addToQueue(userInput.getText());
+				
 			}
 		}}
 			
