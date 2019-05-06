@@ -5,6 +5,7 @@ int pwmZ=6;
 int enableMotors=A0;
 int xMotor1=7;
 int xMotor2=8;
+
 int yMotor1=9;
 int yMotor2=3;
 //const byte interruptPinX=2;
@@ -18,6 +19,7 @@ int sensorPin0 = A0;
 int sensorPin1 = A1;
 int sensorPin2 = A2;
 int sensorPin3 = A3;
+
 
 
 
@@ -40,6 +42,7 @@ void setup() {
   pinMode (xMotor1, OUTPUT);
   pinMode (xMotor2, OUTPUT);
   analogWrite(pwmXY,150);
+
  // pinMode(interruptPinX,INPUT_PULLUP);
   //attachInterrupt(digitalPinToInetrrupt(interruptPin); 
 
@@ -83,6 +86,7 @@ void sendMsg(String msg) {
    }
 
  void halt (){
+
    analogWrite(pwmXY,200);
    
    digitalWrite(xMotor1,LOW);
@@ -99,6 +103,7 @@ void sendMsg(String msg) {
  void haltY() {
    digitalWrite(yMotor1,LOW);
    digitalWrite(yMotor2,LOW);
+
  }
 
  void forward (){
@@ -115,6 +120,7 @@ void sendMsg(String msg) {
  }
 
  void right (){
+
   analogWrite(pwmXY,200);
   digitalWrite(yMotor1,HIGH);
   digitalWrite(yMotor2,LOW);
@@ -172,6 +178,21 @@ void loop() {
     }
   }
 
+
+  
+}
+void left (){
+  
+}
+void loop() {
+
+  forward();
+  delay(3000);
+
+  backward();
+  delay(3000);
+
+
   
 
  if (client.connected() == true) {
@@ -184,14 +205,14 @@ void loop() {
     if (command == "DOWN") {
     backward();
     }
-      if (command == "LEFT") {
-   left();
+    if (command == "LEFT") {
+    left();
     }
-      if (command == "RIGHT") {
+    if (command == "RIGHT") {
     right();
     }
     if(command=="RELEASE"){
-      halt();
+    halt();
     }
         Serial.println(command);
  }
