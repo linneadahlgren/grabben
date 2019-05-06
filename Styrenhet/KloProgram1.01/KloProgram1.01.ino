@@ -28,7 +28,7 @@ const int fast=200;
 const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,0,5};
+byte serverIp[] = {192,168,0,3};
 int port = 5000;
 int x = 0;
 
@@ -58,12 +58,8 @@ void setup() {
   
   Serial.println(Ethernet.localIP());
 
-
- 
   Serial.println("connecting...");
 
-
-  
 // if you get a connection, report back via serial:
   int temp = client.connect(serverIp, port);
   Serial.println(temp);
@@ -86,9 +82,7 @@ void sendMsg(String msg) {
    }
 
  void halt (){
-
    analogWrite(pwmXY,200);
-   
    digitalWrite(xMotor1,LOW);
    digitalWrite(xMotor2,LOW);
    digitalWrite(yMotor1,LOW);
@@ -159,47 +153,25 @@ void loop() {
   if(voltageX > 1.0 || voltageX < 0.35){
     if(directionX == 0){
       haltY();
-      //delay(200);
     }
     else if(directionX == 1){
       haltY();
-      //delay(200);
     }
   }
 
-    if(voltageY > 1.0 || voltageY < 0.35){
+  if(voltageY > 1.0 || voltageY < 0.35){
     if(directionY == 0){
       haltX();
-      //delay(200);
     }
     else if(directionY == 1){
       haltX();
-      //delay(200);
     }
   }
 
-
-  
-}
-void left (){
-  
-}
-void loop() {
-
-  forward();
-  delay(3000);
-
-  backward();
-  delay(3000);
-
-
-  
-
- if (client.connected() == true) {
+if (client.connected() == true) {
     String command = client.readString();
     
     if (command == "UP") {
-    Serial.print(command);
     forward();
     }
     if (command == "DOWN") {
