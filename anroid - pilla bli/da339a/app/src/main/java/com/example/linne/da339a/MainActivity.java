@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         btnLeft.setEnabled(true);
         btnBottom.setEnabled(true);
         btnTop.setEnabled(true);
-        new Sender("RELEASED\n").start();
+        new Sender("RELEASE\n").start();
     }
 
     public void setUser(String user){
