@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainBody"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/spela"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:enabled="true"
+        android:onClick="launchGame"
+        android:text="@string/button_game"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="180dp"
+        android:text="@string/main_reply"
+
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteY="65dp"
+        tools:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="launchDialgo"
+        android:text="@string/dialog_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spela"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="321dp" />
+
+
+</android.support.constraint.ConstraintLayout>

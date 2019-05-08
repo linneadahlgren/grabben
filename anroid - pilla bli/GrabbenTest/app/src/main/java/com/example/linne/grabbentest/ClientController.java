@@ -1,25 +1,26 @@
-package com.example.linne.da339a;
+package com.example.linne.grabbentest;
 
-import android.os.AsyncTask;
 import android.os.NetworkOnMainThreadException;
-import android.support.v4.app.NotificationCompatSideChannelService;
 import android.util.Log;
-import java.io.IOException;
-import java.net.*;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 
 public class ClientController {
 	private String ip;
-	private int port;
+	private int port = 5000;
 	private Socket socket;
 	private Client client;
 	private ClientThread clientThread;
-	private MainActivity viewer;
+	private Game game;
 
 
-	public ClientController() {
+	public ClientController(String ip) {
 		Log.e("myinfo", "-----------------NEW TEST---------------");
+
+		this.ip = ip;
 
 		if (clientThread == null) {
 			clientThread = new ClientThread();
@@ -28,8 +29,6 @@ public class ClientController {
 
 	}
 	public void connect() {
-		this.ip = "192.168.0.3";
-		this.port = 5000;
 
 		try {
 			Log.e("myinfo", "trying to connect...");
@@ -102,7 +101,8 @@ public class ClientController {
 						if(incoming.equals("EMPTYQUEUE")){
 
 						}else{
-							viewer.setUser(incoming);
+
+							//game.setUser(incoming);
 						}
 						Log.e("myinfo", incoming);
 					} catch (IOException e) {

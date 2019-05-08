@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">GrabbenTest</string>
+    <string name="button_setting">Settings</string>
+    <string name="button_game">Play</string>
+    <string name="main_reply">Reply</string>
+    <string name="left_arrow">&lt;</string>
+    <string name="right_arrow">&gt;</string>
+    <string name="dialog_message">Dialog message</string>
+    <string name="dialog_title">Game Mode</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancelled</string>
+    <string name="gameMode_Classic">Classic</string>
+    <string name="gameMode_Freeplay">Freeplay</string>
+    <string-array name="gameModes">
+        <item>@string/gameMode_Classic</item>
+        <item>@string/gameMode_Freeplay</item>
+
+    </string-array>
+</resources>
