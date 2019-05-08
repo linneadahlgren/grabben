@@ -2,6 +2,7 @@ package com.example.linne.da339a;
 
 import android.os.AsyncTask;
 import android.os.NetworkOnMainThreadException;
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.util.Log;
 import java.io.IOException;
 import java.net.*;
@@ -27,7 +28,7 @@ public class ClientController {
 
 	}
 	public void connect() {
-		this.ip = "10.2.7.110";
+		this.ip = "192.168.0.5";
 		this.port = 5000;
 
 		try {
@@ -52,6 +53,9 @@ public class ClientController {
 	}
 
 	public void send(String instruction) {
+
+
+
 		if (socket != null) {
 			if (client == null) {
 				try {
@@ -63,7 +67,7 @@ public class ClientController {
 				}
 			}
 			try {
-				client.getOutputStream().writeUTF(instruction);
+				client.getOutputStream().write(instruction);
 				Log.e("myinfo", "sent " + instruction);
 				client.getOutputStream().flush();
 
@@ -82,19 +86,25 @@ public class ClientController {
 		public void run() {
 			Log.e("myinfo", "thread");
 			connect();
+
 			client = new Client(socket);
 
 
+			send("COMPUTER\n");
 
-			send("C");
 
 			if (socket != null) {
+
 				while (!socket.isClosed()) {
 					try {
-						String incomingString = "";
-						String incoming = client.getInputStream().readUTF();
-						incomingString += incoming;
-						Log.e("myinfo", incomingString);
+
+						String incoming = client.getInputStream().readLine();
+						if(incoming.equals("EMPTYQUEUE")){
+
+						}else{
+							viewer.setUser(incoming);
+						}
+						Log.e("myinfo", incoming);
 					} catch (IOException e) {
 						e.printStackTrace();
 

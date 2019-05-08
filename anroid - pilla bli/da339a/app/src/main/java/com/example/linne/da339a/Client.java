@@ -1,17 +1,18 @@
 package com.example.linne.da339a;
 
-import java.io.BufferedInputStream;
+import java.io.*;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 public class Client {
 	private Socket socket;
-	private DataOutputStream output;
-	private DataInputStream input;
+	private BufferedWriter output;
+	private BufferedReader input;
 	
 	
 	public Client(Socket socket) {
@@ -19,11 +20,11 @@ public class Client {
 
 	}
 	
-	public DataOutputStream getOutputStream() {
+	public BufferedWriter getOutputStream() {
 		
 		if(output==null && socket!=null) {
 			try {
-				output= new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+				output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			}catch(IOException e) {
 				e.printStackTrace();	
 			}
@@ -31,11 +32,11 @@ public class Client {
 		
 		return output;
 	}
-	public DataInputStream getInputStream() {
+	public BufferedReader getInputStream() {
 		
 		if(input==null && socket != null) {
 			try {
-				input=new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+				input=new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			}catch(IOException e) {
 				e.printStackTrace();
 				
