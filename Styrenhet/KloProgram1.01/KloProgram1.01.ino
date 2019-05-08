@@ -170,6 +170,7 @@ void loop() {
 
 if (client.connected() == true) {
     String command = client.readString();
+    client.setTimeout(10);
     
     if (command == "UP") {
     forward();
