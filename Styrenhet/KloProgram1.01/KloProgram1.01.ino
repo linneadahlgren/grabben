@@ -1,7 +1,8 @@
 #include <SPI.h>
 #include <Ethernet.h>
+#include <Servo.h>
 int pwmXY=5;
-int pwmZ=6;
+//int pwmZ=6;
 int enableMotors=A0;
 int xMotor1=7;
 int xMotor2=8;
@@ -20,8 +21,10 @@ int sensorPin1 = A1;
 int sensorPin2 = A2;
 int sensorPin3 = A3;
 
-
-
+Servo zServo;
+int zServoStop=1500;
+int zServoUp=2000;
+int zServoDown=1000;
 
 //const int halt=0;
 const int fast=200;
@@ -50,6 +53,12 @@ void setup() {
   pinMode(sensorPin1, INPUT);
   pinMode(sensorPin2, INPUT);
   pinMode(sensorPin3, INPUT);
+
+  //Setup Servo 
+zServo.attach(4);
+zServo.writeMicroseconds(1500);
+
+ 
 
   Ethernet.begin(mac);
   Serial.begin(9600);
@@ -126,8 +135,44 @@ void left (){
    digitalWrite(yMotor2,HIGH);
    directionX = 1;
 }
-void loop() {
+void down(){
+  zServo.write(2000);
   
+  
+  
+}
+void up(){
+   zServo.write(1000);
+  
+}
+void zHalt(){
+  zServo.write(1500);
+  
+}
+void grab(){
+  down();
+    delay(3000);
+    zHalt();
+    delay(1000);
+    //closeClaw();
+    up();
+    zHalt();
+}
+
+void loop() {
+  up();
+  delay(3000);
+  zHalt();
+  delay(3000);
+  down();
+  delay(3000);
+  zHalt();
+  delay(3000);
+    
+ 
+
+}
+  void clawProg(){
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
@@ -172,10 +217,10 @@ if (client.connected() == true) {
     String command = client.readString();
     client.setTimeout(10);
     
-    if (command == "UP") {
+    if (command == "FORWARD") {
     forward();
     }
-    if (command == "DOWN") {
+    if (command == "BACK") {
     backward();
     }
     if (command == "LEFT") {
@@ -184,8 +229,25 @@ if (client.connected() == true) {
     if (command == "RIGHT") {
     right();
     }
+    if(command=="UP"){
+      up();
+    }
+    if(command=="DOWN"){
+      down();
+    }
+    if (command=="OPEN"){
+      //openClaw();
+    }
+    if(command=="CLOSE"){
+     // closeClaw();
+    }
+    
+    if (command == "GRAB") {
+      grab();
+   
     if(command=="RELEASE"){
     halt();
+    zHalt();
     }
         Serial.println(command);
  }
@@ -198,3 +260,5 @@ if (client.connected() == true) {
     }
   }
 }
+  }
+  
