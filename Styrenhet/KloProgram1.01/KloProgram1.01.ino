@@ -31,7 +31,7 @@ const int fast=200;
 const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,0,3};
+byte serverIp[] = {192,168,0,2};
 int port = 5000;
 int x = 0;
 
@@ -61,7 +61,6 @@ zServo.writeMicroseconds(1500);
  
 
   Ethernet.begin(mac);
-  Serial.begin(9600);
   Serial.begin(9600);
   delay(1000);
   
@@ -171,8 +170,8 @@ void loop() {
     
  
 
-}
-  void clawProg(){
+//}
+ // void clawProg(){
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
@@ -251,6 +250,7 @@ if (client.connected() == true) {
     }
         Serial.println(command);
  }
+}
   if (!client.connected()) {
     Serial.println();
     Serial.println("disconnecting.");
@@ -260,5 +260,5 @@ if (client.connected() == true) {
     }
   }
 }
-  }
+  
   
