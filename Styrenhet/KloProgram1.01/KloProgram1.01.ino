@@ -1,7 +1,8 @@
 #include <SPI.h>
 #include <Ethernet.h>
+#include<Servo.h>
 int pwmXY=5;
-int pwmZ=6;
+
 int enableMotors=A0;
 int xMotor1=7;
 int xMotor2=8;
@@ -20,8 +21,7 @@ int sensorPin1 = A1;
 int sensorPin2 = A2;
 int sensorPin3 = A3;
 
-
-
+Servo zServo;
 
 //const int halt=0;
 const int fast=200;
@@ -34,6 +34,7 @@ int x = 0;
 
 String identification = "E";
 EthernetClient client;
+
 
 void setup() {
   delay(500);
@@ -51,8 +52,10 @@ void setup() {
   pinMode(sensorPin2, INPUT);
   pinMode(sensorPin3, INPUT);
 
+  zServo.attach(4);
+  zServo.write(1500);
+
   Ethernet.begin(mac);
-  Serial.begin(9600);
   Serial.begin(9600);
   delay(1000);
   
@@ -126,7 +129,26 @@ void left (){
    digitalWrite(yMotor2,HIGH);
    directionX = 1;
 }
+void down(){
+  zServo.write(2000);
+}
+void up(){
+  zServo.write(1000);
+}
+void zHalt(){
+  zServo.write(1500);
+}
+void grab(){
+down();
+delay(3000);
+zHalt();
+delay(1000);
+up();
+delay(3000);
+zHalt();
+}
 void loop() {
+ 
   
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
@@ -186,7 +208,18 @@ if (client.connected() == true) {
     }
     if(command=="RELEASE"){
     halt();
+    zHalt();
     }
+     if(command=="UP"){
+    up();
+    }
+     if(command=="DOWN"){
+    down();
+    }
+     if(command=="GRAB"){
+    grab();
+    }
+    
         Serial.println(command);
  }
   if (!client.connected()) {
