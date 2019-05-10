@@ -8,13 +8,14 @@ public class ServerController {
 	private ServerUserUI userUI;
 	private Queue userQueue;
 	private User[] highScoreList;
-	private User currentUser;
+	private User currentUser=new User();
 	
 	public ServerController() {
-		userUI = new ServerUserUI();
+		userUI = new ServerUserUI(this);
 		userQueue = new Queue();
 		highScoreList=new User[10];
 		readOldHighScore();
+		userUI.setHighscorePanel(highScoreList);
 	}
 	public void showUI(ServerViewer viewer) {
 		this.viewer = viewer;
@@ -34,17 +35,22 @@ public class ServerController {
 	}
 	public void readOldHighScore() {
 		for(int i=0;i<highScoreList.length;i++) {
-			highScoreList[i]=new User();
+			highScoreList[i]=new User("Tove");
 		}
 	}
 	public void compareScore() {
 		if (currentUser!=null) {
-			if(currentUser.getPoints()>=highScoreList[10].getPoints()) {
-				highScoreList[10]=currentUser;
-				Arrays.sort(highScoreList);
+			if(currentUser.getPoints()>=highScoreList[10-1].getPoints()) {
+				highScoreList[10-1]=currentUser;
+				//Arrays.sort(highScoreList);
+				userUI.setHighscorePanel(highScoreList);
 			
 			}
 		}
+	}
+	public void setCurrentUser(String username,int points) {
+		currentUser.setName(username);
+		currentUser.setPoints(points);
 	}
 	
 	
@@ -61,5 +67,7 @@ public class ServerController {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
 		new Server(controller, 5000);
+		controller.setCurrentUser("Pontus",10);
+		controller.compareScore();
 	}
 }

@@ -40,12 +40,12 @@ public class ServerUserUI extends JFrame{
 	//private User currentUser;
 	
 	
-	public ServerUserUI(){
+	public ServerUserUI(ServerController controller){
 		
 		titleFont= createFont("/Users/toverumar/Documents/Fonts/dragonmark/dragonmark.ttf",160f);
 		textFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",100f);
 		smallTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",30f);
-		//this.controller = cont;
+		this.controller = controller;
 		setPreferredSize(new Dimension(1500,800));
 		
 		groundPanel.setPreferredSize(new Dimension(1500,800));
@@ -88,7 +88,6 @@ public class ServerUserUI extends JFrame{
 		titleLabel.setForeground(Color.BLUE);
 		titlePanel.add(titleLabel);
 		
-		setHighscorePanel();
 
 		westPanel.setPreferredSize(new Dimension(300,800));
 		westPanel.setBackground(Color.BLACK);
@@ -116,9 +115,9 @@ public class ServerUserUI extends JFrame{
 		}
 		
 	}
-	public void setHighscorePanel() {
+	public void setHighscorePanel(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
-			scoreLabels[i]=new JLabel("NOONE:0");
+			scoreLabels[i]=new JLabel(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
 			scoreLabels[i].setVerticalAlignment(JLabel.CENTER);
 			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			scoreLabels[i].setMinimumSize(new Dimension(300,50));
@@ -162,12 +161,7 @@ public class ServerUserUI extends JFrame{
 			}
 		}
 	}
-	public static void main(String[]args) {
-		ServerUserUI ui=new ServerUserUI();
-		User user=new User("TOVE",2000);
-		ui.updateHighscore(user,3);
-		
-	}
+	
 			
 	}	
 	
