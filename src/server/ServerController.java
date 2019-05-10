@@ -42,7 +42,7 @@ public class ServerController {
 		if (currentUser!=null) {
 			if(currentUser.getPoints()>=highScoreList[10-1].getPoints()) {
 				highScoreList[10-1]=currentUser;
-				//Arrays.sort(highScoreList);
+				Arrays.sort(highScoreList);
 				userUI.setHighscorePanel(highScoreList);
 			
 			}
