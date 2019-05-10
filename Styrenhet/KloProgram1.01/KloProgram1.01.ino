@@ -159,19 +159,9 @@ void grab(){
 }
 
 void loop() {
-  up();
-  delay(3000);
-  zHalt();
-  delay(3000);
-  down();
-  delay(3000);
-  zHalt();
-  delay(3000);
-    
  
+  
 
-//}
- // void clawProg(){
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
