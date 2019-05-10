@@ -28,7 +28,7 @@ const int fast=200;
 const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,0,3};
+byte serverIp[] = {192,168,0,2};
 int port = 5000;
 int x = 0;
 
@@ -172,10 +172,10 @@ if (client.connected() == true) {
     String command = client.readString();
     client.setTimeout(10);
     
-    if (command == "UP") {
+    if (command == "FORWARD") {
     forward();
     }
-    if (command == "DOWN") {
+    if (command == "BACK") {
     backward();
     }
     if (command == "LEFT") {
