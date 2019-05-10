@@ -40,7 +40,7 @@ public class ServerUserUI extends JFrame{
 	//private User currentUser;
 	
 	
-	public ServerUserUI(){
+	public ServerUserUI(ServerController contoller){
 		
 		titleFont= createFont("/Users/toverumar/Documents/Fonts/dragonmark/dragonmark.ttf",160f);
 		textFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",100f);
@@ -110,8 +110,10 @@ public class ServerUserUI extends JFrame{
 		
 	}
 	
-	public void updateHighscore(User user,int index) {
-		scoreLabels[index].setText(user.getName()+": "+ user.getPoints());
+	public void updateHighscore(User[] highScoreList) {
+		for(int i=0;i<scoreLabels.length;i++) {
+			
+		}
 		
 	}
 	public void setHighscorePanel() {
@@ -160,12 +162,7 @@ public class ServerUserUI extends JFrame{
 			}
 		}
 	}
-	public static void main(String[]args) {
-		ServerUserUI ui=new ServerUserUI();
-		User user=new User("TOVE",2000);
-		ui.updateHighscore(user,3);
-		
-	}
+	
 			
 	}	
 	

@@ -11,7 +11,7 @@ public class ServerController {
 	private User currentUser;
 	
 	public ServerController() {
-		userUI = new ServerUserUI();
+		userUI = new ServerUserUI(this);
 		userQueue = new Queue();
 		highScoreList=new User[10];
 	}
