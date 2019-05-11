@@ -22,6 +22,7 @@ int sensorPin2 = A2;
 int sensorPin3 = A3;
 
 Servo zServo;
+Servo kloServo;
 
 //const int halt=0;
 const int fast=200;
@@ -54,6 +55,8 @@ void setup() {
 
   zServo.attach(4);
   zServo.write(1500);
+  kloServo.attach(6);
+  kloServo.write(40);
 
   Ethernet.begin(mac);
   Serial.begin(9600);
@@ -143,9 +146,19 @@ down();
 delay(3000);
 zHalt();
 delay(1000);
+closeClaw();
 up();
 delay(3000);
+openClaw();
 zHalt();
+}
+void openClaw(){
+  kloServo.write(40);
+  delay(1000);
+}
+void closeClaw(){
+  kloServo.write(110);
+  delay(1000);
 }
 void loop() {
  
@@ -219,7 +232,12 @@ if (client.connected() == true) {
      if(command=="GRAB"){
     grab();
     }
-    
+      if(command=="OPEN"){
+    openClaw();
+    }
+      if(command=="CLOSE"){
+   closeClaw();
+    }
         Serial.println(command);
  }
   if (!client.connected()) {
