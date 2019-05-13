@@ -1,6 +1,6 @@
 package server;
 
-public class User {
+public class User implements Comparable{
 	private String name;
 	private int points;
 	
@@ -12,6 +12,11 @@ public class User {
 	public User(String name) {
 		this.name=name;
 		points=0;
+		
+	}
+	public User(String name,int points) {
+		this.name=name;
+		this.points=points;
 		
 	}
 	public String getName() {
@@ -26,6 +31,21 @@ public class User {
 	public void setPoints(int points) {
 		this.points = points;
 	}
+	
+	public int compareTo(Object o) {
+		
+		//return this.points-((User)o).getPoints();
+		
+		if(this.getPoints()>=((User) o).getPoints())
+			return -1;
+			
+		else 
+			return 1;
+			
+	}
+
+	
+	
 	
 }
 

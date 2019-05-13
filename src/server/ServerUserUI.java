@@ -3,6 +3,8 @@ package server;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,11 +36,14 @@ public class ServerUserUI extends JFrame{
 	private Font textFont;
 	private Font smallTextFont;
 	private JLabel[] scoreLabels= new JLabel[10];
-	//private User[] userList;
+	private JPanel loginPanel=new JPanel();
+	private JButton loginBtn=new JButton("Get in line");
+	private JTextField loginTxt=new JTextField("Please enter a name");
+	private User currentUser;
+	private User nextUser;
 	
 	
-	//private User currentUser;
-	
+
 	
 	public ServerUserUI(ServerController controller){
 		
@@ -46,6 +51,7 @@ public class ServerUserUI extends JFrame{
 		textFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",100f);
 		smallTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",30f);
 		this.controller = controller;
+		
 		setPreferredSize(new Dimension(1500,800));
 		
 		groundPanel.setPreferredSize(new Dimension(1500,800));
@@ -78,6 +84,27 @@ public class ServerUserUI extends JFrame{
 		centerPanel.add(centertextLbl);
 		centerPanel.add(currentPlayerLbl,BorderLayout.SOUTH);
 		
+		loginPanel.setPreferredSize(new Dimension(300,400));
+		loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		loginPanel.setBackground(Color.BLACK);
+		loginPanel.setLayout(new BorderLayout());
+		loginTxt.setPreferredSize(new Dimension(300,100));
+		loginTxt.setBackground(Color.BLACK);
+		loginTxt.setForeground(Color.GREEN);
+		loginTxt.setFont(smallTextFont);
+		loginTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		loginBtn.setPreferredSize(new Dimension(300,100));
+		loginBtn.setFont(smallTextFont);
+		loginPanel.add(loginTxt, BorderLayout.NORTH);
+		loginPanel.add(loginBtn, BorderLayout.SOUTH);
+		loginBtn.addActionListener(new BtnListener());
+		loginTxt.addMouseListener(new MouseAdapter(){
+        
+            public void mouseClicked(MouseEvent e){
+               loginTxt.setText("");
+            }
+        });
+		
 		titlePanel.setPreferredSize(new Dimension(800,200));
 		titlePanel.setBackground(Color.BLACK);
 		titlePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -90,9 +117,11 @@ public class ServerUserUI extends JFrame{
 		
 
 		westPanel.setPreferredSize(new Dimension(300,800));
+		westPanel.setLayout(new BorderLayout());
 		westPanel.setBackground(Color.BLACK);
 		westPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
+		westPanel.add(loginPanel,BorderLayout.SOUTH);
 		centerPanel.add(titlePanel,BorderLayout.NORTH);
 		groundPanel.add(highscorePanel,BorderLayout.EAST);
 		groundPanel.add(centerPanel,BorderLayout.CENTER);
@@ -109,9 +138,17 @@ public class ServerUserUI extends JFrame{
 		
 	}
 	
+	public void updateCurrentUSer(User currentUser) {
+		this.currentUser=currentUser;
+	}
+	
+	public void updateNextPlayer(User nextUser) {
+		this.nextUser=nextUser;
+	}
+	
 	public void updateHighscore(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
-			
+			scoreLabels[i].setText(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
 		}
 		
 	}
@@ -122,7 +159,7 @@ public class ServerUserUI extends JFrame{
 			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			scoreLabels[i].setMinimumSize(new Dimension(300,50));
 			scoreLabels[i].setMaximumSize(new Dimension(300,50));
-			//scoreLabels[i].setBorder(BorderFactory.createLineBorder(Color.GREEN));
+			
 			scoreLabels[i].setFont(smallTextFont);
 			scoreLabels[i].setForeground(Color.GREEN);
 			
@@ -153,14 +190,15 @@ public class ServerUserUI extends JFrame{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			if(addUserBtn == e.getSource()) {
-				String newUser=userInput.getText();
+			
+			if(loginBtn == e.getSource()) {
+				String newUser=loginTxt.getText().toUpperCase();
 				controller.addToQueue(newUser);	
-				
+		
 			}
 		}
 	}
+
 	
 			
 	}	

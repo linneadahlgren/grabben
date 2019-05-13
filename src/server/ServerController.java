@@ -2,6 +2,7 @@ package server;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.concurrent.TimeUnit;
 
 public class ServerController {
 	private ServerViewer viewer;
@@ -15,7 +16,7 @@ public class ServerController {
 		userQueue = new Queue();
 		highScoreList=new User[10];
 		readOldHighScore();
-		userUI.setHighscorePanel(highScoreList);
+		
 	}
 	public void showUI(ServerViewer viewer) {
 		this.viewer = viewer;
@@ -35,22 +36,38 @@ public class ServerController {
 	}
 	public void readOldHighScore() {
 		for(int i=0;i<highScoreList.length;i++) {
-			highScoreList[i]=new User("Tove");
+			highScoreList[i]=new User("NO ONE",10);
 		}
+		
+		userUI.setHighscorePanel(highScoreList);
 	}
 	public void compareScore() {
 		if (currentUser!=null) {
-			if(currentUser.getPoints()>=highScoreList[10-1].getPoints()) {
-				highScoreList[10-1]=currentUser;
-				Arrays.sort(highScoreList);
-				userUI.setHighscorePanel(highScoreList);
 			
+			
+			if(currentUser.getPoints()>=highScoreList[highScoreList.length-1].getPoints()) {
+				
+				highScoreList[9]=currentUser;
+				
+				System.out.println("före sort");
+				for(User user:highScoreList) {
+					System.out.println(user.getPoints()+user.getName());
+					
+				}
+				   Arrays.sort(highScoreList);
+				   
+				   System.out.println("efter sort");
+					for(User user:highScoreList) {
+						System.out.println(user.getPoints()+user.getName());
+				   
+				   userUI.updateHighscore(highScoreList);
+
+				
+				
+				
 			}
+			}							
 		}
-	}
-	public void setCurrentUser(String username,int points) {
-		currentUser.setName(username);
-		currentUser.setPoints(points);
 	}
 	
 	
@@ -62,12 +79,39 @@ public class ServerController {
 		currentUser=new User(userQueue.remove());
 		return currentUser.getName();
 	}
-	
+	/**
+	 * 
+	 * 
+	 * Messages below are stubs for testing
+	 */
+	public void add(User user) {
+		userQueue.add(user.getName());
+	}
+	public void setScore(int points) {
+		currentUser.setPoints(points);
+	}
+	public void setCurrentUser(String username,int points) {
+		currentUser.setName(username);
+		currentUser.setPoints(points);
+	}
 	public static void main(String[] args) {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
-		new Server(controller, 5000);
-		controller.setCurrentUser("Pontus",10);
+		//new Server(controller, 5000);
+		controller.setCurrentUser("Pontus",70);
+		
 		controller.compareScore();
+		
+		controller.add(new User("Tove"));
+		controller.add(new User("Linnea"));
+		controller.getNextUser();
+		controller.setScore(50);
+		controller.compareScore();
+		controller.getNextUser();
+		controller.setScore(50);
+		controller.compareScore();
+	
+	
+		
 	}
 }
