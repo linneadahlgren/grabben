@@ -122,7 +122,7 @@ public class ServerUserUI extends JFrame{
 			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
 			scoreLabels[i].setMinimumSize(new Dimension(300,50));
 			scoreLabels[i].setMaximumSize(new Dimension(300,50));
-			scoreLabels[i].setBorder(BorderFactory.createLineBorder(Color.GREEN));
+			//scoreLabels[i].setBorder(BorderFactory.createLineBorder(Color.GREEN));
 			scoreLabels[i].setFont(smallTextFont);
 			scoreLabels[i].setForeground(Color.GREEN);
 			
