@@ -10,6 +10,8 @@ public class ServerController {
 	private Queue userQueue;
 	private User[] highScoreList;
 	private User currentUser=new User();
+	private User nextUser=new User();
+
 	
 	public ServerController() {
 		userUI = new ServerUserUI(this);
@@ -60,15 +62,11 @@ public class ServerController {
 					for(User user:highScoreList) {
 						System.out.println(user.getPoints()+user.getName());
 				   
-				   userUI.updateHighscore(highScoreList);
-
-				
-				
-				
+				   userUI.updateHighscore(highScoreList);	
+					}
+				}							
 			}
-			}							
 		}
-	}
 	
 	
 	/**
@@ -77,7 +75,18 @@ public class ServerController {
 	 */
 	public String getNextUser() {
 		currentUser=new User(userQueue.remove());
+		
+		userUI.updateCurrentUSer(currentUser);
+		setNextUser();
+		
 		return currentUser.getName();
+	}
+	public String setNextUser() {
+		nextUser=new User(userQueue.element());
+		
+		userUI.updateNextUser(nextUser);
+		
+		return nextUser.getName();
 	}
 	/**
 	 * 
@@ -94,22 +103,25 @@ public class ServerController {
 		currentUser.setName(username);
 		currentUser.setPoints(points);
 	}
+	
+	
+
+			
+		
 	public static void main(String[] args) {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
 		//new Server(controller, 5000);
-		controller.setCurrentUser("Pontus",70);
+		//controller.setCurrentUser("Pontus",70);
 		
-		controller.compareScore();
+		//controller.compareScore();
 		
-		controller.add(new User("Tove"));
+		controller.add(new User("Ludvig"));
 		controller.add(new User("Linnea"));
 		controller.getNextUser();
-		controller.setScore(50);
-		controller.compareScore();
-		controller.getNextUser();
-		controller.setScore(50);
-		controller.compareScore();
+		
+		
+		
 	
 	
 		

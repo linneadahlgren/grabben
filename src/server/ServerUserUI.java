@@ -20,8 +20,8 @@ public class ServerUserUI extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton addUserBtn = new JButton("put user");
-	private JTextField 	userInput = new JTextField();
+	
+	
 	private ServerController controller;
 	private JPanel  groundPanel= new JPanel();
 	private JPanel titlePanel=new JPanel();
@@ -30,17 +30,22 @@ public class ServerUserUI extends JFrame{
 	private JPanel westPanel=new JPanel();
 	private JLabel titleLabel=new JLabel();
 	private JLabel centertextLbl=new JLabel();
-	private JLabel currentPlayerLbl=new JLabel("No one is playing");
-	private JLabel nextPlayerLbl=new JLabel();
+	private JLabel nexPlayerLbl=new JLabel("NO ONE IS PLAYING");
+	
 	private Font titleFont;
 	private Font textFont;
 	private Font smallTextFont;
 	private JLabel[] scoreLabels= new JLabel[10];
 	private JPanel loginPanel=new JPanel();
-	private JButton loginBtn=new JButton("Get in line");
-	private JTextField loginTxt=new JTextField("Please enter a name");
+	private JButton loginBtn=new JButton("GET IN LINE");
+	private JLabel loginLbl=new JLabel("ENTER YOUR NAME");
+	private JTextField loginTxt=new JTextField();
 	private User currentUser;
-	private User nextUser;
+	private User nextUser=new User();
+	private Color lightBlue=new Color(51,204,255);
+	private Color purple=new Color(102,0,153);
+	private Color pink=new Color(255,20,147);
+	
 	
 	
 
@@ -60,66 +65,74 @@ public class ServerUserUI extends JFrame{
 		
 		highscorePanel.setPreferredSize(new Dimension(300,800));
 		highscorePanel.setBackground(Color.BLACK);
-		highscorePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+		highscorePanel.setForeground(pink);
+		highscorePanel.setBorder(BorderFactory.createLineBorder(pink));
 		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
 		
 		centerPanel.setPreferredSize(new Dimension(200,200));
 		centerPanel.setBackground(Color.BLACK);
 		centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		centerPanel.setLayout(new BorderLayout());
-		centertextLbl.setForeground(Color.CYAN);
+		centertextLbl.setBackground(Color.BLACK);
+		centertextLbl.setForeground(lightBlue);
 		centertextLbl.setPreferredSize(new Dimension(400,400));
-		centertextLbl.setText("<html>CURRENT PLAYER<br>Tove</html>");
+		centertextLbl.setText("<html>CURRENT PLAYER<br>NO ONE</html>");
 		centertextLbl.setFont(textFont);
 		centertextLbl.setVerticalAlignment(JLabel.CENTER);
 		centertextLbl.setHorizontalAlignment(JLabel.CENTER);
 		
-		centertextLbl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		currentPlayerLbl.setText("Next Player:");
-		currentPlayerLbl.setFont(textFont);
-		currentPlayerLbl.setForeground(Color.GREEN);
-		currentPlayerLbl.setPreferredSize(new Dimension(400,200));
-		currentPlayerLbl.setVerticalAlignment(JLabel.CENTER);
-		currentPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
+		centertextLbl.setBorder(BorderFactory.createLineBorder(lightBlue));
+		nexPlayerLbl.setText("Next Player:");
+		nexPlayerLbl.setFont(textFont);
+		nexPlayerLbl.setBackground(Color.BLACK);
+		nexPlayerLbl.setForeground(purple);
+		nexPlayerLbl.setPreferredSize(new Dimension(400,200));
+		nexPlayerLbl.setVerticalAlignment(JLabel.CENTER);
+		nexPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
 		centerPanel.add(centertextLbl);
-		centerPanel.add(currentPlayerLbl,BorderLayout.SOUTH);
+		centerPanel.add(nexPlayerLbl,BorderLayout.SOUTH);
 		
 		loginPanel.setPreferredSize(new Dimension(300,400));
-		loginPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		loginPanel.setBorder(BorderFactory.createLineBorder(pink));
 		loginPanel.setBackground(Color.BLACK);
 		loginPanel.setLayout(new BorderLayout());
-		loginTxt.setPreferredSize(new Dimension(300,100));
+		loginLbl.setPreferredSize(new Dimension(300,100));
+		loginLbl.setBackground(Color.BLACK);
+		loginLbl.setFont(smallTextFont);
+		loginLbl.setForeground(purple);
+		loginLbl.setHorizontalAlignment(JLabel.CENTER);
+		loginTxt.setPreferredSize(new Dimension(250,100));
 		loginTxt.setBackground(Color.BLACK);
-		loginTxt.setForeground(Color.GREEN);
+		loginTxt.setForeground(pink);
 		loginTxt.setFont(smallTextFont);
+		loginTxt.setCaretColor(pink);
+		loginTxt.setHorizontalAlignment(JLabel.CENTER);
+		
 		loginTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		loginBtn.setPreferredSize(new Dimension(300,100));
+		
 		loginBtn.setFont(smallTextFont);
-		loginPanel.add(loginTxt, BorderLayout.NORTH);
+		loginPanel.add(loginLbl,BorderLayout.NORTH);
+		loginPanel.add(loginTxt, BorderLayout.CENTER);
+		
 		loginPanel.add(loginBtn, BorderLayout.SOUTH);
 		loginBtn.addActionListener(new BtnListener());
-		loginTxt.addMouseListener(new MouseAdapter(){
-        
-            public void mouseClicked(MouseEvent e){
-               loginTxt.setText("");
-            }
-        });
 		
 		titlePanel.setPreferredSize(new Dimension(800,200));
 		titlePanel.setBackground(Color.BLACK);
-		titlePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		titlePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
 		
 		titleLabel.setText("CLAW");
 		
 		titleLabel.setFont(titleFont);
-		titleLabel.setForeground(Color.BLUE);
+		titleLabel.setForeground(lightBlue);
 		titlePanel.add(titleLabel);
 		
 
 		westPanel.setPreferredSize(new Dimension(300,800));
 		westPanel.setLayout(new BorderLayout());
 		westPanel.setBackground(Color.BLACK);
-		westPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+		westPanel.setBorder(BorderFactory.createLineBorder(pink));
 		
 		westPanel.add(loginPanel,BorderLayout.SOUTH);
 		centerPanel.add(titlePanel,BorderLayout.NORTH);
@@ -129,21 +142,29 @@ public class ServerUserUI extends JFrame{
 		
 		add(groundPanel);
 		
-		
-		
+		new BlinkThread().start();
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
 		
+	
+		
+		
 	}
 	
 	public void updateCurrentUSer(User currentUser) {
 		this.currentUser=currentUser;
+		
+		centertextLbl.setText("<html>CURRENT PLAYER<br>"+currentUser.getName()+"</html>");
 	}
 	
-	public void updateNextPlayer(User nextUser) {
+	public void updateNextUser(User nextUser) {
+		
 		this.nextUser=nextUser;
+		
+		
+		
 	}
 	
 	public void updateHighscore(User[] highScoreList) {
@@ -157,12 +178,10 @@ public class ServerUserUI extends JFrame{
 			scoreLabels[i]=new JLabel(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
 			scoreLabels[i].setVerticalAlignment(JLabel.CENTER);
 			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
-			scoreLabels[i].setMinimumSize(new Dimension(300,50));
-			scoreLabels[i].setMaximumSize(new Dimension(300,50));
-			
+			scoreLabels[i].setMinimumSize(new Dimension(300,100));
+			scoreLabels[i].setMaximumSize(new Dimension(300,100));
 			scoreLabels[i].setFont(smallTextFont);
-			scoreLabels[i].setForeground(Color.GREEN);
-			
+			scoreLabels[i].setForeground(pink);
 			highscorePanel.add(scoreLabels[i]);
 			
 		}
@@ -194,12 +213,34 @@ public class ServerUserUI extends JFrame{
 			if(loginBtn == e.getSource()) {
 				String newUser=loginTxt.getText().toUpperCase();
 				controller.addToQueue(newUser);	
+				
 		
 			}
 		}
 	}
-
-	
+	private class BlinkThread extends Thread{
+		public void run() {
+			while(true) {
+				nexPlayerLbl.setText(nextUser.getName());
+			repaint();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			nexPlayerLbl.setText("NEXT PLAYER: ");
+			repaint();
 			
-	}	
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
+		}
+	}
+	}
+
 	
