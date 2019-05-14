@@ -38,7 +38,7 @@ public class ServerController {
 	}
 	public void readOldHighScore() {
 		for(int i=0;i<highScoreList.length;i++) {
-			highScoreList[i]=new User("NO ONE",10);
+			highScoreList[i]=new User("NO ONE",0);
 		}
 		
 		userUI.setHighscorePanel(highScoreList);
