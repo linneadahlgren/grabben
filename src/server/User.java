@@ -1,11 +1,13 @@
 package server;
 
-public class User implements Comparable{
+import java.io.Serializable;
+
+public class User implements Comparable, Serializable{
 	private String name;
 	private int points;
 	
 	public User() {
-		name="NO NAME";
+		name="NO ONE";
 		points=0;
 		
 	}

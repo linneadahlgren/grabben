@@ -3,8 +3,12 @@ package server;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,9 +17,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.synth.*;
+import javax.swing.text.DocumentFilter;
+
 import javafx.*;
 
-public class ServerUserUI extends JFrame{
+public class ServerUserUI extends JFrame implements WindowListener{
 		
 	/**
 	 * 
@@ -63,6 +69,11 @@ public class ServerUserUI extends JFrame{
 		
 		setPreferredSize(new Dimension(1500,800));
 		
+
+	       
+
+	  
+		
 		groundPanel.setPreferredSize(new Dimension(1500,800));
 		groundPanel.setBackground(Color.BLACK);
 		groundPanel.setLayout(new BorderLayout());
@@ -88,10 +99,11 @@ public class ServerUserUI extends JFrame{
 		centertextLbl.setBackground(Color.BLACK);
 		centertextLbl.setForeground(lightBlue);
 		centertextLbl.setPreferredSize(new Dimension(400,400));
-		centertextLbl.setText("<html>NOW PLAYING:<br>NO ONE</html>");
+		centertextLbl.setText("<html>NOW PLAYING:<br><center>NO ONE</html>");
 		centertextLbl.setFont(textFont);
 		centertextLbl.setVerticalAlignment(JLabel.CENTER);
 		centertextLbl.setHorizontalAlignment(JLabel.CENTER);
+		
 		
 		//centertextLbl.setBorder(BorderFactory.createLineBorder(lightBlue));
 		nexPlayerLbl.setText("Next Player:");
@@ -105,7 +117,7 @@ public class ServerUserUI extends JFrame{
 		centerPanel.add(nexPlayerLbl,BorderLayout.SOUTH);
 		
 		loginPanel.setPreferredSize(new Dimension(300,400));
-		//loginPanel.setBorder(BorderFactory.createLineBorder(pink));
+		
 		loginPanel.setBackground(Color.BLACK);
 		loginPanel.setLayout(new BorderLayout());
 		loginLbl.setPreferredSize(new Dimension(300,100));
@@ -120,6 +132,13 @@ public class ServerUserUI extends JFrame{
 		loginTxt.setFont(smallTextFont);
 		loginTxt.setCaretColor(pink);
 		loginTxt.setHorizontalAlignment(JLabel.CENTER);
+		loginTxt .addKeyListener(new KeyAdapter() {
+	        
+	        public void keyTyped(KeyEvent e) {
+	            if (loginTxt.getText().length() >= 15 ) // limit to 3 characters
+	                e.consume();
+	        }
+	    });
 		
 		//loginTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		loginBtn.setPreferredSize(new Dimension(300,100));
@@ -177,7 +196,8 @@ public class ServerUserUI extends JFrame{
 		
 		new BlinkThread().start();
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		addWindowListener(this);
 		pack();
 		setVisible(true);
 		
@@ -189,7 +209,7 @@ public class ServerUserUI extends JFrame{
 	public void updateCurrentUSer(User currentUser) {
 		this.currentUser=currentUser;
 		
-		centertextLbl.setText("<html>NOW PLAYING<br>"+currentUser.getName()+"</html>");
+		centertextLbl.setText("<html>NOW PLAYING<br><center>"+currentUser.getName()+"</html>");
 	}
 	
 	public void updateNextUser(User nextUser) {
@@ -218,6 +238,11 @@ public class ServerUserUI extends JFrame{
 			highscorePanel.add(scoreLabels[i]);
 			
 		}
+	}
+	
+	public void shutDown() {
+		System.out.println("shutDown");
+		controller.saveHighScore();
 	}
 	public Font createFont(String filename,float size) {
 		Font customFont=null;
@@ -279,6 +304,48 @@ public class ServerUserUI extends JFrame{
 				
 			}
 		}
+	}
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		System.out.println("window closing");
+		shutDown();
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	}
 
