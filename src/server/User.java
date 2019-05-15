@@ -1,6 +1,6 @@
 package server;
 
-public class User {
+
 
 import java.io.Serializable;
 
@@ -19,12 +19,7 @@ public class User implements Comparable, Serializable{
 		this.name=name;
 		points=0; 
 
-		
-	}
-	public User(String name) {
-		this.name=name;
-		points=0;
-		
+				
 
 	}
 	public User(String name,int points) {
@@ -48,7 +43,7 @@ public class User implements Comparable, Serializable{
 
 	
 	
-}
+
 
 	
 	public int compareTo(Object o) {
