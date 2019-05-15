@@ -66,8 +66,8 @@ public class ServerController {
 				   Arrays.sort(highScoreList);
 				   
 				   userUI.updateHighscore(highScoreList);	
-					}
-				}							
+			}
+	}							
 			
 		
 	
@@ -181,7 +181,7 @@ public class ServerController {
 	public static void main(String[] args) {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
-		new Server(controller, 5000);
+		//new Server(controller, 5000);
 		
 		
 	
