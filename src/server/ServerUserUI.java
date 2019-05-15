@@ -19,9 +19,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.synth.*;
-import javafx.*;
 
- javax.swing.border.BevelBorder;
+
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.synth.*;
@@ -51,18 +51,15 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JLabel titleLabel=new JLabel();
 	private JLabel centertextLbl=new JLabel();
 
-	private JLabel currentPlayerLbl=new JLabel("No one is playing");
-	private JLabel nextPlayerLbl=new JLabel();
-	private Font titleFont;
-	private Font textFont;
-	private Font smallTextFont;
-	private JLabel[] scoreLabels= new JLabel[10];
+//	private JLabel currentPlayerLbl=new JLabel("No one is playing");
+//	private JLabel nextPlayerLbl=new JLabel();
+//	private Font titleFont;
+//	private Font textFont;
+//	private Font smallTextFont;
+//	private JLabel[] scoreLabels= new JLabel[10];
 	
-	
-	
-	public ServerUserUI(ServerController contoller){
 
-	private JLabel nexPlayerLbl=new JLabel("NO ONE IS PLAYING");
+	private JLabel nextPlayerLbl=new JLabel("NO ONE IS PLAYING");
 	
 	private Font titleFont;
 	private Font textFont;
@@ -99,12 +96,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		this.controller = controller;
 		
 		setPreferredSize(new Dimension(1500,800));
-		
-
-	       
-
-	  
-		
+	
 
 		groundPanel.setPreferredSize(new Dimension(1500,800));
 		groundPanel.setBackground(Color.BLACK);
@@ -113,16 +105,16 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		highscorePanel.setPreferredSize(new Dimension(300,800));
 		highscorePanel.setBackground(Color.BLACK);
 
-		highscorePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
+//		highscorePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+//		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
 		
-		centerPanel.setPreferredSize(new Dimension(200,200));
-		centerPanel.setBackground(Color.BLACK);
-		centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		centerPanel.setLayout(new BorderLayout());
-		centertextLbl.setForeground(Color.CYAN);
-		centertextLbl.setPreferredSize(new Dimension(400,400));
-		centertextLbl.setText("<html>CURRENT PLAYER<br>Tove</html>");
+//		centerPanel.setPreferredSize(new Dimension(200,200));
+//		centerPanel.setBackground(Color.BLACK);
+//		centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+//		centerPanel.setLayout(new BorderLayout());
+//		centertextLbl.setForeground(Color.CYAN);
+//		centertextLbl.setPreferredSize(new Dimension(400,400));
+//		centertextLbl.setText("<html>CURRENT PLAYER<br>Tove</html>");
 
 		highscorePanel.setForeground(pink);
 		//highscorePanel.setBorder(BorderFactory.createLineBorder(pink));
@@ -150,31 +142,31 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		centertextLbl.setHorizontalAlignment(JLabel.CENTER);
 		
 
-		centertextLbl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		currentPlayerLbl.setText("Next Player:");
-		currentPlayerLbl.setFont(textFont);
-		currentPlayerLbl.setForeground(Color.GREEN);
-		currentPlayerLbl.setPreferredSize(new Dimension(400,200));
-		currentPlayerLbl.setVerticalAlignment(JLabel.CENTER);
-		currentPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
-		centerPanel.add(centertextLbl);
-		centerPanel.add(currentPlayerLbl,BorderLayout.SOUTH);
+//		centertextLbl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+//		currentPlayerLbl.setText("Next Player:");
+//		currentPlayerLbl.setFont(textFont);
+//		currentPlayerLbl.setForeground(Color.GREEN);
+//		currentPlayerLbl.setPreferredSize(new Dimension(400,200));
+//		currentPlayerLbl.setVerticalAlignment(JLabel.CENTER);
+//		currentPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
+//		centerPanel.add(centertextLbl);
+//		centerPanel.add(currentPlayerLbl,BorderLayout.SOUTH);
 		
-		titlePanel.setPreferredSize(new Dimension(800,200));
-		titlePanel.setBackground(Color.BLACK);
-		titlePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+//		titlePanel.setPreferredSize(new Dimension(800,200));
+//		titlePanel.setBackground(Color.BLACK);
+//		titlePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+//		
+//		titleLabel.setText("CLAW");
+//		
+//		titleLabel.setFont(titleFont);
+//		titleLabel.setForeground(Color.BLUE);
+//		titlePanel.add(titleLabel);
 		
-		titleLabel.setText("CLAW");
-		
-		titleLabel.setFont(titleFont);
-		titleLabel.setForeground(Color.BLUE);
-		titlePanel.add(titleLabel);
-		
-		setHighscorePanel();
+//		setHighscorePanel();
 
-		westPanel.setPreferredSize(new Dimension(300,800));
-		westPanel.setBackground(Color.BLACK);
-		westPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
+//		westPanel.setPreferredSize(new Dimension(300,800));
+//		westPanel.setBackground(Color.BLACK);
+//		westPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		centerPanel.add(titlePanel,BorderLayout.NORTH);
 		groundPanel.add(highscorePanel,BorderLayout.EAST);
@@ -183,20 +175,16 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		add(groundPanel);
 		
-		
-		
-
-		
 		//centertextLbl.setBorder(BorderFactory.createLineBorder(lightBlue));
-		nexPlayerLbl.setText("Next Player:");
-		nexPlayerLbl.setFont(textFont);
-		nexPlayerLbl.setBackground(Color.BLACK);
-		nexPlayerLbl.setForeground(purple);
-		nexPlayerLbl.setPreferredSize(new Dimension(400,200));
-		nexPlayerLbl.setVerticalAlignment(JLabel.CENTER);
-		nexPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
+		nextPlayerLbl.setText("Next Player:");
+		nextPlayerLbl.setFont(textFont);
+		nextPlayerLbl.setBackground(Color.BLACK);
+		nextPlayerLbl.setForeground(purple);
+		nextPlayerLbl.setPreferredSize(new Dimension(400,200));
+		nextPlayerLbl.setVerticalAlignment(JLabel.CENTER);
+		nextPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
 		centerPanel.add(centertextLbl);
-		centerPanel.add(nexPlayerLbl,BorderLayout.SOUTH);
+		centerPanel.add(nextPlayerLbl,BorderLayout.SOUTH);
 		
 		loginPanel.setPreferredSize(new Dimension(300,400));
 		
@@ -225,7 +213,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		//loginTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		loginBtn.setPreferredSize(new Dimension(300,100));
 		loginBtn.setForeground(purple);
-		loginBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY,Color.BLACK));
+		//loginBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY,Color.BLACK));
 		
 		loginBtn.setFont(smallTextFont);
 		loginPanel.add(loginLbl,BorderLayout.NORTH);
@@ -327,32 +315,10 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		System.out.println("shutDown");
 		controller.saveHighScore();
 	}
-	public Font createFont(String filename,float size) {
-		Font customFont=null;
-		try {
-		   
-		    customFont = Font.createFont(Font.TRUETYPE_FONT, new File(filename)).deriveFont(size);
-		    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		    
-		    ge.registerFont(customFont);
-		    
-		    
-		} catch (IOException e) {
-		    e.printStackTrace();
-		} catch(FontFormatException e) {
-		    e.printStackTrace();
-		}
 
-		return customFont;
-	}
 	
-
-	public void updateHighscore(User[] highScoreList) {
-		for(int i=0;i<scoreLabels.length;i++) {
-			
-		}
 		
-	}
+	
 	public void setHighscorePanel() {
 		for(int i=0;i<scoreLabels.length;i++) {
 			scoreLabels[i]=new JLabel("NOONE:0");
@@ -395,9 +361,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		public void actionPerformed(ActionEvent e) {
 
 			// TODO Auto-generated method stub
-			if(addUserBtn == e.getSource()) {
-				String newUser=userInput.getText();
-				controller.addToQueue(newUser);	
+				
 		
 			if(loginBtn == e.getSource()) {
 				String newUser=loginTxt.getText().toUpperCase();
@@ -415,7 +379,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private class BlinkThread extends Thread{
 		public void run() {
 			while(true) {
-				nexPlayerLbl.setText(nextUser.getName());
+				nextPlayerLbl.setText(nextUser.getName());
 			repaint();
 			try {
 				Thread.sleep(1000);
@@ -423,7 +387,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			nexPlayerLbl.setText("NEXT PLAYER: ");
+			nextPlayerLbl.setText("NEXT PLAYER: ");
 			repaint();
 
 			
