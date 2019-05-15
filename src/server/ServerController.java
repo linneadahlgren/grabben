@@ -10,8 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
+
 
 
 
@@ -30,6 +29,7 @@ public class ServerController {
 		highScoreList=new User[]{new User(),new User(),new User(),new User(),new User(),new User(),new User(),new User(),new User(),new User()};
 		userUI.setHighscorePanel(highScoreList);
 		readOldHighScore();
+		
 		
 	}
 	public void showUI(ServerViewer viewer) {
@@ -112,6 +112,14 @@ public class ServerController {
 		currentUser.setName(username);
 		currentUser.setPoints(points);
 	}
+	public void emptyHighScore() {
+		for(int i=0;i<highScoreList.length;i++) {
+			highScoreList[i]=new User();
+			
+		}
+		userUI.updateHighscore(highScoreList);	
+
+	}
 	
 	
 
@@ -158,6 +166,7 @@ public class ServerController {
 				}
 				input.close();
 				userUI.updateHighscore(highScoreList);	
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -172,19 +181,20 @@ public class ServerController {
 	public static void main(String[] args) {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
-		//new Server(controller, 5000);
-		//controller.setCurrentUser("Pontus",70);
+		new Server(controller, 5000);
+		
 		
 	
 		
-		controller.add(new User("LUDVIG"));
-		controller.add(new User("LINNEA"));
-		controller.add(new User("LUDVIG"));
-		controller.add(new User("LINNEA"));
-		controller.add(new User("LUDVIG"));
-		controller.add(new User("LINNEA"));
-		controller.add(new User("LUDVIG"));
-		controller.add(new User("LINNEA"));
+//		controller.add(new User("LUDVIG"));
+//		controller.add(new User("LINNEA"));
+//		controller.add(new User("LUDVIG"));
+//		controller.add(new User("LINNEA"));
+//		controller.add(new User("LUDVIG"));
+//		controller.add(new User("LINNEA"));
+//		controller.add(new User("LUDVIG"));
+//		controller.add(new User("LINNEA"));
+//		controller.emptyHighScore();
 //		controller.getNextUser();
 //		controller.setScore(50);
 //		controller.compareScore();
