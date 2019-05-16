@@ -12,10 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class GameFreeMode extends AppCompatActivity {
+public class GameFreeMode extends AppCompatActivity implements UpdateUser{
+    public static final String EXTRA_MESSAGE = "com.example.android.twoactivities.extra.MESSAGE";
 
     private TextView firstText;
     private TextView userNameText;
@@ -27,7 +25,13 @@ public class GameFreeMode extends AppCompatActivity {
     private Button btnUp;
     private Button btnGrab;
     private ClientController client;
-    private String activeUser = "-1";
+    private String active_User;
+    public static final int TEXT_REQUEST = 1;
+    private CountDownTimer countdown;
+    private String claw_state;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,30 +40,14 @@ public class GameFreeMode extends AppCompatActivity {
         registerListeners();
         Intent intent = getIntent();
         String ip = intent.getStringExtra("ip");
-        String mode = intent.getStringExtra("mode");
+        claw_state = "OPEN";
+
+        String temp = intent.getStringExtra("active_User");
+        Log.e("myinfo", "tog emot användarnamn : " + temp + " från mainActivity" );
+        client = new ClientController(ip, this, temp);
 
 
 
-        /*if(mode.equals("Classic")){
-            intializeClassicComponents();
-            registerClassicComponenets();
-        }else{
-            initializeComponents();
-            registerListeners();
-            time();
-
-        }*/
-
-
-
-        Log.e("myinfo", ip);
-        client = new ClientController(ip);
-
-
-
-        client.send("GETNEXTUSER");
-
-        time();
 
     }
 
@@ -69,7 +57,7 @@ public class GameFreeMode extends AppCompatActivity {
         Log.e("myinfo", "ny timer");
 
 
-        new CountDownTimer(30000, 1000) {
+        countdown = new CountDownTimer(6000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -90,14 +78,37 @@ public class GameFreeMode extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.e("myinfo", "on stop");
+        if(countdown != null) {
+            countdown.cancel();
+            Log.e("myinfo", "countdown cancel");
+        }
+
+
+    }
     public void setActiveUser(String user){
-        activeUser = user;
+        active_User = user;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                userNameText.setText(active_User);
+
+                Log.e("myinfo", active_User);
+            }
+        });
     }
 
+    public void noUser(){
+        Intent intent = new Intent(this, launchNewUser.class);
+        startActivityForResult(intent, TEXT_REQUEST);
+    }
 
     private void initializeComponents(){
         firstText = (TextView)findViewById(R.id.textTest);
-        userNameText = (TextView)findViewById(R.id.textTest);
+        userNameText = (TextView)findViewById(R.id.user_textview);
         btnForward = (Button) findViewById(R.id.btnForward);
         btnBack = (Button) this.findViewById(R.id.btnBack);
         btnDown = (Button) this.findViewById(R.id.btnDown);
@@ -105,6 +116,8 @@ public class GameFreeMode extends AppCompatActivity {
         btnLeft = (Button) this.findViewById(R.id.btnLeft);
         btnGrab = (Button) findViewById((R.id.btnGrab));
         btnUp = (Button) findViewById(R.id.btnUp);
+
+
     }
 
     private void registerListeners(){
@@ -205,15 +218,21 @@ public class GameFreeMode extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.e("myinfo", "grab pressed");
+                    Log.e("myinfo", " pressed");
                     disableButtons(btnGrab);
 
-                    new GameFreeMode.Sender("GRAB\n").start();
-
+                    if(claw_state.equals("OPEN")) {
+                        new GameFreeMode.Sender("CLOSE\n").start();
+                        claw_state = "CLOSED";
+                    }else{
+                        new GameFreeMode.Sender("OPEN\n").start();
+                        claw_state = "OPEN";
+                    }
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "grab released");
                     sendReleased();
                 }
+                Log.e("myinfo", "claw state:" + claw_state);
                 return true;
             }
         });
@@ -306,14 +325,30 @@ public class GameFreeMode extends AppCompatActivity {
         new GameFreeMode.Sender("RELEASE\n").start();
     }
 
-    public void setUser(String user){
-        userNameText.setText(user);
-    }
 
     public void setController(ClientController cc){
         client = cc;
 
     }
+
+    @Override
+    public void newUser(String user) {
+        active_User = user;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                userNameText.setText(active_User);
+
+                Log.e("myinfo", "new active user: " + active_User);
+                time();
+
+
+            }
+        });
+
+
+    }
+
     private class Sender extends Thread{
         public String stringToSend;
 
@@ -329,27 +364,54 @@ public class GameFreeMode extends AppCompatActivity {
     }
 
     private void alertDialogLoadFile(){
+        sendReleased();
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Game Over");
+        alert.setCancelable(false);
+        disableButtons();
 
-
-        alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+
+
+                Intent replyIntent = new Intent();
+                replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
+                Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);
+                setResult(RESULT_OK, replyIntent);
+
                 finish();
             }
         });
 
-        alert.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("Next Player", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+                Intent replyIntent = new Intent();
+                replyIntent.putExtra(EXTRA_MESSAGE, "-1");
+                setResult(RESULT_OK, replyIntent);
                 finish();
             }
         });
 
         AlertDialog ad = alert.create();
         ad.show();
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(resultCode == RESULT_CANCELED){
+            disableButtons();
+        }
+        if(requestCode == TEXT_REQUEST){
+            if(resultCode == RESULT_OK){
+                String result = data.getStringExtra(launchNewUser.EXTRA_REPLY);
+                newUser(result);
+                client.send("NEWUSER:"+ result + "\n");
+            }
+        }
 
     }
 }

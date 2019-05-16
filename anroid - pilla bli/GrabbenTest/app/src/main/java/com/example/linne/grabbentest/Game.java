@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Game extends AppCompatActivity {
+public class Game extends AppCompatActivity implements UpdateUser{
+    public static final String EXTRA_MESSAGE = "com.example.android.twoactivities.extra.MESSAGE";
 
     private TextView firstText;
     private TextView userNameText;
@@ -19,7 +20,9 @@ public class Game extends AppCompatActivity {
     private Button btnLeft;
     private Button btnGrab;
     private ClientController client;
+    public static final int TEXT_REQUEST = 1;
 
+    private String active_User = "-1";
 
 
     @Override
@@ -32,12 +35,16 @@ public class Game extends AppCompatActivity {
         Intent intent = getIntent();
         String ip = intent.getStringExtra("ip");
         Log.e("myinfo", ip);
-        client = new ClientController(ip);
+
+        String temp = intent.getStringExtra("active_User");
+        active_User = temp;
+        client = new ClientController(ip, this,temp);
+
 
     }
     private void initializeComponents(){
         firstText = (TextView)findViewById(R.id.textTest);
-        userNameText = (TextView)findViewById(R.id.textTest);
+        userNameText = (TextView)findViewById(R.id.user_textview);
         btnForward = (Button) findViewById(R.id.btnForward);
         btnBack = (Button) this.findViewById(R.id.btnBack);
         btnGrab = (Button) this.findViewById(R.id.btnGrab);
@@ -46,6 +53,13 @@ public class Game extends AppCompatActivity {
 
     }
 
+    protected void onStop(){
+        super.onStop();
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
+        Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);
+        setResult(RESULT_OK, replyIntent);
+    }
     private void registerListeners(){
         Log.e("myinfo", "registrera lyssnare");
 
@@ -178,6 +192,56 @@ public class Game extends AppCompatActivity {
     public void setController(ClientController cc){
         client = cc;
 
+    }
+
+    @Override
+    public void newUser(String user) {
+        active_User = user;
+/*
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                userNameText.setText(active_User);
+
+                Log.e("myinfo", active_User);
+            }
+        });
+*/
+    }
+    public void disableButtons(){
+        btnGrab.setEnabled(false);
+        btnRight.setEnabled(false);
+        btnLeft.setEnabled(false);
+        btnBack.setEnabled(false);
+        btnForward.setEnabled(false);
+    }
+    public void noUser(){
+       // Intent intent = new Intent(this, launchNewUser.class);
+        //startActivityForResult(intent, TEXT_REQUEST);
+        active_User = "-1";
+        Log.e("myinfo", "no user == -1");
+        btnGrab.setEnabled(true);
+        btnRight.setEnabled(true);
+        btnLeft.setEnabled(true);
+        btnBack.setEnabled(true);
+        btnForward.setEnabled(true);
+
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+     /*
+        super.onActivityResult(requestCode,resultCode,data);
+        if(resultCode == RESULT_CANCELED){
+            finish();
+        }
+        if(requestCode == TEXT_REQUEST){
+            if(resultCode == RESULT_OK){
+                String result =data.getStringExtra(launchNewUser.EXTRA_REPLY);
+                newUser(result);
+                client.send("NEWUSER:"+ result + "\n");
+            }
+        }
+        */
     }
     private class Sender extends Thread{
         public String stringToSend;

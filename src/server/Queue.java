@@ -32,6 +32,16 @@ public class Queue {
 		return queue.size();
 	}
 	
+	public String entireQueue() {
+		String entireQueue = "alla i kön: \n";
+
+		for(int i = 0; i < queue.size(); i++) {
+
+				entireQueue += queue.get(i) + " ";
+		}
+		return entireQueue;
+		
+	}
 	
 
 }

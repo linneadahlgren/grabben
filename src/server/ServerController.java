@@ -25,6 +25,8 @@ public class ServerController {
 	public void addToQueue(String user) {
 		writeToLog("New user in line to play: " + user);
 		userQueue.add(user);
+		writeToLog(userQueue.entireQueue());
+
 	}
 	
 	/**

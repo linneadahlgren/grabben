@@ -1,19 +1,46 @@
 <resources>
     <string name="app_name">GrabbenTest</string>
     <string name="button_setting">Settings</string>
+
+    // MAIN ACTIVITY STRING \\
     <string name="button_game">Play</string>
-    <string name="main_reply">Reply</string>
+    <string name="main_reply">VÄRLDENS BÄSTA KLO</string>
+    <string name="dialog_title">Game Mode</string>
+    \\ ---------------------- //
+
+    // DIRECTIONAL ARROWS \\
     <string name="left_arrow">&lt;</string>
     <string name="right_arrow">&gt;</string>
-    <string name="dialog_message">Dialog message</string>
-    <string name="dialog_title">Game Mode</string>
+    \\ ---------------------- //
+
+    // GAME MODE DIALOG MESSAGE \\
+    <string name="dialog_message">SELECT GAMEMODE</string>
     <string name="ok">ok</string>
     <string name="cancel">cancelled</string>
     <string name="gameMode_Classic">Classic</string>
     <string name="gameMode_Freeplay">Freeplay</string>
+    \\ ---------------------- //
+
+    <string name="new_User">Name</string>
+
     <string-array name="gameModes">
         <item>@string/gameMode_Classic</item>
         <item>@string/gameMode_Freeplay</item>
 
     </string-array>
+
+    // NEW USER ACTIVITY \\
+    <string-array name="enter_Username">
+        <item>@string/addUser_1</item>
+        <item>@string/addUser_2</item>
+        <item>@string/addUser_3</item>
+
+    </string-array>
+
+    <string name="addUser_1">Skriv Namn</string>
+    <string name="addUser_2">Snälla mata in ett namn</string>
+    <string name="addUser_3">Du kommer inte få spela om du inte skriver att namn</string>
+
+    \\ ---------------------- //
+
 </resources>

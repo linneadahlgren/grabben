@@ -16,13 +16,14 @@ import android.widget.*;
 
 public class MainActivity extends AppCompatActivity {
     public static final int TEXT_REQUEST = 1;
+    public static final int USER_REQUEST = 2;
     private TextView mReplyTextView;
     private boolean connection = true;
     private Button buttonGame;
     private Button buttonGameMode;
-    private String ip = "192.168.0.3";
-    private String pickedMode = "";
-
+    private String ip = "192.168.0.2";
+    private String pickedMode = "Classic";
+    private String active_User = "-1";
     private View view;
     private int easteregg = 0;
     private String[] gameModes;
@@ -65,22 +66,19 @@ public class MainActivity extends AppCompatActivity {
     public void launchGame(View view){
         Log.e("myinfo", "game is starting");
         Log.e("myinfo", pickedMode.toString());
-        Intent freeModeGameIntent = new Intent(this, GameFreeMode.class);
-        freeModeGameIntent.putExtra("ip", this.ip);
-        freeModeGameIntent.putExtra("mode", pickedMode);
-        startActivity(freeModeGameIntent);
 
-        /*if(pickedMode.equals("Classic")) {
+        if(pickedMode.equals("Classic")) {
             Intent gameIntent = new Intent(this, Game.class);
             gameIntent.putExtra("ip", this.ip);
+            gameIntent.putExtra("active_User", active_User);
 
-            startActivity(gameIntent);
+            startActivityForResult(gameIntent, USER_REQUEST );
         }else{
             Intent freeModeGameIntent = new Intent(this, GameFreeMode.class);
+            freeModeGameIntent.putExtra("active_User", active_User);
             freeModeGameIntent.putExtra("ip", this.ip);
-            freeModeGameIntent.putExtra("mode", pickedMode);
-            startActivity(freeModeGameIntent);
-        }*/
+            startActivityForResult(freeModeGameIntent, USER_REQUEST);
+        }
 
     }
 
@@ -97,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode,data);
 
+
+        Log.e("myinfo", "kommer vi hit???");
+
         if(requestCode == TEXT_REQUEST){
             if(resultCode == RESULT_OK){
                 String reply = data.getStringExtra(SettingsActivity.EXTRA_MESSAGE);
@@ -106,7 +107,13 @@ public class MainActivity extends AppCompatActivity {
                 buttonGame.setEnabled(true);
             }
         }
+        if(requestCode == USER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                this.active_User = data.getStringExtra(GameFreeMode.EXTRA_MESSAGE);
+                Log.e("myinfo", "tillbaka skickad användare: " + active_User);
 
+            }
+        }
     }
 
 
@@ -124,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 buttonGameMode.setText("Game Mode:" + gameModes[which]);
+                pickedMode = gameModes[which];
             }
         });
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

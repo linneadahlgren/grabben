@@ -1,5 +1,6 @@
 package com.example.linne.grabbentest;
 
+import android.content.res.Resources;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 
@@ -14,12 +15,12 @@ public class ClientController {
 	private Socket socket;
 	private Client client;
 	private ClientThread clientThread;
-	private Game game;
+	private UpdateUser game;
+	private String activeUser = "-1";
 
-
-	public ClientController(String ip) {
+	public ClientController(String ip, UpdateUser game) {
 		Log.e("myinfo", "-----------------NEW TEST---------------");
-
+		this.game = game;
 		this.ip = ip;
 
 		if (clientThread == null) {
@@ -28,6 +29,22 @@ public class ClientController {
 		}
 
 	}
+
+
+	public ClientController(String ip, UpdateUser game, String username){
+		Log.e("myinfo", "-----------------NEW TEST---------------");
+		this.game = game;
+		this.ip = ip;
+
+		if (clientThread == null) {
+			clientThread = new ClientThread();
+			clientThread.start();
+		}
+
+		activeUser = username;
+
+	}
+
 	public void connect() {
 
 		try {
@@ -87,24 +104,45 @@ public class ClientController {
 			connect();
 
 			client = new Client(socket);
-
-
 			send("COMPUTER\n");
+
+			if(activeUser.equals("-1")){
+
+				send("GETNEXTUSER\n");
+
+			}else {
+				game.newUser(activeUser);
+			}
+
 
 
 			if (socket != null) {
 
 				while (!socket.isClosed()) {
+
+
 					try {
+						Log.e("myinfo", "läser data");
+
 
 						String incoming = client.getInputStream().readLine();
-						if(incoming.equals("EMPTYQUEUE")){
+
+						Log.e("myinfo", "kommer vi hit?");
+
+						if(incoming.equals("USER:EMPTYQUEUE")){
+							Log.e("myinfo", "EMPTYQUEUE");
+							game.noUser();
+
+						}else if(incoming.contains("USER:")){
+							String userName = incoming.substring(5);
+							game.newUser(userName);
+                            Log.e("myinfo", "inkommande användarnamn " + userName);
 
 						}else{
+							Log.e("myinfo", incoming);
 
-							//game.setUser(incoming);
 						}
-						Log.e("myinfo", incoming);
+
 					} catch (IOException e) {
 						e.printStackTrace();
 

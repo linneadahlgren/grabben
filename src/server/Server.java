@@ -99,7 +99,7 @@ public class Server {
 					
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
-							String sendUser = "USER:" + controller.getNextUser();
+							String sendUser = "USER:" + controller.getNextUser() +"\n";
 							sendToComp(sendUser);
 						}else {
 							sendToEs(temp);

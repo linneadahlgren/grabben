@@ -9,11 +9,15 @@
 
     <Button
         android:id="@+id/spela"
+        style="@style/buttonTheme"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:enabled="true"
         android:onClick="launchGame"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
         android:text="@string/button_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -26,25 +30,29 @@
         android:id="@+id/textView_reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="180dp"
         android:text="@string/main_reply"
 
+        android:textSize="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteY="65dp"
+        tools:layout_editor_absoluteY="16dp"
         tools:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/mode"
+        style="@style/buttonTheme"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:onClick="launchDialgo"
-        android:text="@string/dialog_title"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="Game Mode"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spela"
-        tools:layout_editor_absoluteX="147dp"
-        tools:layout_editor_absoluteY="321dp" />
+        app:layout_constraintTop_toBottomOf="@id/spela" />
 
 
 </android.support.constraint.ConstraintLayout>

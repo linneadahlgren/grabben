@@ -47,7 +47,7 @@ public class ServerUserUI extends JFrame {
 			if(addUserBtn == e.getSource()) {
 				String newUser=userInput.getText();
 				controller.addToQueue(newUser);
-				
+				System.out.println(newUser);
 				
 			}
 		}}
