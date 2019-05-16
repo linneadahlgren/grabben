@@ -1,9 +1,5 @@
 package server;
 
-
-import java.util.Arrays;
-import java.util.Comparator;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
@@ -23,25 +19,18 @@ public class ServerController {
 	private ServerUserUI userUI;
 	private Queue userQueue;
 	private User[] highScoreList;
-
-	private User currentUser;
-
 	private User currentUser=new User();
 	private User nextUser=new User();
 	private String highscoreFile="files/highscoreFile";
-
 	
 	public ServerController() {
 		userUI = new ServerUserUI(this);
 		userQueue = new Queue();
-		highScoreList=new User[10];
-
 		highScoreList=new User[]{new User(),new User(),new User(),new User(),new User(),new User(),new User(),new User(),new User(),new User()};
 		userUI.setHighscorePanel(highScoreList);
 		readOldHighScore();
 		
 		
-
 	}
 	public void showUI(ServerViewer viewer) {
 		this.viewer = viewer;
@@ -59,15 +48,6 @@ public class ServerController {
 		writeToLog("New user in line to play: " + user);
 		userQueue.add(user);
 	}
-
-	public void compareScore() {
-		if(currentUser.getPoints()>=highScoreList[10].getPoints()) {
-			highScoreList[10]=currentUser;
-			Arrays.sort(highScoreList);
-			
-			}
-		}
-
 	public void readOldHighScore() {
 		
 		new HighScoreReader().start();
@@ -86,11 +66,10 @@ public class ServerController {
 				   Arrays.sort(highScoreList);
 				   
 				   userUI.updateHighscore(highScoreList);	
-					}
-				}							
+			}
+	}							
 			
 		
-
 	
 	
 	/**
@@ -99,9 +78,6 @@ public class ServerController {
 	 */
 	public String getNextUser() {
 		currentUser=new User(userQueue.remove());
-
-		return currentUser.getName();
-
 		
 		userUI.updateCurrentUSer(currentUser);
 		setNextUser();
@@ -131,7 +107,6 @@ public class ServerController {
 	}
 	public void setScore(int points) {
 		currentUser.setPoints(points);
-
 	}
 	public void setCurrentUser(String username,int points) {
 		currentUser.setName(username);
@@ -208,34 +183,9 @@ public class ServerController {
 		controller.showUI(new ServerViewer());
 		new Server(controller, 5000);
 		
-		
 	
-		
-//		controller.add(new User("LUDVIG"));
-//		controller.add(new User("LINNEA"));
-//		controller.add(new User("LUDVIG"));
-//		controller.add(new User("LINNEA"));
-//		controller.add(new User("LUDVIG"));
-//		controller.add(new User("LINNEA"));
-//		controller.add(new User("LUDVIG"));
-//		controller.add(new User("LINNEA"));
-//		controller.emptyHighScore();
-//		controller.getNextUser();
-//		controller.setScore(50);
-//		controller.compareScore();
-//		controller.getNextUser();
-//		controller.setScore(10);
-//		controller.compareScore();
-//		controller.getNextUser();
-//		controller.setScore(20);
-//		controller.compareScore();
-//		controller.getNextUser();
-//		controller.setScore(700);
-//		controller.compareScore();
-//		controller.getNextUser();
-//		controller.setScore(200);
-//		controller.compareScore();
 	}
 		
 }
+
 
