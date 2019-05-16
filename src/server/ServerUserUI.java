@@ -49,14 +49,9 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JPanel centerPanel=new JPanel();
 	private JPanel westPanel=new JPanel();
 	private JLabel titleLabel=new JLabel();
-	private JLabel centertextLbl=new JLabel();
+	private JLabel centertextLbl=new JLabel("NOW PLAYING");
 
-//	private JLabel currentPlayerLbl=new JLabel("No one is playing");
-//	private JLabel nextPlayerLbl=new JLabel();
-//	private Font titleFont;
-//	private Font textFont;
-//	private Font smallTextFont;
-//	private JLabel[] scoreLabels= new JLabel[10];
+
 	
 
 	private JLabel nextPlayerLbl=new JLabel("NO ONE IS PLAYING");
@@ -105,16 +100,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		highscorePanel.setPreferredSize(new Dimension(300,800));
 		highscorePanel.setBackground(Color.BLACK);
 
-//		highscorePanel.setBorder(BorderFactory.createLineBorder(Color.GREEN));
-//		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
-		
-//		centerPanel.setPreferredSize(new Dimension(200,200));
-//		centerPanel.setBackground(Color.BLACK);
-//		centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-//		centerPanel.setLayout(new BorderLayout());
-//		centertextLbl.setForeground(Color.CYAN);
-//		centertextLbl.setPreferredSize(new Dimension(400,400));
-//		centertextLbl.setText("<html>CURRENT PLAYER<br>Tove</html>");
+
 
 		highscorePanel.setForeground(pink);
 		//highscorePanel.setBorder(BorderFactory.createLineBorder(pink));
@@ -135,38 +121,15 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		centertextLbl.setBackground(Color.BLACK);
 		centertextLbl.setForeground(lightBlue);
 		centertextLbl.setPreferredSize(new Dimension(400,400));
-		centertextLbl.setText("<html>NOW PLAYING:<br><center>NO ONE</html>");
-
+		
+		
+		
 		centertextLbl.setFont(textFont);
 		centertextLbl.setVerticalAlignment(JLabel.CENTER);
 		centertextLbl.setHorizontalAlignment(JLabel.CENTER);
 		
 
-//		centertextLbl.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-//		currentPlayerLbl.setText("Next Player:");
-//		currentPlayerLbl.setFont(textFont);
-//		currentPlayerLbl.setForeground(Color.GREEN);
-//		currentPlayerLbl.setPreferredSize(new Dimension(400,200));
-//		currentPlayerLbl.setVerticalAlignment(JLabel.CENTER);
-//		currentPlayerLbl.setHorizontalAlignment(JLabel.CENTER);
-//		centerPanel.add(centertextLbl);
-//		centerPanel.add(currentPlayerLbl,BorderLayout.SOUTH);
-		
-//		titlePanel.setPreferredSize(new Dimension(800,200));
-//		titlePanel.setBackground(Color.BLACK);
-//		titlePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-//		
-//		titleLabel.setText("CLAW");
-//		
-//		titleLabel.setFont(titleFont);
-//		titleLabel.setForeground(Color.BLUE);
-//		titlePanel.add(titleLabel);
-		
-//		setHighscorePanel();
 
-//		westPanel.setPreferredSize(new Dimension(300,800));
-//		westPanel.setBackground(Color.BLACK);
-//		westPanel.setBorder(BorderFactory.createLineBorder(Color.RED));
 		
 		centerPanel.add(titlePanel,BorderLayout.NORTH);
 		groundPanel.add(highscorePanel,BorderLayout.EAST);
@@ -210,10 +173,10 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	        }
 	    });
 		
-		//loginTxt.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
 		loginBtn.setPreferredSize(new Dimension(300,100));
 		loginBtn.setForeground(purple);
-		//loginBtn.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED, Color.GRAY,Color.BLACK));
+		loginBtn.setBackground(lightBlue);
 		
 		loginBtn.setFont(smallTextFont);
 		loginPanel.add(loginLbl,BorderLayout.NORTH);
@@ -224,7 +187,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		titlePanel.setPreferredSize(new Dimension(800,200));
 		titlePanel.setBackground(Color.BLACK);
-		//titlePanel.setBorder(BorderFactory.createLineBorder(purple));
+		
 		titleLabel.setText("CLAW");
 		titleLabel.setFont(titleFont);
 		titleLabel.setForeground(lightBlue);
@@ -250,7 +213,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		westPanel.setLayout(new BorderLayout());
 		westPanel.setBackground(Color.BLACK);
 		
-		//westPanel.setBorder(BorderFactory.createLineBorder(pink));
+		
 
 
 		
@@ -267,7 +230,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		new BlinkThread().start();
 		
-		//setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		addWindowListener(this);
 		pack();
 		setVisible(true);
@@ -279,23 +242,29 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	
 	public void updateCurrentUSer(User currentUser) {
 		this.currentUser=currentUser;
-		
+		if(currentUser.getName().equals("NO ONE")) {
+			centertextLbl.setText("<html>NOW PLAYING<br><center> Enter ON TABLET</html>");
+		}
+		else{
 		centertextLbl.setText("<html>NOW PLAYING<br><center>"+currentUser.getName()+"</html>");
+		}
+		repaint();
 	}
 	
 	public void updateNextUser(User nextUser) {
 		
 		this.nextUser=nextUser;
 		
-		
+		repaint();
 		
 	}
 	
 	public void updateHighscore(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
 			scoreLabels[i].setText(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
+			
 		}
-		
+		repaint();
 	}
 	public void setHighscorePanel(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
@@ -309,6 +278,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 			highscorePanel.add(scoreLabels[i]);
 			
 		}
+		repaint();
 	}
 	
 	public void shutDown() {
@@ -319,21 +289,21 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	
 		
 	
-	public void setHighscorePanel() {
-		for(int i=0;i<scoreLabels.length;i++) {
-			scoreLabels[i]=new JLabel("NOONE:0");
-			scoreLabels[i].setVerticalAlignment(JLabel.CENTER);
-			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
-			scoreLabels[i].setMinimumSize(new Dimension(300,50));
-			scoreLabels[i].setMaximumSize(new Dimension(300,50));
-			scoreLabels[i].setBorder(BorderFactory.createLineBorder(Color.GREEN));
-			scoreLabels[i].setFont(smallTextFont);
-			scoreLabels[i].setForeground(Color.GREEN);
-			
-			highscorePanel.add(scoreLabels[i]);
-			
-		}
-	}
+//	public void setHighscorePanel() {
+//		for(int i=0;i<scoreLabels.length;i++) {
+//			scoreLabels[i]=new JLabel("NOONE:0");
+//			scoreLabels[i].setVerticalAlignment(JLabel.CENTER);
+//			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
+//			scoreLabels[i].setMinimumSize(new Dimension(300,50));
+//			scoreLabels[i].setMaximumSize(new Dimension(300,50));
+//			scoreLabels[i].setBorder(BorderFactory.createLineBorder(Color.GREEN));
+//			scoreLabels[i].setFont(smallTextFont);
+//			scoreLabels[i].setForeground(Color.GREEN);
+//			
+//			highscorePanel.add(scoreLabels[i]);
+//			
+//		}
+//	}
 	public Font createFont(String filename,float size) {
 		Font customFont=null;
 		try {

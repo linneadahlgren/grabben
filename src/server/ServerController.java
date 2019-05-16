@@ -78,10 +78,13 @@ public class ServerController {
 	 */
 	public String getNextUser() {
 		currentUser=new User(userQueue.remove());
-		
+		if (currentUser.getName().equals("EMPTYQUEUE")) {
+			currentUser.setName("NO ONE");
+		}
+		else {
 		userUI.updateCurrentUSer(currentUser);
 		setNextUser();
-		
+		}
 		return currentUser.getName();
 	}
 	public String setNextUser() {
@@ -94,9 +97,13 @@ public class ServerController {
 	public void saveHighScore() {
 		System.out.println("starting HighscoreSaver");
 		new HighscoreSaver().start();
-		
+	}	
+		public void setCurrentUser(User user) {
+			currentUser=user;
+			
+			userUI.updateCurrentUSer(currentUser);
+		}
 	
-	}
 	/**
 	 * 
 	 * 
@@ -108,10 +115,8 @@ public class ServerController {
 	public void setScore(int points) {
 		currentUser.setPoints(points);
 	}
-	public void setCurrentUser(String username,int points) {
-		currentUser.setName(username);
-		currentUser.setPoints(points);
-	}
+	
+	
 	public void emptyHighScore() {
 		for(int i=0;i<highScoreList.length;i++) {
 			highScoreList[i]=new User();

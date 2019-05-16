@@ -17,6 +17,7 @@ public class Server {
 	public void sendToEs(String instruction) {
 		try {
 			System.out.println(instruction);
+			instruction+="\n";
 			controller.writeToLog("Computer sent: " + instruction);
 			
 			esHandler.getOutputStream().write(instruction);
@@ -28,6 +29,7 @@ public class Server {
 	}
 	public void sendToComp(String instruction) {
 		try {
+			instruction+="\n";
 			controller.writeToLog("Embedded System sent: " + instruction);
 			computerHandler.getOutputStream().write(instruction);
 			computerHandler.getOutputStream().flush();
@@ -101,6 +103,12 @@ public class Server {
 						if(temp.equals("GETNEXTUSER")) {
 							String sendUser = "USER:" + controller.getNextUser();
 							sendToComp(sendUser);
+							if(temp.startsWith("NEWUSER:")) {
+								User newUser=new User(temp.substring(8));
+								System.out.println(newUser.getName());
+								controller.setCurrentUser(newUser);
+							}
+								
 						}else {
 							sendToEs(temp);
 						}
