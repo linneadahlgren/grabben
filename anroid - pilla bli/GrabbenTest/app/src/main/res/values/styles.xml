@@ -8,10 +8,22 @@
         <item name="android:background">@color/black</item>
         <item name="colorAccent">@color/pink</item>
         <item name="android:textColor">@color/pink</item>
+
     </style>
     <style name="buttonTheme">
         <item name="android:background">@color/blue</item>
         <item name="android:textColor">@color/pink</item>
         <item name="android:textSize">45sp</item>
     </style>
+
+    <style name="MyDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="textColorAlertDialogListItem">@color/pink</item>
+        <item name="colorAccent">@color/pink</item>
+        <item name="colorControlActivated">@color/pink</item>
+
+
+    </style>
+
 </resources>

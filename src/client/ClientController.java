@@ -87,7 +87,7 @@ public class ClientController {
 		}
 		public void run() {
 			
-			connect("10.2.12.179", 5000);
+			connect("192.168.0.6", 5000);
 		
 			client=new Client(socket);
 		

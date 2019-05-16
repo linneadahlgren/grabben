@@ -218,6 +218,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
     public void noUser(){
        // Intent intent = new Intent(this, launchNewUser.class);
         //startActivityForResult(intent, TEXT_REQUEST);
+
         active_User = "-1";
         Log.e("myinfo", "no user == -1");
         btnGrab.setEnabled(true);

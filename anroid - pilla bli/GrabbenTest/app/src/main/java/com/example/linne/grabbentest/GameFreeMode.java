@@ -57,7 +57,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(6000, 1000) {
+        countdown = new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -102,6 +102,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     }
 
     public void noUser(){
+        Log.e("myinfo", "no user, launching new user activity");
         Intent intent = new Intent(this, launchNewUser.class);
         startActivityForResult(intent, TEXT_REQUEST);
     }

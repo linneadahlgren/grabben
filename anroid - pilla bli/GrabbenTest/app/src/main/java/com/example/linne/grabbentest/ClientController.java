@@ -104,6 +104,7 @@ public class ClientController {
 			connect();
 
 			client = new Client(socket);
+
 			send("COMPUTER\n");
 
 			if(activeUser.equals("-1")){
@@ -124,22 +125,22 @@ public class ClientController {
 					try {
 						Log.e("myinfo", "läser data");
 
-
 						String incoming = client.getInputStream().readLine();
 
-						Log.e("myinfo", "kommer vi hit?");
+						Log.e("myinfo", incoming + "1");
 
-						if(incoming.equals("USER:EMPTYQUEUE")){
+
+						if(incoming.equals("USER:NO ONE")){
 							Log.e("myinfo", "EMPTYQUEUE");
 							game.noUser();
 
-						}else if(incoming.contains("USER:")){
+						}else if(!incoming.contains("NO ONE")){
 							String userName = incoming.substring(5);
 							game.newUser(userName);
                             Log.e("myinfo", "inkommande användarnamn " + userName);
 
 						}else{
-							Log.e("myinfo", incoming);
+							Log.e("myinfo", incoming + "2");
 
 						}
 

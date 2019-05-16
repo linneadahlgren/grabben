@@ -95,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode,data);
 
-
-        Log.e("myinfo", "kommer vi hit???");
+        Log.e("myinfo", "aktivitet avslutad, tillbaka på main");
 
         if(requestCode == TEXT_REQUEST){
             if(resultCode == RESULT_OK){
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void alertDialogLoadFile(){
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         alert.setTitle("Game mode");
 
         alert.setSingleChoiceItems(gameModes, -1, new DialogInterface.OnClickListener() {
@@ -131,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 buttonGameMode.setText("Game Mode:" + gameModes[which]);
+
                 pickedMode = gameModes[which];
             }
         });
@@ -148,7 +148,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         AlertDialog ad = alert.create();
+        ad.setCanceledOnTouchOutside(false);
         ad.show();
+        ad.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.pink));
+        ad.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.pink));
+
+
+
 
     }
 
