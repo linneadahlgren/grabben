@@ -49,12 +49,12 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JPanel centerPanel=new JPanel();
 	private JPanel westPanel=new JPanel();
 	private JLabel titleLabel=new JLabel();
-	private JLabel centertextLbl=new JLabel("NOW PLAYING");
+	private JLabel centertextLbl=new JLabel("NO ONE IS PLAYING");
 
 
 	
 
-	private JLabel nextPlayerLbl=new JLabel("NO ONE IS PLAYING");
+	private JLabel nextPlayerLbl=new JLabel("NO ONE IN LINE");
 	
 	private Font titleFont;
 	private Font textFont;
@@ -240,10 +240,11 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 	}
 	
-	public void updateCurrentUSer(User currentUser) {
+	public void updateCurrentUser(User currentUser) {
 		this.currentUser=currentUser;
+		System.out.println("IN UI"+currentUser.getName());
 		if(currentUser.getName().equals("NO ONE")) {
-			centertextLbl.setText("<html>NOW PLAYING<br><center> Enter ON TABLET</html>");
+			centertextLbl.setText("<html>NO ONE PLAYING<br><center> Enter ON TABLET</html>");
 		}
 		else{
 		centertextLbl.setText("<html>NOW PLAYING<br><center>"+currentUser.getName()+"</html>");
@@ -251,10 +252,8 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		repaint();
 	}
 	
-	public void updateNextUser(User nextUser) {
-		
+	public void updateNextUser(User nextUser) {		
 		this.nextUser=nextUser;
-		
 		repaint();
 		
 	}

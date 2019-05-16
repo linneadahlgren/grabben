@@ -98,18 +98,20 @@ public class Server {
 				
 				while (!socket.isClosed()) {
 					String temp = input.readLine();
-					
+					System.out.println("INCOMING MSG IN SERVER: "+temp);
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
 							String sendUser = "USER:" + controller.getNextUser();
 							sendToComp(sendUser);
-							if(temp.startsWith("NEWUSER:")) {
+						}
+						else if(temp.startsWith("NEWUSER:")) {
 								User newUser=new User(temp.substring(8));
-								System.out.println(newUser.getName());
+								System.out.println("IN SERVER"+newUser.getName());
 								controller.setCurrentUser(newUser);
+								
 							}
 								
-						}else {
+						else {
 							sendToEs(temp);
 						}
 					}else if(this.equals(esHandler)) {
@@ -119,7 +121,7 @@ public class Server {
 
 					output.flush();
 				}
-			} catch (IOException e) {
+				} catch (IOException e) {
 				try {
 					socket.close();
 				} catch (IOException e1) {

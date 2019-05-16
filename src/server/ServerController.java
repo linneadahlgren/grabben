@@ -47,6 +47,9 @@ public class ServerController {
 	public void addToQueue(String user) {
 		writeToLog("New user in line to play: " + user);
 		userQueue.add(user);
+		if(nextUser.getName().equals("NO ONE")) {
+			setNextUser();
+		}
 	}
 	public void readOldHighScore() {
 		
@@ -82,14 +85,15 @@ public class ServerController {
 			currentUser.setName("NO ONE");
 		}
 		else {
-		userUI.updateCurrentUSer(currentUser);
+		userUI.updateCurrentUser(currentUser);
 		setNextUser();
 		}
 		return currentUser.getName();
 	}
 	public String setNextUser() {
-		nextUser=new User(userQueue.element());
 		
+		nextUser=new User(userQueue.element());
+		System.out.println("Next user in controller" +nextUser.getName());
 		userUI.updateNextUser(nextUser);
 		
 		return nextUser.getName();
@@ -100,8 +104,8 @@ public class ServerController {
 	}	
 		public void setCurrentUser(User user) {
 			currentUser=user;
-			
-			userUI.updateCurrentUSer(currentUser);
+			System.out.println("IN CONTROLLER"+user.getName());
+			userUI.updateCurrentUser(currentUser);
 		}
 	
 	/**
