@@ -94,19 +94,13 @@ public class ServerUserUI extends JFrame implements WindowListener{
 
 		mediumTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",60f);
 		this.controller = controller;
-		
-		//setPreferredSize(new Dimension(1500,800));
 	
-
 		groundPanel.setPreferredSize(new Dimension(1500,800));
 		groundPanel.setBackground(Color.BLACK);
 		groundPanel.setLayout(new BorderLayout());
 		
 		highscorePanel.setPreferredSize(new Dimension(300,800));
 		highscorePanel.setBackground(Color.BLACK);
-
-
-
 		highscorePanel.setForeground(pink);
 		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
 		highScoreLbl.setText("HIGHSCORE");
@@ -120,28 +114,19 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		centerPanel.setPreferredSize(new Dimension(200,200));
 		centerPanel.setBackground(Color.BLACK);
-		
 		centerPanel.setLayout(new BorderLayout());
 		centertextLbl.setBackground(Color.BLACK);
 		centertextLbl.setForeground(lightBlue);
 		centertextLbl.setPreferredSize(new Dimension(400,400));
-		
-		
-		
 		centertextLbl.setFont(textFont);
 		centertextLbl.setVerticalAlignment(JLabel.CENTER);
 		centertextLbl.setHorizontalAlignment(JLabel.CENTER);
-		
-
-
-		
 		centerPanel.add(titlePanel,BorderLayout.NORTH);
+		
 		groundPanel.add(highscorePanel,BorderLayout.EAST);
 		groundPanel.add(centerPanel,BorderLayout.CENTER);
 		groundPanel.add(westPanel, BorderLayout.WEST);
-		
 		add(groundPanel);
-		
 		
 		nextPlayerLbl.setText("Next Player:");
 		nextPlayerLbl.setFont(textFont);
@@ -154,7 +139,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		centerPanel.add(nextPlayerLbl,BorderLayout.SOUTH);
 		
 		loginPanel.setPreferredSize(new Dimension(300,400));
-		
 		loginPanel.setBackground(Color.BLACK);
 		loginPanel.setLayout(new BorderLayout());
 		loginLbl.setPreferredSize(new Dimension(300,100));
@@ -177,51 +161,37 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	        }
 	    });
 		
-		
 		loginBtn.setPreferredSize(new Dimension(300,100));
 		loginBtn.setOpaque(true);
 		loginBtn.setBackground(lightBlue);
 		loginBtn.setForeground(purple);
 		loginBtn.setBorder(BorderFactory.createLineBorder(purple, 2));
-		
 		loginBtn.setFont(smallTextFont);
 		loginPanel.add(loginLbl,BorderLayout.NORTH);
 		loginPanel.add(loginTxt, BorderLayout.CENTER);
-		
 		loginPanel.add(loginBtn, BorderLayout.SOUTH);
 		loginBtn.addActionListener(new BtnListener());
 		
 		titlePanel.setPreferredSize(new Dimension(800,200));
-		titlePanel.setBackground(Color.BLACK);
-		
+		titlePanel.setBackground(Color.BLACK);	
 		titleLabel.setText("CLAW");
 		titleLabel.setFont(titleFont);
 		titleLabel.setForeground(lightBlue);
 		titlePanel.add(titleLabel);
 		
-		
 		blinkingMsg.setPreferredSize(new Dimension(300,400));
 		blinkingMsg.setText("<html>W<br>E<br>L<br>C<br>O<br>M<br>E</html>");
 		blinkingMsg.setBackground(Color.BLACK);
 		blinkingMsg.setFont(smallTextFont);
-		
 		blinkingMsg.setForeground(pink);
 		blinkingMsg.setHorizontalAlignment(JLabel.CENTER);
-
 		blinkPanel.setPreferredSize(new Dimension(300,400));
 		blinkPanel.setBackground(Color.BLACK);
-	
 		blinkPanel.add(blinkingMsg);
-		
-		
 		
 		westPanel.setPreferredSize(new Dimension(300,800));
 		westPanel.setLayout(new BorderLayout());
 		westPanel.setBackground(Color.BLACK);
-		
-		
-
-
 		
 		westPanel.add(loginPanel,BorderLayout.SOUTH);
 		westPanel.add(blinkPanel,BorderLayout.NORTH);
@@ -239,10 +209,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		addWindowListener(this);
 		pack();
-		setVisible(true);
-		
-	
-		
+		setVisible(true);	
 		
 	}
 	
@@ -311,8 +278,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		return customFont;
 	}
 	
-
-
 	private class BtnListener implements ActionListener{
 		
 		@Override
@@ -337,7 +302,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	}
 
 	
-
 	private class BlinkThread extends Thread{
 		public void run() {
 			while(true) {
