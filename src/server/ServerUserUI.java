@@ -52,8 +52,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JLabel centertextLbl=new JLabel("NO ONE IS PLAYING");
 
 
-	
-
 	private JLabel nextPlayerLbl=new JLabel("NO ONE IN LINE");
 	
 	private Font titleFont;
@@ -83,14 +81,21 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		textFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",100f);
 		smallTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",30f);
 
-		//this.controller = cont;
+		
 		setPreferredSize(new Dimension(1500,800));
 		
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		mediumTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",60f);
 		this.controller = controller;
 		
-		setPreferredSize(new Dimension(1500,800));
+		//setPreferredSize(new Dimension(1500,800));
 	
 
 		groundPanel.setPreferredSize(new Dimension(1500,800));
@@ -103,7 +108,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 
 
 		highscorePanel.setForeground(pink);
-		//highscorePanel.setBorder(BorderFactory.createLineBorder(pink));
 		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
 		highScoreLbl.setText("HIGHSCORE");
 		highScoreLbl.setVerticalAlignment(JLabel.CENTER);
@@ -116,7 +120,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		centerPanel.setPreferredSize(new Dimension(200,200));
 		centerPanel.setBackground(Color.BLACK);
-		//centerPanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+		
 		centerPanel.setLayout(new BorderLayout());
 		centertextLbl.setBackground(Color.BLACK);
 		centertextLbl.setForeground(lightBlue);
@@ -138,7 +142,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		add(groundPanel);
 		
-		//centertextLbl.setBorder(BorderFactory.createLineBorder(lightBlue));
+		
 		nextPlayerLbl.setText("Next Player:");
 		nextPlayerLbl.setFont(textFont);
 		nextPlayerLbl.setBackground(Color.BLACK);
@@ -175,8 +179,10 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 		
 		loginBtn.setPreferredSize(new Dimension(300,100));
-		loginBtn.setForeground(purple);
+		loginBtn.setOpaque(true);
 		loginBtn.setBackground(lightBlue);
+		loginBtn.setForeground(purple);
+		loginBtn.setBorder(BorderFactory.createLineBorder(purple, 2));
 		
 		loginBtn.setFont(smallTextFont);
 		loginPanel.add(loginLbl,BorderLayout.NORTH);
@@ -285,24 +291,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		controller.saveHighScore();
 	}
 
-	
-		
-	
-//	public void setHighscorePanel() {
-//		for(int i=0;i<scoreLabels.length;i++) {
-//			scoreLabels[i]=new JLabel("NOONE:0");
-//			scoreLabels[i].setVerticalAlignment(JLabel.CENTER);
-//			scoreLabels[i].setHorizontalAlignment(JLabel.CENTER);
-//			scoreLabels[i].setMinimumSize(new Dimension(300,50));
-//			scoreLabels[i].setMaximumSize(new Dimension(300,50));
-//			scoreLabels[i].setBorder(BorderFactory.createLineBorder(Color.GREEN));
-//			scoreLabels[i].setFont(smallTextFont);
-//			scoreLabels[i].setForeground(Color.GREEN);
-//			
-//			highscorePanel.add(scoreLabels[i]);
-//			
-//		}
-//	}
+
 	public Font createFont(String filename,float size) {
 		Font customFont=null;
 		try {
@@ -334,9 +323,13 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 			if(loginBtn == e.getSource()) {
 				String newUser=loginTxt.getText().toUpperCase();
+				if (newUser.equals("")){
+					
+				}
+				else {
 				controller.addToQueue(newUser);	
 				loginTxt.setText("");
-
+				}
 				
 		
 			}

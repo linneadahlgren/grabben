@@ -29,7 +29,7 @@ const int fast=200;
 const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,0,6};
+byte serverIp[] = {192,168,0,2};
 int port = 5000;
 int x = 0;
 
@@ -166,21 +166,21 @@ void loop() {
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageX);
+      //Serial.println(voltageX);
   }else if(directionX == 1){
       int sensorVal = analogRead(sensorPin1);
       voltageX = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageX);
+      //Serial.println(voltageX);
   }
 
   if(directionY == 0){
       int sensorVal = analogRead(sensorPin2);
       voltageY = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageY);
+      //Serial.println(voltageY);
     }else if(directionY == 1){
       int sensorVal = analogRead(sensorPin3);
       voltageY = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageY);
+      //Serial.println(voltageY);
     }
 
 
@@ -211,15 +211,18 @@ if (client.connected() == true) {
     forward();
     }
     if (command == "BACK") {
+      Serial.println("command coming in: back");
     backward();
     }
     if (command == "LEFT") {
     left();
     }
     if (command == "RIGHT") {
+      Serial.println("command coming in: right");
     right();
     }
     if(command=="RELEASE"){
+      Serial.println("command coming in: Release");
     halt();
     zHalt();
     }

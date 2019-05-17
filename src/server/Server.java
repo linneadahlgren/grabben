@@ -16,11 +16,13 @@ public class Server {
 	
 	public void sendToEs(String instruction) {
 		try {
-			System.out.println(instruction);
-			instruction+="\n";
+			System.out.println("computer sent "+instruction);
+				
+			
 			controller.writeToLog("Computer sent: " + instruction);
 			
 			esHandler.getOutputStream().write(instruction);
+			
 			esHandler.getOutputStream().flush();
 			
 		} catch (IOException e) {
@@ -98,6 +100,7 @@ public class Server {
 				
 				while (!socket.isClosed()) {
 					String temp = input.readLine();
+					
 					System.out.println("INCOMING MSG IN SERVER: "+temp);
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
@@ -109,9 +112,9 @@ public class Server {
 								System.out.println("IN SERVER"+newUser.getName());
 								controller.setCurrentUser(newUser);
 								
-							}
-								
+						}		
 						else {
+							System.out.println("skickar till es " + temp);
 							sendToEs(temp);
 						}
 					}else if(this.equals(esHandler)) {

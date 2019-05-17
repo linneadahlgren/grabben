@@ -16,6 +16,7 @@ public class User implements Comparable, Serializable{
 	}
 	
 	public User(String name) {
+		
 		this.name=name;
 		points=0; 
 
