@@ -29,7 +29,8 @@ const int fast=200;
 const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,0,2};
+byte ipAdress[] = {192,168,0,30};
+byte serverIp[] = {192,168,0,20};
 int port = 5000;
 int x = 0;
 
@@ -54,11 +55,12 @@ void setup() {
   pinMode(sensorPin3, INPUT);
 
   zServo.attach(4);
-  zServo.write(1500);
+  zServo.write(1550);
   kloServo.attach(6);
   kloServo.write(40);
 
-  Ethernet.begin(mac);
+
+  Ethernet.begin(mac, ipAdress);
   Serial.begin(9600);
   delay(1000);
   
@@ -133,24 +135,28 @@ void left (){
    directionX = 1;
 }
 void down(){
-  zServo.write(2000);
-}
-void up(){
   zServo.write(1000);
 }
+void up(){
+  zServo.write(2000);
+}
 void zHalt(){
-  zServo.write(1500);
+  zServo.write(1550);
 }
 void grab(){
-down();
-delay(3000);
-zHalt();
-delay(1000);
-closeClaw();
-up();
-delay(3000);
-openClaw();
-zHalt();
+  down();
+  delay(3000);
+  zHalt();
+  delay(1000);
+  closeClaw();
+  up();
+  delay(3000);
+  zHalt();
+  toBox();
+  delay(5000);
+  openClaw();
+  delay(1000);
+  toCenter();
 }
 void openClaw(){
   kloServo.write(40);
@@ -159,6 +165,21 @@ void openClaw(){
 void closeClaw(){
   kloServo.write(110);
   delay(1000);
+}
+
+void toBox(){
+  backward();
+  left();
+}
+
+void toCenter(){
+  forward();
+  right();
+  delay(2300);
+  halt();
+  forward();
+  delay(400);
+  halt();
 }
 void loop() {
  
@@ -241,7 +262,7 @@ if (client.connected() == true) {
       if(command=="CLOSE"){
    closeClaw();
     }
-        Serial.println(command);
+        //Serial.println(command);
  }
   if (!client.connected()) {
     Serial.println();
