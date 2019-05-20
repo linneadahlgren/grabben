@@ -1,6 +1,8 @@
 package server;
 
 import java.awt.*;
+
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,13 +30,17 @@ import javax.swing.plaf.synth.*;
 import javax.swing.text.DocumentFilter;
 
 import javafx.*;
-
+/**
+ * 
+ * User Interface for the server. The class is controlled by the serverController.The UI displays the current and next user in lite to play
+ * and takes inputs of new users and puts them in line to play.
+ * @author toverumar
+ *
+ */
 public class ServerUserUI extends JFrame implements WindowListener{
 
 		
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	private JButton addUserBtn = new JButton("put user");
@@ -50,10 +56,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JPanel westPanel=new JPanel();
 	private JLabel titleLabel=new JLabel();
 	private JLabel centertextLbl=new JLabel("NO ONE IS PLAYING");
-
-
 	private JLabel nextPlayerLbl=new JLabel("NO ONE IN LINE");
-	
 	private Font titleFont;
 	private Font textFont;
 	private Font smallTextFont;
@@ -156,7 +159,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		loginTxt .addKeyListener(new KeyAdapter() {
 	        
 	        public void keyTyped(KeyEvent e) {
-	            if (loginTxt.getText().length() >= 15 ) // limit to 3 characters
+	            if (loginTxt.getText().length() >= 15 ) // Maximum typed length is 15 characters. Longer usernames can be copied in textfield without limit
 	                e.consume();
 	        }
 	    });
@@ -213,11 +216,19 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		
 	}
 	
+	/**
+	 * Sets the currentUser to be displayed.
+	 * If username is NO ONE,the UI shows "ENTER ON TABLET"
+	 * otherwise it shows the username
+	 * 
+	 * 
+	 * @param currentUser
+	 */
 	public void updateCurrentUser(User currentUser) {
 		this.currentUser=currentUser;
-		System.out.println("IN UI"+currentUser.getName());
+		
 		if(currentUser.getName().equals("NO ONE")) {
-			centertextLbl.setText("<html>NO ONE PLAYING<br><center> Enter ON TABLET</html>");
+			centertextLbl.setText("<html>NO ONE PLAYING<br><center> ENTER ON TABLET</html>");
 		}
 		else{
 		centertextLbl.setText("<html>NOW PLAYING<br><center>"+currentUser.getName()+"</html>");
@@ -225,12 +236,21 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		repaint();
 	}
 	
+	/**
+	 * Sets next user in line to play and then repaints the window to display it
+	 * @param nextUser
+	 */
+	
 	public void updateNextUser(User nextUser) {		
 		this.nextUser=nextUser;
 		repaint();
 		
 	}
-	
+	/**
+	 * 
+	 * Updates the highscorelist and then repaints the window to display it
+	 * @param highScoreList
+	 */
 	public void updateHighscore(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
 			scoreLabels[i].setText(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
@@ -238,6 +258,12 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		}
 		repaint();
 	}
+	
+	/**
+	 * 
+	 * Sets the highscorePanel. Should only be used on startup. 
+	 * @param highScoreList
+	 */
 	public void setHighscorePanel(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
 			scoreLabels[i]=new JLabel(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
@@ -252,13 +278,21 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		}
 		repaint();
 	}
+	/**
+	 * method that executes on closing the window. Starts the saveHighscore-method in controller
+	 */
 	
 	public void shutDown() {
-		System.out.println("shutDown");
+		
 		controller.saveHighScore();
 	}
-
-
+	/**
+	 * Takes a filename and a size to read in fonts to the UI.
+	 * 
+	 * @param filename
+	 * @param size
+	 * @return
+	 */
 	public Font createFont(String filename,float size) {
 		Font customFont=null;
 		try {
@@ -277,7 +311,12 @@ public class ServerUserUI extends JFrame implements WindowListener{
 
 		return customFont;
 	}
-	
+	/**
+	 * Listens to the button. Upon press it takes the string in the loginTxtfield and checks if it is longer than 0 characters. 
+	 * If it is longer it sends it to the controllerClass
+	 * @author toverumar
+	 *
+	 */
 	private class BtnListener implements ActionListener{
 		
 		@Override
@@ -301,7 +340,12 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		}
 	}
 
-	
+	/**
+	 * 
+	 * Blinks texts in the UI.
+	 * @author toverumar
+	 *
+	 */
 	private class BlinkThread extends Thread{
 		public void run() {
 			while(true) {
@@ -339,7 +383,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		System.out.println("window closing");
+		
 		shutDown();
 		
 	}

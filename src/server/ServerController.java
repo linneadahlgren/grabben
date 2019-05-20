@@ -13,7 +13,12 @@ import java.util.Comparator;
 
 
 
-
+/**
+ * 
+ * 
+ * @author Tove Rumar and John Lindahl
+ *
+ */
 public class ServerController {
 	private ServerViewer viewer;
 	private ServerUserUI userUI;

@@ -29,7 +29,7 @@ const int fast=200;
 const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte serverIp[] = {192,168,0,2};
+byte serverIp[] = {192,168,0,3};
 int port = 5000;
 int x = 0;
 
@@ -107,6 +107,7 @@ void sendMsg(String msg) {
  }
 
  void forward (){
+  Serial.println("in forward-methid");
   analogWrite(pwmXY, 200);
   digitalWrite(xMotor1,HIGH);
   digitalWrite(xMotor2,LOW);
