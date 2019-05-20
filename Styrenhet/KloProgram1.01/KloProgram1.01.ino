@@ -30,7 +30,7 @@ const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 byte ipAdress[] = {192,168,0,30};
-byte serverIp[] = {192,168,0,20};
+byte serverIp[] = {192,168,0,50};
 int port = 5000;
 int x = 0;
 
@@ -188,26 +188,26 @@ void loop() {
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageX);
+      Serial.println(voltageX);
   }else if(directionX == 1){
       int sensorVal = analogRead(sensorPin1);
       voltageX = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageX);
+      Serial.println(voltageX);
   }
 
   if(directionY == 0){
       int sensorVal = analogRead(sensorPin2);
       voltageY = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageY);
+      Serial.println(voltageY);
     }else if(directionY == 1){
       int sensorVal = analogRead(sensorPin3);
       voltageY = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageY);
+      Serial.println(voltageY);
     }
 
 
   
-  if(voltageX > 1.0 || voltageX < 0.35){
+  if(voltageX > 1.0 || voltageX < 0.30){
     if(directionX == 0){
       haltY();
     }
@@ -216,7 +216,7 @@ void loop() {
     }
   }
 
-  if(voltageY > 1.0 || voltageY < 0.35){
+  if(voltageY > 1.0 || voltageY < 0.30){
     if(directionY == 0){
       haltX();
     }
@@ -227,7 +227,7 @@ void loop() {
 
 if (client.connected() == true) {
     String command = client.readString();
-    client.setTimeout(10);
+    client.setTimeout(5);
     
     if (command == "FORWARD") {
     forward();
