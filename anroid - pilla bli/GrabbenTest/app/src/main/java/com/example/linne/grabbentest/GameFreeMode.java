@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class GameFreeMode extends AppCompatActivity implements UpdateUser{
@@ -23,12 +24,12 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     private Button btnLeft;
     private Button btnDown;
     private Button btnUp;
-    private Button btnGrab;
+    private Button btnClose;
+    private Button btnOpen;
     private ClientController client;
     private String active_User;
     public static final int TEXT_REQUEST = 1;
     private CountDownTimer countdown;
-    private String claw_state;
 
 
 
@@ -40,7 +41,6 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         registerListeners();
         Intent intent = getIntent();
         String ip = intent.getStringExtra("ip");
-        claw_state = "OPEN";
 
         String temp = intent.getStringExtra("active_User");
         Log.e("myinfo", "tog emot användarnamn : " + temp + " från mainActivity" );
@@ -57,7 +57,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(30000, 1000) {
+        countdown = new CountDownTimer(1000000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -108,14 +108,15 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     }
 
     private void initializeComponents(){
-        firstText = (TextView)findViewById(R.id.textTest);
+        firstText = (TextView)findViewById(R.id.textView_Title);
         userNameText = (TextView)findViewById(R.id.user_textview);
         btnForward = (Button) findViewById(R.id.btnForward);
         btnBack = (Button) this.findViewById(R.id.btnBack);
         btnDown = (Button) this.findViewById(R.id.btnDown);
         btnRight = (Button) this.findViewById(R.id.btnRight);
         btnLeft = (Button) this.findViewById(R.id.btnLeft);
-        btnGrab = (Button) findViewById((R.id.btnGrab));
+        btnOpen = (Button) findViewById((R.id.btnOpen));
+        btnClose = (Button) findViewById((R.id.btnClose));
         btnUp = (Button) findViewById(R.id.btnUp);
 
 
@@ -215,28 +216,41 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 return true;
             }
         });
-        btnGrab.setOnTouchListener(new View.OnTouchListener() {
+        btnOpen.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    Log.e("myinfo", " pressed");
-                    disableButtons(btnGrab);
+                    Log.e("myinfo", "open pressed");
+                    disableButtons(btnOpen);
 
-                    if(claw_state.equals("OPEN")) {
-                        new GameFreeMode.Sender("CLOSE\n").start();
-                        claw_state = "CLOSED";
-                    }else{
+
                         new GameFreeMode.Sender("OPEN\n").start();
-                        claw_state = "OPEN";
-                    }
+
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    Log.e("myinfo", "grab released");
+                    Log.e("myinfo", "open released");
                     sendReleased();
                 }
-                Log.e("myinfo", "claw state:" + claw_state);
                 return true;
             }
         });
+        btnClose.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.e("myinfo", "close pressed");
+                    disableButtons(btnClose);
+
+                    new GameFreeMode.Sender("CLOSE\n").start();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.e("myinfo", "close released");
+                    sendReleased();
+                }
+
+                return true;
+            }
+        });
+
+
     }
 
     public void disableButtons(){
@@ -246,7 +260,8 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         btnRight.setEnabled(false);
         btnDown.setEnabled(false);
         btnUp.setEnabled(false);
-        btnGrab.setEnabled(false);
+        btnOpen.setEnabled(false);
+        btnClose.setEnabled(false);
         btnForward.setEnabled(false);
     }
     public void disableButtons(Button pressedButton){
@@ -259,7 +274,8 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 btnRight.setEnabled(false);
                 btnDown.setEnabled(false);
                 btnUp.setEnabled(false);
-                btnGrab.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnClose.setEnabled(false);
                 break;
             case R.id.btnBack:
                 btnRight.setEnabled(false);
@@ -268,7 +284,8 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 btnLeft.setEnabled(false);
                 btnDown.setEnabled(false);
                 btnUp.setEnabled(false);
-                btnGrab.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnClose.setEnabled(false);
                 break;
             case R.id.btnLeft:
                 btnRight.setEnabled(false);
@@ -277,7 +294,8 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 btnBack.setEnabled(false);
                 btnDown.setEnabled(false);
                 btnUp.setEnabled(false);
-                btnGrab.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnClose.setEnabled(false);
                 break;
             case R.id.btnRight:
                 btnLeft.setEnabled(false);
@@ -285,18 +303,21 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 btnBack.setEnabled(false);
                 btnDown.setEnabled(false);
                 btnUp.setEnabled(false);
-                btnGrab.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnClose.setEnabled(false);
                 break;
-            case R.id.btnGrab:
+            case R.id.btnOpen:
                 btnRight.setEnabled(false);
                 btnForward.setEnabled(false);
                 btnDown.setEnabled(false);
                 btnBack.setEnabled(false);
                 btnLeft.setEnabled(false);
                 btnUp.setEnabled(false);
+                btnClose.setEnabled(false);
                 break;
             case R.id.btnDown:
-                btnGrab.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnClose.setEnabled(false);
                 btnRight.setEnabled(false);
                 btnForward.setEnabled(false);
                 btnBack.setEnabled(false);
@@ -308,7 +329,17 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 btnForward.setEnabled(false);
                 btnDown.setEnabled(false);
                 btnBack.setEnabled(false);
-                btnGrab.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnClose.setEnabled(false);
+                btnLeft.setEnabled(false);
+                break;
+            case R.id.btnClose:
+                btnRight.setEnabled(false);
+                btnForward.setEnabled(false);
+                btnDown.setEnabled(false);
+                btnBack.setEnabled(false);
+                btnOpen.setEnabled(false);
+                btnUp.setEnabled(false);
                 btnLeft.setEnabled(false);
                 break;
         }
@@ -321,7 +352,8 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         btnLeft.setEnabled(true);
         btnBack.setEnabled(true);
         btnForward.setEnabled(true);
-        btnGrab.setEnabled(true);
+        btnOpen.setEnabled(true);
+        btnClose.setEnabled(true);
         btnUp.setEnabled(true);
         new GameFreeMode.Sender("RELEASE\n").start();
     }
