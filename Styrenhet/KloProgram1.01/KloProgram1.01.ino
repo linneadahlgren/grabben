@@ -1,6 +1,10 @@
 #include <SPI.h>
 #include <Ethernet.h>
 #include<Servo.h>
+#include "HX711.h"
+#define DOUT  40  
+#define CLK  41
+
 int pwmXY=5;
 
 int enableMotors=A0;
@@ -9,7 +13,7 @@ int xMotor2=8;
 
 int yMotor1=9;
 int yMotor2=3;
-//const byte interruptPinX=2;
+
 
 float voltageX = 0;
 float voltageY = 0;
@@ -20,6 +24,12 @@ int sensorPin0 = A0;
 int sensorPin1 = A1;
 int sensorPin2 = A2;
 int sensorPin3 = A3;
+
+const int buttonPin=2;
+const int ledPin =  13;
+volatile int buttonState = 0;
+
+HX711 scale (DOUT,CLK);
 
 Servo zServo;
 Servo kloServo;
@@ -46,8 +56,6 @@ void setup() {
   pinMode (xMotor2, OUTPUT);
   analogWrite(pwmXY,150);
 
- // pinMode(interruptPinX,INPUT_PULLUP);
-  //attachInterrupt(digitalPinToInetrrupt(interruptPin); 
 
   pinMode(sensorPin0, INPUT);
   pinMode(sensorPin1, INPUT);
@@ -59,7 +67,13 @@ void setup() {
   kloServo.attach(6);
   kloServo.write(40);
 
+//Setup for load-cell
 
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+  attachInterrupt(5, pin_ISR, RISING);
+  reset_load_cell();
+  
   Ethernet.begin(mac, ipAdress);
   Serial.begin(9600);
   delay(1000);
@@ -161,7 +175,8 @@ void grab(){
 }
 void openClaw(){
   kloServo.write(40);
-  delay(1000);
+  read_load_cell();
+  //delay(1000);
 }
 void closeClaw(){
   kloServo.write(110);
@@ -182,27 +197,44 @@ void toCenter(){
   delay(400);
   halt();
 }
+void read_load_cell(){
+  delay(1000);
+  scale.set_scale(-822386.75);
+  float weight=(scale.get_units()*1000);
+  Serial.println("Vikt: ");
+   Serial.println( weight);
+}
+void reset_load_cell(){
+  scale.set_scale();
+  scale.tare();
+}
+void pin_ISR() {
+  buttonState = digitalRead(buttonPin);
+  digitalWrite(ledPin, 1);
+ reset_load_cell();
+}
+
 void loop() {
  
   
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageX);
+      //Serial.println(voltageX);
   }else if(directionX == 1){
       int sensorVal = analogRead(sensorPin1);
       voltageX = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageX);
+      //Serial.println(voltageX);
   }
 
   if(directionY == 0){
       int sensorVal = analogRead(sensorPin2);
       voltageY = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageY);
+      //Serial.println(voltageY);
     }else if(directionY == 1){
       int sensorVal = analogRead(sensorPin3);
       voltageY = sensorVal * (5.0 / 1023.0);
-      Serial.println(voltageY);
+      //Serial.println(voltageY);
     }
 
 
@@ -263,7 +295,7 @@ if (client.connected() == true) {
       if(command=="CLOSE"){
    closeClaw();
     }
-        //Serial.println(command);
+        
  }
   if (!client.connected()) {
     Serial.println();
