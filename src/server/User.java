@@ -40,20 +40,11 @@ public class User implements Comparable, Serializable{
 	public void setPoints(int points) {
 		this.points = points;
 	}
-
-
-	
-	
-
-
-	
 	public int compareTo(Object o) {
-		
-		//return this.points-((User)o).getPoints();
 		
 		if(this.getPoints()>=((User) o).getPoints())
 			return -1;
-			
+
 		else 
 			return 1;
 			

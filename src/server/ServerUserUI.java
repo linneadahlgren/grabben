@@ -246,12 +246,14 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		repaint();
 		
 	}
+	/**
+	 * 
+	 * Updates the point of the currentuser and shows them
+	 * @param points
+	 */
 	public void updatePoints(int points) {
-		System.out.println("In UI-method" +points);
 		currentUser.setPoints(points);
 		centertextLbl.setText("<html><center>PLAYING:<br><center>"+ currentUser.getName()+"<br><center>"+currentUser.getPoints()+"</html>");
-		System.out.println("currentuser In UI" +currentUser.getPoints());
-		
 		repaint();
 	}
 	/**
@@ -261,8 +263,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	 */
 	public void updateHighscore(User[] highScoreList) {
 		for(int i=0;i<scoreLabels.length;i++) {
-			scoreLabels[i].setText(highScoreList[i].getName()+": " + highScoreList[i].getPoints());
-			
+			scoreLabels[i].setText(highScoreList[i].getName()+": " + highScoreList[i].getPoints());	
 		}
 		repaint();
 	}

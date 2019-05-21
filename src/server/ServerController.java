@@ -41,6 +41,10 @@ public class ServerController {
 		this.viewer = viewer;
 	}
 	
+	/**
+	 * writes to log 
+	 * @param msg
+	 */
 	public void writeToLog(String msg) {
 		viewer.addText(msg);
 	}
@@ -56,26 +60,33 @@ public class ServerController {
 			setNextUser();
 		}
 	}
+	/**
+	 * 
+	 * starts the highscorereader-thread
+	 */
 	public void readOldHighScore() {
-		
-		new HighScoreReader().start();
-
-		
+		new HighScoreReader().start();	
 	}
+	/**
+	 * 
+	 * Controlls the currentUsers score against the highscorelist at the end of every freeplaygame.
+	 * 
+	 */
 	public void compareScore() {
+		System.out.println("In comparescore method");
+		//synchronized(currentUser) {
 		if (currentUser!=null) {
-			
-			
 			if(currentUser.getPoints()>=highScoreList[highScoreList.length-1].getPoints()) {
 				
 				highScoreList[9]=currentUser;
 					
 				}
 				   Arrays.sort(highScoreList);
-				   
+				   System.out.println("higscorelist sorted");
 				   userUI.updateHighscore(highScoreList);	
 			}
-	}							
+	}	
+	//}
 			
 		
 	/**
@@ -101,26 +112,41 @@ public class ServerController {
 	public String setNextUser() {
 		
 		nextUser=new User(userQueue.element());
-		System.out.println("Next user in controller" +nextUser.getName());
+		
 		userUI.updateNextUser(nextUser);
 		
 		return nextUser.getName();
 	}
+	/**
+	 * starts the highscoreSaver-thread.
+	 */
 	public void saveHighScore() {
-		System.out.println("starting HighscoreSaver");
+		
 		new HighscoreSaver().start();
 	}	
+	/**
+	 * Takes a user as a parameter and sets this as the currentUser and sends that to the ui.
+	 * 
+	 * @param user
+	 */
 		public void setCurrentUser(User user) {
 			currentUser=user;
-			System.out.println("IN CONTROLLER"+user.getName());
 			userUI.updateCurrentUser(currentUser);
 		}
+		/**
+		 * Takes a string of points as a parameters. Multiplies the points by ten and then cuts of the decimals.
+		 * Compares these points to the points that the currentuser has now and sets it as the new points-value if it is the bigger number.
+		 * Then it sends these points to ui.
+		 * @param points
+		 */
 		public void setScore(String points) {
 			int currentPoints=(int)((Float.parseFloat(points))*10);
-			System.out.println("points in controller: "+ currentPoints);
+			
+			if(currentPoints>currentUser.getPoints()) {
 			currentUser.setPoints(currentPoints);
-			System.out.println("currentuser points is sset "+ currentUser.getPoints());
 			userUI.updatePoints(currentPoints);
+			}
+			
 			
 		}
 	
@@ -138,12 +164,10 @@ public class ServerController {
 	public void emptyHighScore() {
 		for(int i=0;i<highScoreList.length;i++) {
 			highScoreList[i]=new User();
-			
 		}
 		userUI.updateHighscore(highScoreList);	
 
 	}
-	
 	
 
 	private class HighscoreSaver extends Thread{
@@ -155,15 +179,11 @@ public class ServerController {
 					ObjectOutputStream output = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(highscoreFile)));
 					System.out.println("stream is setup");
 					for(int i=0;i<highScoreList.length;i++) {
-						
-						System.out.println(highScoreList[i].getName());
 						output.writeObject(highScoreList[i]);
 						output.flush();
 					}
-					
 					output.close();
-
-
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				} 
@@ -195,7 +215,6 @@ public class ServerController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -205,8 +224,8 @@ public class ServerController {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
 		new Server(controller, 5000);
-		controller.add(new User("LUDVIGLUDVIG"));
-		controller.getNextUser();	
+		//controller.emptyHighScore();
+	
 		
 	
 	}

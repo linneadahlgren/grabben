@@ -16,9 +16,7 @@ public class Server {
 	
 	public void sendToEs(String instruction) {
 		try {
-			System.out.println("computer sent "+instruction);
 			
-			controller.writeToLog("Computer sent: " + instruction);
 			
 			esHandler.getOutputStream().write(instruction);
 			
@@ -31,7 +29,7 @@ public class Server {
 	public void sendToComp(String instruction) {
 		try {
 			instruction+="\n";
-			controller.writeToLog("Embedded System sent: " + instruction);
+			
 			computerHandler.getOutputStream().write(instruction);
 			computerHandler.getOutputStream().flush();
 		}catch(IOException e) {
@@ -103,28 +101,33 @@ public class Server {
 					System.out.println("INCOMING MSG IN SERVER: "+temp);
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
+							controller.writeToLog("App sent: " + temp);
 							String sendUser = "USER:" + controller.getNextUser();
 							sendToComp(sendUser);
 						}
 						else if(temp.startsWith("NEWUSER:")) {
+								controller.writeToLog("App sent: " + temp);
 								User newUser=new User(temp.substring(8));
 								System.out.println("IN SERVER"+newUser.getName());
 								controller.setCurrentUser(newUser);
 								
-						}		
+						}
+						else if(temp.startsWith("GAMEOVER")) {
+							controller.writeToLog("App sent: " + temp);
+							controller.compareScore();
+							
+						}	
 						else {
+							controller.writeToLog("App sent: " + temp);
 							System.out.println("skickar till es " + temp);
 							sendToEs(temp);
 						}
 					}else if(this.equals(esHandler)) {
-						System.out.println("points coming in to server: " + temp);
+						controller.writeToLog("ES sent: " + temp);
 						
 						controller.setScore(temp);
 						
-						//sendToComp(temp);
 					}
-							
-
 					output.flush();
 				}
 				} catch (IOException e) {
