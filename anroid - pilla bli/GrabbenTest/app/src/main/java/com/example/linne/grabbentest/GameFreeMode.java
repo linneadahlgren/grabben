@@ -81,6 +81,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     @Override
     protected void onStop(){
         super.onStop();
+        new Sender("GAMEOVER");
         Log.e("myinfo", "on stop");
         if(countdown != null) {
             countdown.cancel();

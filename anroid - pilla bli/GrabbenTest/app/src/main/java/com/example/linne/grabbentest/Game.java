@@ -85,6 +85,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
     protected void onStop(){
         super.onStop();
         countdown.cancel();
+  
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
         Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);
