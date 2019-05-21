@@ -1,6 +1,9 @@
 package com.example.linne.grabbentest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +24,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
     private Button btnGrab;
     private ClientController client;
     public static final int TEXT_REQUEST = 1;
-
+    private CountDownTimer countdown;
     private String active_User = "-1";
 
 
@@ -39,7 +42,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
         String temp = intent.getStringExtra("active_User");
         active_User = temp;
         client = new ClientController(ip, this,temp);
-
+        time();
 
     }
     private void initializeComponents(){
@@ -52,9 +55,36 @@ public class Game extends AppCompatActivity implements UpdateUser{
         btnLeft = (Button) this.findViewById(R.id.btnLeft);
 
     }
+    public void time(){
+
+
+        Log.e("myinfo", "ny timer");
+
+
+        countdown = new CountDownTimer(3000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                firstText.setText(" " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        disableButtons();
+                        alertDialogGameOver();
+                    }
+                });
+
+
+            }
+        }.start();
+
+    }
 
     protected void onStop(){
         super.onStop();
+        countdown.cancel();
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
         Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);
@@ -130,10 +160,13 @@ public class Game extends AppCompatActivity implements UpdateUser{
                     Log.e("myinfo", "grab pressed");
                     new Sender("GRAB\n").start();
                     disableButtons(btnGrab);
-
+                    countdown.cancel();
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "grab released");
                     sendReleased();
+                    disableButtons();
+                    alertDialogLoadFile();
+
                 }
                 return true;
             }
@@ -244,6 +277,64 @@ public class Game extends AppCompatActivity implements UpdateUser{
         }
         */
     }
+
+    private void alertDialogLoadFile(){
+        sendReleased();
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Game complete! check box for prize");
+        alert.setCancelable(false);
+        disableButtons();
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+
+                Intent replyIntent = new Intent();
+                replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
+                Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);
+                setResult(RESULT_OK, replyIntent);
+
+                finish();
+            }
+        });
+
+
+
+        AlertDialog ad = alert.create();
+        ad.show();
+
+    }
+    private void alertDialogGameOver(){
+        sendReleased();
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Game Over!");
+        alert.setCancelable(false);
+        disableButtons();
+
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+
+                Intent replyIntent = new Intent();
+                replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
+                Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);
+                setResult(RESULT_OK, replyIntent);
+
+                finish();
+            }
+        });
+
+
+
+        AlertDialog ad = alert.create();
+        ad.show();
+
+    }
+
     private class Sender extends Thread{
         public String stringToSend;
 

@@ -26,12 +26,19 @@ public class launchNewUser extends AppCompatActivity {
         addUserStrings = getResources().getStringArray(R.array.enter_Username);
     }
 
-
+/*
+* Om aktiviteten avslutas så sätts resultatet till cancelled och aktiviteten som startade
+* launchNewUser kommer inte försöka läsa resultatet
+*
+* */
     public void onStop(){
         super.onStop();
         setResult(RESULT_CANCELED);
 
     }
+    /*
+    * ReturnUser anropas när man
+    * */
     public void returnUser(View view) {
             String reply = userInput.getText().toString();
 
