@@ -30,6 +30,7 @@ const int ledPin =  13;
 volatile int buttonState = 0;
 
 HX711 scale (DOUT,CLK);
+String on_scale="";
 
 Servo zServo;
 Servo kloServo;
@@ -201,8 +202,9 @@ void read_load_cell(){
   delay(1000);
   scale.set_scale(-822386.75);
   float weight=(scale.get_units()*1000);
-  Serial.println("Vikt: ");
-   Serial.println( weight);
+  on_scale=String(weight);
+  Serial.println(on_scale);
+  sendMsg(on_scale);
 }
 void reset_load_cell(){
   scale.set_scale();
@@ -265,18 +267,18 @@ if (client.connected() == true) {
     forward();
     }
     if (command == "BACK") {
-      Serial.println("command coming in: back");
+      
     backward();
     }
     if (command == "LEFT") {
     left();
     }
     if (command == "RIGHT") {
-      Serial.println("command coming in: right");
+      
     right();
     }
     if(command=="RELEASE"){
-      Serial.println("command coming in: Release");
+      
     halt();
     zHalt();
     }

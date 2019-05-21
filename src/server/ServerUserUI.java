@@ -85,7 +85,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		smallTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",30f);
 
 		
-		setPreferredSize(new Dimension(1500,800));
+		setPreferredSize(new Dimension(1500,900));
 		
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -98,11 +98,11 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		mediumTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",60f);
 		this.controller = controller;
 	
-		groundPanel.setPreferredSize(new Dimension(1500,800));
+		groundPanel.setPreferredSize(new Dimension(1500,900));
 		groundPanel.setBackground(Color.BLACK);
 		groundPanel.setLayout(new BorderLayout());
 		
-		highscorePanel.setPreferredSize(new Dimension(300,800));
+		highscorePanel.setPreferredSize(new Dimension(300,900));
 		highscorePanel.setBackground(Color.BLACK);
 		highscorePanel.setForeground(pink);
 		highscorePanel.setLayout(new BoxLayout(highscorePanel,BoxLayout.PAGE_AXIS));
@@ -231,7 +231,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 			centertextLbl.setText("<html>NO ONE PLAYING<br><center> ENTER ON TABLET</html>");
 		}
 		else{
-		centertextLbl.setText("<html>NOW PLAYING<br><center>"+currentUser.getName()+"</html>");
+		centertextLbl.setText("<html><center>PLAYING:<br><center>"+ currentUser.getName()+"<br><center>"+currentUser.getPoints()+"</html>");
 		}
 		repaint();
 	}
@@ -245,6 +245,14 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		this.nextUser=nextUser;
 		repaint();
 		
+	}
+	public void updatePoints(int points) {
+		System.out.println("In UI-method" +points);
+		currentUser.setPoints(points);
+		centertextLbl.setText("<html><center>PLAYING:<br><center>"+ currentUser.getName()+"<br><center>"+currentUser.getPoints()+"</html>");
+		System.out.println("currentuser In UI" +currentUser.getPoints());
+		
+		repaint();
 	}
 	/**
 	 * 
@@ -350,6 +358,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		public void run() {
 			while(true) {
 				nextPlayerLbl.setText(nextUser.getName());
+				
 			repaint();
 			try {
 				Thread.sleep(1000);
@@ -358,7 +367,9 @@ public class ServerUserUI extends JFrame implements WindowListener{
 				e.printStackTrace();
 			}
 			nextPlayerLbl.setText("NEXT PLAYER: ");
+			
 			repaint();
+			
 
 			
 			try {
@@ -383,7 +394,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		
 		shutDown();
 		
 	}

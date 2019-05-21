@@ -17,7 +17,6 @@ public class Server {
 	public void sendToEs(String instruction) {
 		try {
 			System.out.println("computer sent "+instruction);
-				
 			
 			controller.writeToLog("Computer sent: " + instruction);
 			
@@ -118,7 +117,11 @@ public class Server {
 							sendToEs(temp);
 						}
 					}else if(this.equals(esHandler)) {
-						sendToComp(temp);
+						System.out.println("points coming in to server: " + temp);
+						
+						controller.setScore(temp);
+						
+						//sendToComp(temp);
 					}
 							
 

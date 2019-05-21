@@ -78,8 +78,6 @@ public class ServerController {
 	}							
 			
 		
-	
-	
 	/**
 	 * @return string of next user in the queue, sets it as the current user and
 	 *  also removes it from the queue. 
@@ -95,6 +93,11 @@ public class ServerController {
 		}
 		return currentUser.getName();
 	}
+	/**
+	 * 
+	 * Sets the variable nextUser to the next user in queue and sends it to the UI to be shown.
+	 * @returns the next user in queue
+	 */
 	public String setNextUser() {
 		
 		nextUser=new User(userQueue.element());
@@ -112,6 +115,14 @@ public class ServerController {
 			System.out.println("IN CONTROLLER"+user.getName());
 			userUI.updateCurrentUser(currentUser);
 		}
+		public void setScore(String points) {
+			int currentPoints=(int)((Float.parseFloat(points))*10);
+			System.out.println("points in controller: "+ currentPoints);
+			currentUser.setPoints(currentPoints);
+			System.out.println("currentuser points is sset "+ currentUser.getPoints());
+			userUI.updatePoints(currentPoints);
+			
+		}
 	
 	/**
 	 * 
@@ -121,9 +132,7 @@ public class ServerController {
 	public void add(User user) {
 		userQueue.add(user.getName());
 	}
-	public void setScore(int points) {
-		currentUser.setPoints(points);
-	}
+	
 	
 	
 	public void emptyHighScore() {
@@ -196,6 +205,8 @@ public class ServerController {
 		ServerController controller = new ServerController();
 		controller.showUI(new ServerViewer());
 		new Server(controller, 5000);
+		controller.add(new User("LUDVIGLUDVIG"));
+		controller.getNextUser();	
 		
 	
 	}
