@@ -112,7 +112,7 @@ public class EgetTest {
 			if(clawState.equals("CLOSE") || clawState.equals("RELEASE")) {
 				clawState = "OPEN";
 				System.out.println("OPEN");
-			//	clientcontroller.send("OPEN\n");
+				clientcontroller.send("OPEN");
 			}
 		}else if(component.getName().equals("Knapp 4") && axisValueInPercentage == 0) {
 			clawState = "RELEASE";
@@ -120,7 +120,7 @@ public class EgetTest {
 			if(clawState.equals("OPEN") || clawState.equals("RELEASE")) {
 				clawState = "CLOSE";
 				System.out.println("CLOSE");
-				//clientcontroller.send("CLOSE\n");
+				clientcontroller.send("CLOSE");
 			}
 		}else if(component.getName().equals("Knapp 5") && axisValueInPercentage == 0) {
 			clawState = "RELEASE";
@@ -174,6 +174,8 @@ public class EgetTest {
 		private Component XAxis;
 		private Component YAxis;
 		
+		
+		
 		private String nextDirection ="";
 		private String current ="";
 		
@@ -206,13 +208,15 @@ public class EgetTest {
 				int YValue = getAxisValueInPercentage(YAxis.getPollData());
 				
 				if(XValue != previousXValue || YValue != previousYValue) {
+					
+					
 					if(XValue > 80 && YValue > 80) {
 						if(XValue > YValue) {
 							nextDirection = "RIGHT";
 						}else if(YValue > XValue) {
 							nextDirection = "BACK";
 						}else {
-							nextDirection ="test 1";
+							//nextDirection ="test 1";
 						}
 					}
 					
@@ -223,7 +227,7 @@ public class EgetTest {
 						}else if(XValue > YValue) {
 							nextDirection = "FORWARD";
 						}else {
-							nextDirection ="test 2";
+							//nextDirection ="test 2";
 						}
 					}else if(XValue > 80 && YValue < 20) {
 						int XCompare = 100 - XValue;
@@ -232,7 +236,7 @@ public class EgetTest {
 						}else if(XCompare > YValue) {
 							nextDirection = "FORWARD";
 						}else {
-							nextDirection ="test 3";
+						//	nextDirection ="test 3";
 						}
 					}else if(XValue < 20 && YValue > 80) {
 						int YCompare = 100 - YValue;
@@ -241,7 +245,7 @@ public class EgetTest {
 						}else if(XValue > YCompare) {
 							nextDirection = "BACK";
 						}else {
-							nextDirection ="test 4";
+							//nextDirection ="test 4";
 						}
 					}else if(XValue > 20 && XValue < 80) {
 						if(YValue > 80) {
@@ -249,7 +253,7 @@ public class EgetTest {
 						}else if(YValue < 20) {
 							nextDirection = "FORWARD";
 						}else {
-							nextDirection ="RELEASE";
+							//nextDirection ="RELEASE";
 						}
 					}else if(YValue > 20 && YValue < 80) {
 						if(XValue > 80) {
@@ -257,7 +261,7 @@ public class EgetTest {
 						}else if(XValue < 20) {
 							nextDirection = "LEFT";
 						}else {
-							nextDirection ="test 6";
+						//	nextDirection ="test 6";
 						}
 					}
 //					else if(YValue < 65 && XValue < 65){ 
@@ -268,9 +272,11 @@ public class EgetTest {
 					
 				}
 				if(!nextDirection.equals(current)) {
+					System.out.println("nytt värde");
+					clientcontroller.send("RELEASE");
 					System.out.println(nextDirection);
 					current = nextDirection;
-					//clinetCon.send(current);
+					clientcontroller.send(current);
 				}
 				
 				
@@ -280,10 +286,10 @@ public class EgetTest {
 		}
 	}
 
-	public static void main(String[] args) {
-		EgetTest test = new EgetTest();
-		test.getController();
-	}
+//	public static void main(String[] args) {
+//		EgetTest test = new EgetTest();
+//		test.getController();
+//	}
 
 
 }
