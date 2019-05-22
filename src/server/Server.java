@@ -1,3 +1,4 @@
+
 package server;
 
 import java.io.*;
@@ -16,7 +17,7 @@ public class Server {
 	
 	public void sendToEs(String instruction) {
 		try {
-			
+			System.out.print(instruction);
 			
 			esHandler.getOutputStream().write(instruction);
 			
@@ -115,8 +116,15 @@ public class Server {
 						else if(temp.startsWith("GAMEOVER")) {
 							controller.writeToLog("App sent: " + temp);
 							controller.compareScore();
+							System.out.println("trying to send open");
+							//sendToEs("OPEN\n");
+							//sendToEs("UP\n");
 							
-						}	
+						}
+						else if(temp.startsWith("CLASSIC")) {
+							System.out.println("Tagit emot classic");
+							controller.setClassicText();
+						}
 						else {
 							controller.writeToLog("App sent: " + temp);
 							System.out.println("skickar till es " + temp);
@@ -124,7 +132,6 @@ public class Server {
 						}
 					}else if(this.equals(esHandler)) {
 						controller.writeToLog("ES sent: " + temp);
-						
 						controller.setScore(temp);
 						
 					}

@@ -76,6 +76,7 @@ public class ServerController {
 		System.out.println("In comparescore method");
 		//synchronized(currentUser) {
 		if (currentUser!=null) {
+			
 			if(currentUser.getPoints()>=highScoreList[highScoreList.length-1].getPoints()) {
 				
 				highScoreList[9]=currentUser;
@@ -99,8 +100,8 @@ public class ServerController {
 			currentUser.setName("NO ONE");
 		}
 		else {
-		userUI.updateCurrentUser(currentUser);
-		setNextUser();
+			userUI.updateCurrentUser(currentUser);
+			setNextUser();
 		}
 		return currentUser.getName();
 	}
@@ -143,12 +144,19 @@ public class ServerController {
 			int currentPoints=(int)((Float.parseFloat(points))*10);
 			
 			if(currentPoints>currentUser.getPoints()) {
-			currentUser.setPoints(currentPoints);
-			userUI.updatePoints(currentPoints);
+				currentUser.setPoints(currentPoints);
+				userUI.updatePoints(currentPoints);
 			}
 			
 			
 		}
+		public void setClassicText() {
+			userUI.setClassicText();
+			userQueue.remove();
+			setNextUser();
+		}
+		
+		
 	
 	/**
 	 * 
@@ -168,6 +176,7 @@ public class ServerController {
 		userUI.updateHighscore(highScoreList);	
 
 	}
+	
 	
 
 	private class HighscoreSaver extends Thread{

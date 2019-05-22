@@ -1,3 +1,4 @@
+
 package server;
 
 import java.awt.*;
@@ -55,7 +56,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JPanel centerPanel=new JPanel();
 	private JPanel westPanel=new JPanel();
 	private JLabel titleLabel=new JLabel();
-	private JLabel centertextLbl=new JLabel("NO ONE IS PLAYING");
+	private JLabel centertextLbl=new JLabel("WAITING FOR PLAYER");
 	private JLabel nextPlayerLbl=new JLabel("NO ONE IN LINE");
 	private Font titleFont;
 	private Font textFont;
@@ -75,15 +76,17 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private Color lightBlue=new Color(51,204,255);
 	private Color purple=new Color(102,0,153);
 	private Color pink=new Color(255,20,147);
+	
+	//private boolean inClassic=false;
 
 	
 	public ServerUserUI(ServerController controller){
 
 		
-		titleFont= createFont("/Users/toverumar/Documents/Fonts/dragonmark/dragonmark.ttf",160f);
-		textFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",100f);
-		smallTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",30f);
-
+		titleFont= createFont("files/dragonmark.ttf",160f);
+		textFont=createFont("files/linestrider-mini.ttf",100f);
+		smallTextFont=createFont("files/linestrider-mini.ttf",30f);
+		mediumTextFont=createFont("files/linestrider-mini.ttf",60f);
 		
 		setPreferredSize(new Dimension(1500,900));
 		
@@ -95,7 +98,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 			e1.printStackTrace();
 		}
 
-		mediumTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",60f);
+		//mediumTextFont=createFont("/Users/toverumar/Documents/Fonts/linestrider-mini/linestrider-mini.ttf",60f);
 		this.controller = controller;
 	
 		groundPanel.setPreferredSize(new Dimension(1500,900));
@@ -228,12 +231,16 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		this.currentUser=currentUser;
 		
 		if(currentUser.getName().equals("NO ONE")) {
-			centertextLbl.setText("<html>NO ONE PLAYING<br><center> ENTER ON TABLET</html>");
+			centertextLbl.setText("WAITING FOR PLAYER");
 		}
-		else{
+		else if(currentUser.getName().equals("NO ONE")){
+		}
+		else {
 		centertextLbl.setText("<html><center>PLAYING:<br><center>"+ currentUser.getName()+"<br><center>"+currentUser.getPoints()+"</html>");
 		}
+		
 		repaint();
+		
 	}
 	
 	/**
@@ -256,6 +263,15 @@ public class ServerUserUI extends JFrame implements WindowListener{
 		centertextLbl.setText("<html><center>PLAYING:<br><center>"+ currentUser.getName()+"<br><center>"+currentUser.getPoints()+"</html>");
 		repaint();
 	}
+	public void setClassicText() {
+		
+		centertextLbl.setText("CLASSIC MODE");
+		
+		repaint();
+		System.out.println("har repaintat");
+	}
+	
+
 	/**
 	 * 
 	 * Updates the highscorelist and then repaints the window to display it
@@ -292,7 +308,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	 */
 	
 	public void shutDown() {
-		
 		controller.saveHighScore();
 	}
 	/**
