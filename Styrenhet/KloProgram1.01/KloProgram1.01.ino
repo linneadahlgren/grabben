@@ -17,13 +17,16 @@ int yMotor2=3;
 
 float voltageX = 0;
 float voltageY = 0;
+float voltageZ = 0;
 int directionX = 0;
 int directionY = 0;
+int directionZ = 0;
 
 int sensorPin0 = A0;
 int sensorPin1 = A1;
 int sensorPin2 = A2;
 int sensorPin3 = A3;
+int sensorPin4 = A4;
 
 const int buttonPin=2;
 const int ledPin =  13;
@@ -62,6 +65,7 @@ void setup() {
   pinMode(sensorPin1, INPUT);
   pinMode(sensorPin2, INPUT);
   pinMode(sensorPin3, INPUT);
+  pinMode(sensorPin4, INPUT);
 
   zServo.attach(4);
   zServo.write(1550);
@@ -152,24 +156,27 @@ void left (){
 }
 void down(){
   zServo.write(1000);
+  directionZ = 0;
 }
 void up(){
   zServo.write(2000);
+  directionZ = 1;
 }
 void zHalt(){
   zServo.write(1550);
 }
+
 void grab(){
   down();
-  delay(3000);
+  delay(4500);
   zHalt();
   delay(1000);
   closeClaw();
+  delay(500);
   up();
-  delay(3000);
-  zHalt();
+  
   toBox();
-  delay(5000);
+  
   openClaw();
   delay(1000);
   toCenter();
@@ -239,8 +246,14 @@ void loop() {
       //Serial.println(voltageY);
     }
 
+   if(directionZ == 1){
+      int sensorVal = analogRead(sensorPin4);
+      voltageZ = sensorVal * (5.0 / 1023.0);
+        if(voltageZ > 1.0 || voltageZ < 0.30){
+          zHalt();
+    }
+  }
 
-  
   if(voltageX > 1.0 || voltageX < 0.30){
     if(directionX == 0){
       haltY();
@@ -258,6 +271,7 @@ void loop() {
       haltX();
     }
   }
+  
 
 if (client.connected() == true) {
     String command = client.readString();
