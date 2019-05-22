@@ -61,7 +61,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(3000, 1000) {
+        countdown = new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -85,7 +85,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
     protected void onStop(){
         super.onStop();
         countdown.cancel();
-  
+
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
         Log.e("myinfo", "skickar med användarnamn till mainactivity" + active_User);

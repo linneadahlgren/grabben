@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean connection = true;
     private Button buttonGame;
     private Button buttonGameMode;
-    private String ip = "192.168.0.20";
+    private String ip = "192.168.0.50";
     private String pickedMode = "Classic";
     private String active_User = "-1";
     private View view;

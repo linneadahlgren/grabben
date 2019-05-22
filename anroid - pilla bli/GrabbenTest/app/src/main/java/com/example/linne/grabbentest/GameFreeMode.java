@@ -57,7 +57,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(1000000, 1000) {
+        countdown = new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -81,7 +81,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     @Override
     protected void onStop(){
         super.onStop();
-        new Sender("GAMEOVER");
+        new Sender("GAMEOVER\n").start();
         Log.e("myinfo", "on stop");
         if(countdown != null) {
             countdown.cancel();
@@ -403,6 +403,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         alert.setTitle("Game Over");
         alert.setCancelable(false);
         disableButtons();
+        //new Sender("GAMEOVER").start();
 
         alert.setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
             @Override
