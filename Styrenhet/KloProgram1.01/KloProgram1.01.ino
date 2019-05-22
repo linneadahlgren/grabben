@@ -128,7 +128,6 @@ void sendMsg(String msg) {
  }
 
  void forward (){
-  Serial.println("in forward-methid");
   analogWrite(pwmXY, 200);
   digitalWrite(xMotor1,HIGH);
   digitalWrite(xMotor2,LOW);
@@ -175,7 +174,32 @@ void grab(){
   delay(500);
   up();
   
+  while(directionZ == 1){
+    int sensorVal = analogRead(sensorPin4);
+    voltageZ = sensorVal * (5.0 / 1023.0);
+    if(voltageZ > 1.0 || voltageZ < 0.30){
+      zHalt();
+      directionZ = 0;
+    }
+  }
   toBox();
+
+  while(directionX == 1 || directionY == 0){
+    int sensorVal = analogRead(sensorPin2);
+    voltageY = sensorVal * (5.0 / 1023.0);
+
+    sensorVal = analogRead(sensorPin1);
+    voltageX = sensorVal * (5.0 / 1023.0);
+
+    if(voltageY > 1.0 || voltageY < 0.30){
+      haltX();
+      directionY = 1;
+    }
+    if(voltageX > 1.0 || voltageX < 0.30){
+      haltY();
+      directionX = 0;
+    }
+  }
   
   openClaw();
   delay(1000);
