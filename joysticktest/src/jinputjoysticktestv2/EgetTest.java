@@ -173,7 +173,7 @@ public class EgetTest {
 	private class XYHandler extends Thread{
 		private Component XAxis;
 		private Component YAxis;
-		
+		private Component ZAxis;
 		
 		
 		private String nextDirection ="";
@@ -181,6 +181,7 @@ public class EgetTest {
 		
 		private int previousXValue = 0;
 		private int previousYValue = 0;
+		private int previousZValue = 0;
 		private ClientController clinetCon;
 		
 		public XYHandler(Controller c) {
@@ -194,6 +195,8 @@ public class EgetTest {
 					XAxis = components[i];
 				}else if(components[i].getName().equals("Y-axeln")) {
 					YAxis = components[i];
+				}else if(components[i].getName().equals("Z-axeln")) {
+					ZAxis = components[i];
 				}
 			}
 			start();
@@ -216,7 +219,6 @@ public class EgetTest {
 						}else if(YValue > XValue) {
 							nextDirection = "BACK";
 						}else {
-							//nextDirection ="test 1";
 						}
 					}
 					
@@ -253,7 +255,12 @@ public class EgetTest {
 						}else if(YValue < 20) {
 							nextDirection = "FORWARD";
 						}else {
-							//nextDirection ="RELEASE";
+							int ZValue = getAxisValueInPercentage(ZAxis.getPollData());
+							if(ZValue < 20) {
+								nextDirection = "DOWN";
+							}else if(ZValue > 80) {
+								nextDirection = "UP";
+							}
 						}
 					}else if(YValue > 20 && YValue < 80) {
 						if(XValue > 80) {
@@ -266,14 +273,17 @@ public class EgetTest {
 					}
 //					else if(YValue < 65 && XValue < 65){ 
 //						if( YValue > 35 && XValue > 35) {
-//							nextDirection = "RELEASE";
-//					}
+//							System.out.println("kommer vi hit?");
+//						}
 //				}
 					
 				}
 				if(!nextDirection.equals(current)) {
 					System.out.println("nytt värde");
 					clientcontroller.send("RELEASE");
+					
+					
+					
 					System.out.println(nextDirection);
 					current = nextDirection;
 					clientcontroller.send(current);
