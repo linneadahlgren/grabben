@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    /**
+     * Registrera lyssnare på skärmen av mainActivity så ifall du trycker
+     * 5 gånger på skärmen så öppnas en inställningsActivitet
+     *
+     * */
     public void registerListeners(){
         view.setOnTouchListener(new View.OnTouchListener(){
 
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 }else if(event.getAction() == MotionEvent.ACTION_UP){
                     easteregg++;
                     if(easteregg == 5){
+
                         launchSettings(v);
 
                         easteregg = 0;
@@ -63,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
     );
     }
 
+    /*
+    *
+    * LaunchGame anroppas när man trycker på en av knapparna (GameMode eller Play)
+    * Metoden hanterar eventuella val som gjorts av GameMode.
+    * */
     public void launchGame(View view){
         Log.e("myinfo", "game is starting");
         Log.e("myinfo", pickedMode.toString());
@@ -82,6 +93,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+/*
+* Starta inställnings aktiviteten för att få resultat.
+*
+* */
     public void launchSettings(View view) {
         Log.e("myinfo", "settings clicked!");
         Intent intent = new Intent(this, SettingsActivity.class);
@@ -91,21 +106,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+/*
+*Denna metoden anropas när en aktivitet avslutas
+*
+* */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode,data);
 
         Log.e("myinfo", "aktivitet avslutad, tillbaka på main");
 
+        /*
+        *Första if-satsen hanterar resultatet från inställnings aktiviteten
+        * sätter ip-adressen till den nya.
+        * */
         if(requestCode == TEXT_REQUEST){
             if(resultCode == RESULT_OK){
                 String reply = data.getStringExtra(SettingsActivity.EXTRA_MESSAGE);
-                mReplyTextView.setText(reply);
-                //connection = true;
+               // mReplyTextView.setText(reply);
+                Log.e("myinfo", "ny inmatad ip-adress" + reply);
                 this.ip = reply;
                 buttonGame.setEnabled(true);
             }
         }
+        /*
+        * denna ifsatsen hanterar användarnamn från aktivitetrna
+        * */
         if(requestCode == USER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 this.active_User = data.getStringExtra(GameFreeMode.EXTRA_MESSAGE);
@@ -115,12 +141,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    //startar dialogrutan som låter en välja vilket spelmode man vill spela
     public void launchDialgo(View view) {
        alertDialogLoadFile();
 
     }
 
+    /*
+    * alertDialogLoadFile hanterar dialogrutan "Game Mode" som har två singleChoice item (FreeMode och Classic)
+    * om man trycker på cancel så blir classic vald.
+    *
+    *
+    * */
     private void alertDialogLoadFile(){
         AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         alert.setTitle("Game mode");
@@ -128,22 +160,22 @@ public class MainActivity extends AppCompatActivity {
         alert.setSingleChoiceItems(gameModes, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                buttonGameMode.setText("Game Mode:" + gameModes[which]);
-
                 pickedMode = gameModes[which];
-
+                buttonGameMode.setText("Game Mode:" + gameModes[which]);
             }
         });
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
             }
         });
 
         alert.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                pickedMode = gameModes[which];
+                buttonGameMode.setText("Game Mode:" + gameModes[0]);
                 dialog.cancel();
             }
         });

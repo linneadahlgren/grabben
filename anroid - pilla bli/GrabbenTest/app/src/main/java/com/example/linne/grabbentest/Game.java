@@ -41,7 +41,12 @@ public class Game extends AppCompatActivity implements UpdateUser{
 
         String temp = intent.getStringExtra("active_User");
         active_User = temp;
-        client = new ClientController(ip, this,temp);
+        client = new ClientController(ip, this,temp, "CLASSIC\n");
+
+        Log.e("myinfo", "testar");
+
+
+
         time();
 
     }
@@ -55,6 +60,11 @@ public class Game extends AppCompatActivity implements UpdateUser{
         btnLeft = (Button) this.findViewById(R.id.btnLeft);
 
     }
+
+    /*
+    * time metoden hanterar en nedräkning för spelet. När tiden är slut så stängs knapparna av
+    * och en dialogruta öppnas för att säga till användaren att spelet är slut
+    * */
     public void time(){
 
 
@@ -81,7 +91,9 @@ public class Game extends AppCompatActivity implements UpdateUser{
         }.start();
 
     }
-
+    /*
+    * om aktiviteten avslutas anropas onStop metoden. Då skickas
+    * */
     protected void onStop(){
         super.onStop();
         countdown.cancel();
@@ -341,7 +353,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
 
 
         public Sender(String stringToBeSent){
-            firstText.setText(stringToBeSent);
+            //firstText.setText(stringToBeSent);
             stringToSend=stringToBeSent;
         }
         public void run(){

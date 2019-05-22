@@ -43,9 +43,10 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         String ip = intent.getStringExtra("ip");
 
         String temp = intent.getStringExtra("active_User");
-        Log.e("myinfo", "tog emot användarnamn : " + temp + " från mainActivity" );
-        client = new ClientController(ip, this, temp);
 
+        Log.e("myinfo", "tog emot användarnamn : " + temp + " från mainActivity" );
+
+        client = new ClientController(ip, this, temp, "FREEMODE\n");
 
 
 
@@ -57,7 +58,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(30000, 1000) {
+        countdown = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -132,7 +133,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     Log.e("myinfo", "forward pressed");
                     new GameFreeMode.Sender("FORWARD\n").start();
-                   disableButtons(btnForward);
+                    disableButtons(btnForward);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     Log.e("myinfo", "forward released");
                     sendReleased();
