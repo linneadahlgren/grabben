@@ -167,7 +167,7 @@ void zHalt(){
 
 void grab(){
   down();
-  delay(4500);
+  delay(4800);
   zHalt();
   delay(1000);
   closeClaw();
@@ -234,7 +234,6 @@ void read_load_cell(){
   scale.set_scale(-822386.75);
   float weight=(scale.get_units()*1000);
   on_scale=String(weight);
-  Serial.println(on_scale);
   sendMsg(on_scale);
 }
 void reset_load_cell(){
@@ -321,6 +320,7 @@ if (client.connected() == true) {
     zHalt();
     }
      if(command=="UP"){
+      Serial.println("UP");
     up();
     }
      if(command=="DOWN"){
@@ -330,6 +330,7 @@ if (client.connected() == true) {
     grab();
     }
       if(command=="OPEN"){
+        Serial.println("OPEN");
     openClaw();
     }
       if(command=="CLOSE"){
