@@ -17,14 +17,21 @@ public class ClientController {
 	private EgetTest joystick;
 	
 	public ClientController() {
-		viewer=new UIClient(this);
-		//joystick = new EgetTest(this);
+		//viewer=new UIClient(this);
+		
+		System.out.println("clientcontroller");
+
 		
 		if(thread==null) {
+			System.out.println("trying to start thread");
 			thread=new ClientThread();
+			System.out.println("before thread");
+
 			thread.start();
 			
 		}
+		joystick = new EgetTest(this);
+
 	
 		
 	}
@@ -58,19 +65,23 @@ public class ClientController {
 	}
 		public void send(String instruction) {
 			instruction+="\n";
-			if(client==null) {
-				try {
-					wait();
-					
-				}catch(InterruptedException e) {
-					e.printStackTrace();
-					System.out.println("Inetrruption occured");
+			synchronized(this) {
+				while(client==null) {
+					try {
+						wait();
+
+
+					}catch(InterruptedException e) {
+						e.printStackTrace();
+						System.out.println("Inetrruption occured");
+					}
 				}
 			}
+			
 			try {
 				
 				client.getOutputStream().write(instruction);
-				
+				System.out.println("skickade " + instruction);
 				client.getOutputStream().flush();
 				
 			}catch(IOException e) {
@@ -83,15 +94,20 @@ public class ClientController {
 	private class ClientThread extends Thread{
 		
 		public ClientThread() {
-			Client client;
+			//Client client;
 		}
 		public void run() {
-			
-			connect("192.168.0.20", 5000);
+			System.out.println("thread started");
+
+			connect("192.168.0.50", 5000);
 		
 			client=new Client(socket);
 		
-			send("E");
+			send("COMPUTER");
+			
+			send("FREEMODE");
+			
+			send("NEWUSER:LINNEA");
 			
 			while(!socket.isClosed()) {
 				

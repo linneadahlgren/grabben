@@ -260,6 +260,8 @@ public class EgetTest {
 								nextDirection = "DOWN";
 							}else if(ZValue > 80) {
 								nextDirection = "UP";
+							}else if(ZValue == 50) {
+								nextDirection ="RELEASE";
 							}
 						}
 					}else if(YValue > 20 && YValue < 80) {
