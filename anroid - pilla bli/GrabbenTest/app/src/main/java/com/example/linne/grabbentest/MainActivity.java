@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         alert.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                pickedMode = gameModes[which];
+                pickedMode = gameModes[0];
                 buttonGameMode.setText("Game Mode:" + gameModes[0]);
                 dialog.cancel();
             }
