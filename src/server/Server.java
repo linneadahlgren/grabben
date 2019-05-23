@@ -1,3 +1,4 @@
+
 package server;
 
 import java.io.*;
@@ -16,10 +17,10 @@ public class Server {
 	
 	public void sendToEs(String instruction) {
 		try {
-			System.out.println(instruction);
-			controller.writeToLog("Computer sent: " + instruction);
+			System.out.print(instruction);
 			
 			esHandler.getOutputStream().write(instruction);
+			
 			esHandler.getOutputStream().flush();
 			
 		} catch (IOException e) {
@@ -28,7 +29,8 @@ public class Server {
 	}
 	public void sendToComp(String instruction) {
 		try {
-			controller.writeToLog("Embedded System sent: " + instruction);
+			instruction+="\n";
+			
 			computerHandler.getOutputStream().write(instruction);
 			computerHandler.getOutputStream().flush();
 		}catch(IOException e) {
@@ -97,21 +99,47 @@ public class Server {
 				while (!socket.isClosed()) {
 					String temp = input.readLine();
 					
+					System.out.println("INCOMING MSG IN SERVER: "+temp);
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
-							String sendUser = "USER:" + controller.getNextUser() +"\n";
+
+							controller.writeToLog("App sent: " + temp);
+							String sendUser = "USER:" + controller.getNextUser();
+
 							sendToComp(sendUser);
-						}else {
+						}
+						else if(temp.startsWith("NEWUSER:")) {
+								controller.writeToLog("App sent: " + temp);
+								User newUser=new User(temp.substring(8));
+								System.out.println("IN SERVER"+newUser.getName());
+								controller.setCurrentUser(newUser);
+								
+						}
+						else if(temp.startsWith("GAMEOVER")) {
+							controller.writeToLog("App sent: " + temp);
+							controller.compareScore();
+							System.out.println("trying to send open");
+							//sendToEs("OPEN\n");
+							//sendToEs("UP\n");
+							
+						}
+						else if(temp.startsWith("CLASSIC")) {
+							System.out.println("Tagit emot classic");
+							controller.setClassicText();
+						}
+						else {
+							controller.writeToLog("App sent: " + temp);
+							System.out.println("skickar till es " + temp);
 							sendToEs(temp);
 						}
 					}else if(this.equals(esHandler)) {
-						sendToComp(temp);
+						controller.writeToLog("ES sent: " + temp);
+						controller.setScore(temp);
+						
 					}
-							
-
 					output.flush();
 				}
-			} catch (IOException e) {
+				} catch (IOException e) {
 				try {
 					socket.close();
 				} catch (IOException e1) {

@@ -13,7 +13,7 @@ public class Queue {
 			return queue.removeFirst();
 		}else {
 			
-			return "EMPTYQUEUE";
+			return "NO ONE";
 		}
 	
 	}
@@ -22,7 +22,7 @@ public class Queue {
 		if(isEmpty() == false) {
 			return queue.get(0);
 		}else {
-			return "EMPTYQUEUE";
+			return "NO ONE";
 		}
 	}
 	public boolean isEmpty() {
