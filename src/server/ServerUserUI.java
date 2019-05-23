@@ -46,9 +46,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 
 	private JButton addUserBtn = new JButton("put user");
 	private JTextField 	userInput = new JTextField();
-
-	
-
 	private ServerController controller;
 	private JPanel  groundPanel= new JPanel();
 	private JPanel titlePanel=new JPanel();
@@ -68,7 +65,6 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private JButton loginBtn=new JButton("GET IN LINE");
 	private JLabel loginLbl=new JLabel("ENTER YOUR NAME");
 	private JTextField loginTxt=new JTextField();
-	
 	private JLabel blinkingMsg=new JLabel("WElCOME");
 	private JPanel blinkPanel=new JPanel();
 	private User currentUser=new User();
@@ -77,7 +73,7 @@ public class ServerUserUI extends JFrame implements WindowListener{
 	private Color purple=new Color(102,0,153);
 	private Color pink=new Color(255,20,147);
 	
-	//private boolean inClassic=false;
+	
 
 	
 	public ServerUserUI(ServerController controller){
