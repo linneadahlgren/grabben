@@ -136,7 +136,7 @@ public class ClientController {
 			client = new Client(socket);
 
 			send("COMPUTER\n");
-			send(mode);
+			send(mode + "\n");
 
 			if(mode.equals("FREEMODE")){
 				checkActiveUser();

@@ -46,7 +46,7 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
         Log.e("myinfo", "tog emot användarnamn : " + temp + " från mainActivity" );
 
-        client = new ClientController(ip, this, temp, "FREEMODE\n");
+        client = new ClientController(ip, this, temp, "FREEMODE");
 
 
 
@@ -83,6 +83,10 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     protected void onStop(){
         super.onStop();
         new Sender("GAMEOVER\n").start();
+
+        new Sender("OPEN\n").start();
+        new Sender("UP\n").start();
+
         Log.e("myinfo", "on stop");
         if(countdown != null) {
             countdown.cancel();
