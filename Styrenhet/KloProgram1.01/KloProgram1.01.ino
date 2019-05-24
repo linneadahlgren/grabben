@@ -53,7 +53,7 @@ EthernetClient client;
 
 
 void setup() {
-  delay(500);
+  delay(1000);
   pinMode (pwmXY, OUTPUT);
   pinMode (enableMotors, OUTPUT);
   pinMode (xMotor1, OUTPUT);
@@ -172,16 +172,7 @@ void grab(){
   delay(1000);
   closeClaw();
   delay(500);
-  up();
-  
-  while(directionZ == 1){
-    int sensorVal = analogRead(sensorPin4);
-    voltageZ = sensorVal * (5.0 / 1023.0);
-    if(voltageZ > 1.0 || voltageZ < 0.30){
-      zHalt();
-      directionZ = 0;
-    }
-  }
+  maxUp();
   toBox();
 
   while(directionX == 1 || directionY == 0){
@@ -202,17 +193,15 @@ void grab(){
   }
   
   openClaw();
-  delay(1000);
+  delay(500);
   toCenter();
 }
 void openClaw(){
   kloServo.write(40);
   read_load_cell();
-  //delay(1000);
 }
 void closeClaw(){
   kloServo.write(110);
-  delay(1000);
 }
 
 void toBox(){
@@ -235,6 +224,7 @@ void read_load_cell(){
   float weight=(scale.get_units()*1000);
   on_scale=String(weight);
   sendMsg(on_scale);
+  
 }
 void reset_load_cell(){
   scale.set_scale();
@@ -243,7 +233,19 @@ void reset_load_cell(){
 void pin_ISR() {
   buttonState = digitalRead(buttonPin);
   digitalWrite(ledPin, 1);
- reset_load_cell();
+  reset_load_cell();
+}
+
+void maxUp(){
+  up();
+  while(directionZ == 1){
+      int sensorVal = analogRead(sensorPin4);
+      voltageZ = sensorVal * (5.0 / 1023.0);
+      if(voltageZ > 1.0 || voltageZ < 0.30){
+        zHalt();
+        directionZ = 0;
+      }
+  }
 }
 
 void loop() {
@@ -252,47 +254,33 @@ void loop() {
   if(directionX == 0){
       int sensorVal = analogRead(sensorPin0);
       voltageX = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageX);
   }else if(directionX == 1){
       int sensorVal = analogRead(sensorPin1);
       voltageX = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageX);
   }
 
   if(directionY == 0){
       int sensorVal = analogRead(sensorPin2);
       voltageY = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageY);
     }else if(directionY == 1){
       int sensorVal = analogRead(sensorPin3);
       voltageY = sensorVal * (5.0 / 1023.0);
-      //Serial.println(voltageY);
     }
 
    if(directionZ == 1){
       int sensorVal = analogRead(sensorPin4);
       voltageZ = sensorVal * (5.0 / 1023.0);
-        if(voltageZ > 1.0 || voltageZ < 0.30){
+        if(voltageZ > 1.0 || voltageZ < 0.33){
           zHalt();
     }
   }
 
   if(voltageX > 1.0 || voltageX < 0.30){
-    if(directionX == 0){
       haltY();
-    }
-    else if(directionX == 1){
-      haltY();
-    }
   }
 
   if(voltageY > 1.0 || voltageY < 0.30){
-    if(directionY == 0){
       haltX();
-    }
-    else if(directionY == 1){
-      haltX();
-    }
   }
   
 
@@ -320,7 +308,6 @@ if (client.connected() == true) {
     zHalt();
     }
      if(command=="UP"){
-      Serial.println("UP");
     up();
     }
      if(command=="DOWN"){
@@ -330,7 +317,6 @@ if (client.connected() == true) {
     grab();
     }
       if(command=="OPEN"){
-        Serial.println("OPEN");
     openClaw();
     }
       if(command=="CLOSE"){
