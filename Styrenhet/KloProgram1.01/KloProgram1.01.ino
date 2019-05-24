@@ -44,7 +44,7 @@ const int intermediate=150;
 
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 byte ipAdress[] = {192,168,0,30};
-byte serverIp[] = {192,168,0,50};
+byte serverIp[] = {192,168,0,60};
 int port = 5000;
 int x = 0;
 
