@@ -3,6 +3,10 @@ package server;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ * @author John Lindahl
+ * A class to set up a window that is shown in the server
+ */
 public class ServerViewer extends JFrame{
 	private LogPanel panel = new LogPanel();
 	
