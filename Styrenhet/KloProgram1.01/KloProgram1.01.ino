@@ -36,7 +36,6 @@ int sensorPin3 = A3;
 int sensorPin4 = A4;
 
 const int buttonPin=2;
-const int ledPin =  13;
 volatile int buttonState = 0;
 
 HX711 scale (DOUT,CLK);
@@ -53,7 +52,6 @@ byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 byte ipAdress[] = {192,168,0,30};
 byte serverIp[] = {192,168,0,60};
 int port = 5000;
-int x = 0;
 
 String identification = "E";
 EthernetClient client;
@@ -81,7 +79,6 @@ void setup() {
 
 //Setup for load-cell
 
-  pinMode(ledPin, OUTPUT);
   pinMode(buttonPin, INPUT);
   attachInterrupt(5, pin_ISR, RISING);
   reset_load_cell();
@@ -239,7 +236,6 @@ void reset_load_cell(){
 }
 void pin_ISR() {
   buttonState = digitalRead(buttonPin);
-  digitalWrite(ledPin, 1);
   reset_load_cell();
 }
 
