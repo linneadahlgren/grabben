@@ -1,3 +1,10 @@
+/*
+ * Author: Ludvig Juelsson Larsen, John Lindahl, Pontus Folke, Johan Lövberg, Tove Rumar
+ * Version: 1.0
+ * Date: 2019-05-28
+ */
+
+
 #include <SPI.h>
 #include <Ethernet.h>
 #include<Servo.h>
