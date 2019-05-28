@@ -4,17 +4,31 @@ package server;
 import java.io.*;
 import java.net.*;
 
+/**
+ * 
+ * @author Tove Rumar and John Lindahl
+ * Class that handles the communication between the server, clients and embedded system
+ *
+ */
+
 public class Server {
 	private ServerController controller;
 	private ClientHandler computerHandler;
 	private ClientHandler esHandler;
 	
 	
+	/**
+	 * @param controller 
+	 * @param port used in server
+	 */
 	public Server(ServerController controller, int port) {
 		this.controller = controller;
 		new Connection(port).start();
 	}
 	
+	/**
+	 * @param instruction command to embedded system
+	 */
 	public void sendToEs(String instruction) {
 		try {
 			System.out.print(instruction);
@@ -27,6 +41,9 @@ public class Server {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * @param instruction command to client
+	 */
 	public void sendToComp(String instruction) {
 		try {
 			instruction+="\n";
@@ -38,14 +55,24 @@ public class Server {
 		}
 	}
 
+	/**
+	 * @author John Lindahl, Tove Rumar
+	 * Class that handles the connection of each client and gives them a socket
+	 */
 	private class Connection extends Thread {
 		private int port;
 
+		/**
+		 * @param port used in server
+		 */
 		public Connection(int port) {
 			this.port = port;
 		}
 		
 
+		/**
+		 * @see java.lang.Thread#run()
+		 */
 		public void run() {
 			try (ServerSocket serverSocket = new ServerSocket(port)) {
 				while (true) {
@@ -66,19 +93,36 @@ public class Server {
 
 	}
 
+	/**
+	 * @author john9
+	 *
+	 *	Class that sets up the streams between the server and the client
+	 */
 	private class ClientHandler extends Thread {
 		private Socket socket;
 		private BufferedReader input;
 		private BufferedWriter output;
 
+		/**
+		 * @param socket to set up streams
+		 * 
+		 */
 		public ClientHandler(Socket socket) {
 			this.socket = socket;
 			start();
 		}
+		/**
+		 * @return output stream to client
+		 */
 		public BufferedWriter getOutputStream() {
 			return output;
 		}
 
+		/**
+		 * This method waits for a command sent by a client so each client can communicate to each other
+		 * @see java.lang.Thread#run()
+		 * 
+		 */
 		public void run() {
 			System.out.println("ClientHandler thread");
 			try{
@@ -102,7 +146,6 @@ public class Server {
 					System.out.println("INCOMING MSG IN SERVER: "+temp);
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
-
 							controller.writeToLog("App sent: " + temp);
 							String sendUser = "USER:" + controller.getNextUser();
 
