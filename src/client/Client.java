@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
+/**
+ * 
+ * This class is used as a base for the androidclient. In the making of the system this client was used before the android-client was done
+ * @author toverumar
+ *
+ */
 public class Client {
 	private Socket socket;
 	private BufferedWriter output;
