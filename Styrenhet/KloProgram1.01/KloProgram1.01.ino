@@ -1,5 +1,7 @@
 /*
- * Author: Ludvig Juelsson Larsen, John Lindahl, Pontus Folke, Johan Lövberg, Tove Rumar
+ * Author: Ludvig Juelsson Larsen, John Lindahl, Pontus Folke, Johan Lövberg, Tove Rumar, Sara Svensson
+ * 
+ * 
  * Version: 1.0
  * Date: 2019-05-28
  */
