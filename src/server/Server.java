@@ -102,7 +102,6 @@ public class Server {
 					System.out.println("INCOMING MSG IN SERVER: "+temp);
 					if (this.equals(computerHandler)) {
 						if(temp.equals("GETNEXTUSER")) {
-
 							controller.writeToLog("App sent: " + temp);
 							String sendUser = "USER:" + controller.getNextUser();
 
