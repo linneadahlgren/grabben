@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-
+/*
+ * Author : Tove Rumar
+ * */
 public class Client {
 	private Socket socket;
 	private BufferedWriter output;
