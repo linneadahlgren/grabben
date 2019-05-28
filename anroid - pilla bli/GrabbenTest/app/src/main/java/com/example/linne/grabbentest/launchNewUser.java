@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
+/*
+ * Author : Linnea Dahlgren
+ * */
 public class launchNewUser extends AppCompatActivity {
 
     public static final String EXTRA_REPLY = "com.example.android.twoactivites.extra.REPLY";

@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-
+/*
+ * Author : Linnea Dahlgren & Tove Rumar
+ * */
 public class ClientController {
 	private String ip;
 	private int port = 5000;
@@ -153,7 +155,8 @@ public class ClientController {
 					try {
 						Log.e("myinfo", "läser data");
 
-						String incoming = client.getInputStream().readLine();
+						String incoming = "";
+						incoming = client.getInputStream().readLine();
 
 						Log.e("myinfo", incoming + "1");
 
