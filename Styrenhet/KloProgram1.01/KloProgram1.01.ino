@@ -1,5 +1,5 @@
 /*
- * Author: Ludvig Juelsson Larsen, John Lindahl, Pontus Folke, Johan Lövberg, Tove Rumar, Sara Svensson
+ * Author: Ludvig Juelsson Larsen, John Lindahl, Pontus Folke, Johan Lövberg, Tove Rumar, Linnea Dahlgren, Sara Svensson
  * 
  * 
  * Version: 1.0
