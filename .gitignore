@@ -38,7 +38,7 @@ local.properties
 ehthumbs.db
 Thumbs.db
 /bin/
-/server/
+
 /JavaClient/
 /grabben/
 bin/server/Server$ClientHandler.class
@@ -81,7 +81,7 @@ local.properties
 ehthumbs.db
 Thumbs.db
 /bin/
-/server/
+
 /JavaClient/
 /grabben/
 bin/server/Server$ClientHandler.class
