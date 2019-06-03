@@ -6,7 +6,7 @@ Project Grabben has been developed at Malmö University for the course Systemdev
 This repository contains all the necessary files to run and use the Clawstrophobia system. Info about the main folders.
 
 - Styrenhet: contains the arduino code for the embedded system 
-- Android: contains the android studios project for the app
+- Android - pilla bli/GrabbenTest: contains the android studios project for the app
 - Server: contains the eclipse project for the server
 - Joystick: contains the eclipse project for a client with a joystick
 
