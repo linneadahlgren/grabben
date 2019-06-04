@@ -5,7 +5,12 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
-
+/**
+ * 
+ * This class is used as a base for the androidclient. In the making of the system this client was used before the android-client was done
+ * @author toverumar
+ *
+ */
 public class ClientController {
 	private ClientViewer viewer;
 	private String ip;

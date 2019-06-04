@@ -9,6 +9,7 @@ import javax.swing.*;
 
 
 /**
+ * This class was used for steering in the system before the android-client was done
  * @author linnea
  *
  */
