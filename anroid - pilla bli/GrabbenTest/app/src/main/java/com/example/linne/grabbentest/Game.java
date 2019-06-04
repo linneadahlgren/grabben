@@ -11,7 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
+/*
+ * Author : Linnea Dahlgren
+ * */
 public class Game extends AppCompatActivity implements UpdateUser{
     public static final String EXTRA_MESSAGE = "com.example.android.twoactivities.extra.MESSAGE";
 
@@ -71,7 +73,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(30000, 1000) {
+        countdown = new CountDownTimer(60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -91,12 +93,16 @@ public class Game extends AppCompatActivity implements UpdateUser{
         }.start();
 
     }
+
+
     /*
-    * om aktiviteten avslutas anropas onStop metoden. Då skickas
+    * om aktiviteten avslutas anropas onStop metoden.
+    * När aktiviteten avslutas måste timern stängas av.
     * */
     protected void onStop(){
         super.onStop();
         countdown.cancel();
+
 
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_MESSAGE,  active_User);
@@ -221,6 +227,7 @@ public class Game extends AppCompatActivity implements UpdateUser{
                 break;
         }
     }
+
     public void sendReleased(){
 
         btnGrab.setEnabled(true);

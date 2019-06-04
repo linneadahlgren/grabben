@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+* Author : Linnea Dahlgren
+* */
 public class GameFreeMode extends AppCompatActivity implements UpdateUser{
     public static final String EXTRA_MESSAGE = "com.example.android.twoactivities.extra.MESSAGE";
 
@@ -52,13 +55,17 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
     }
 
+    /*
+     * time metoden hanterar en nedräkning för spelet. När tiden är slut så stängs knapparna av
+     * och en dialogruta öppnas för att säga till användaren att spelet är slut
+     * */
     public void time(){
 
 
         Log.e("myinfo", "ny timer");
 
 
-        countdown = new CountDownTimer(60000, 1000) {
+        countdown = new CountDownTimer(90000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 firstText.setText(" " + millisUntilFinished / 1000);
@@ -79,13 +86,21 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
     }
 
+    /*
+     * om aktiviteten avslutas anropas onStop metoden. Då skickas gamover, up och open till servern
+     * timern avslutas också.
+     * */
     @Override
     protected void onStop(){
         super.onStop();
+
         new Sender("GAMEOVER\n").start();
 
-        new Sender("OPEN\n").start();
         new Sender("UP\n").start();
+
+
+        new Sender("OPEN\n").start();
+
 
         Log.e("myinfo", "on stop");
         if(countdown != null) {
@@ -95,18 +110,27 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
 
     }
+
+   /*
+   * setActiveUser sätter den aktiva användaren i ui:t
+   *
+   * */
     public void setActiveUser(String user){
         active_User = user;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                userNameText.setText(active_User);
+                userNameText.setText("Currently playing: " + active_User);
 
                 Log.e("myinfo", active_User);
             }
         });
     }
 
+    /*
+    * om clientController tar emot "USER:NO USER" så anropas noUser() och en
+    * ny aktivitet för att mata in en användare startas
+    * */
     public void noUser(){
         Log.e("myinfo", "no user, launching new user activity");
         Intent intent = new Intent(this, launchNewUser.class);
@@ -128,6 +152,11 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
     }
 
+    /*
+    * denna metoden registrerar lyssnare på alla knappar.
+    * Den hanterar så att alla knappar skickar rätt riktning till servern
+    * och gör så att man endast kan trycka på en knapp åt gången
+    * */
     private void registerListeners(){
         Log.e("myinfo", "registrera lyssnare");
 
@@ -259,6 +288,9 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
     }
 
+    /*
+    * disableButtons inaktiverar alla knapparna
+    * */
     public void disableButtons(){
         btnBack.setEnabled(false);
         btnDown.setEnabled(false);
@@ -270,6 +302,11 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         btnClose.setEnabled(false);
         btnForward.setEnabled(false);
     }
+
+    /*
+    * denna disableButtons metoden inaktiverar alla knappar utöver den som
+    * kommer som input till metoden
+    * */
     public void disableButtons(Button pressedButton){
         switch (pressedButton.getId()){
 
@@ -351,6 +388,9 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         }
     }
 
+    /*
+    * sendReleased() aktverar alla knappar samt skickar "release" till servern
+    * */
     public void sendReleased(){
 
         btnDown.setEnabled(true);
@@ -364,19 +404,25 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
         new GameFreeMode.Sender("RELEASE\n").start();
     }
 
-
+/*
+* sätter clientControllern i klassen
+* */
     public void setController(ClientController cc){
         client = cc;
 
     }
 
+    /*
+    * newUser(String) anropas från ClientController när den tar emot en ny användare från servern.
+    *
+    * */
     @Override
     public void newUser(String user) {
         active_User = user;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                userNameText.setText(active_User);
+                userNameText.setText("Currently playing: " + active_User);
 
                 Log.e("myinfo", "new active user: " + active_User);
                 time();
@@ -388,6 +434,9 @@ public class GameFreeMode extends AppCompatActivity implements UpdateUser{
 
     }
 
+    /*
+    * Sender tråden hanterar clientController
+    * */
     private class Sender extends Thread{
         public String stringToSend;
 

@@ -13,7 +13,10 @@ import android.view.View;
 import android.widget.*;
 
 
-
+/*
+ * Author : Linnea Dahlgren, Sara Svensson
+ *
+ * */
 public class MainActivity extends AppCompatActivity {
     public static final int TEXT_REQUEST = 1;
     public static final int USER_REQUEST = 2;
@@ -21,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean connection = true;
     private Button buttonGame;
     private Button buttonGameMode;
-    private String ip = "192.168.0.50";
+    private String ip = "192.168.0.60";
     private String pickedMode = "Classic";
     private String active_User = "-1";
     private View view;
