@@ -23,3 +23,5 @@ To controll the embedded system with the Axis T8311 Joystick you wanna use the J
 - **Ludvig Juelsson** - *Styrenhet* - [Ludvigjuelsson](https://github.com/Ludvigjuelsson)
 - **Pontus Folke** - *Styrenhet* - [PontusFolke](https://github.com/PontusFolke)
 - **Tove Rumar** - *Styrenhet & Server* - [ToveRumar](https://github.com/ToveRumar)
+- **Johan Lövberg** - *Styrenhet* - [Johanlovberg](https://github.com/johanlovberg)
+- **Sara Svensson** - *Styrenhet*
